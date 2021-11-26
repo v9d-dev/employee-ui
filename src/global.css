@@ -1,0 +1,79 @@
+.SideBar{
+    background-color: #e3edf7;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+    width: 260px;
+    /* margin-top: 78px; */
+}
+
+.App{
+    height: 100vh;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+}
+
+.SideBarList{
+    height: auto;
+    padding: 0;
+    width: 100%;
+}
+
+.SideBarList .row{
+    width: 100%;
+    height: 60px;
+    /* border: 1px solid black; */
+    list-style-type: none;
+    margin: 0%;
+    display: flex;
+    flex-direction: row;
+    color: #5B5d5F;
+    justify-content: flex-start;
+    Font: 20px;
+    margin-left: 25px;
+    align-items: center;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.SideBarList .row:hover{
+    cursor: pointer;
+    color: blue;
+    width: 90%;
+}
+.emp_admin .SideBar{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+    width: 260px;
+}
+.emp_admin .admin_main_panel{
+    position: relative;
+    float: right;
+    width: calc(100% - 260px);
+}
+.admin_main_panel .MuiContainer-maxWidthLg{
+    max-width: 100%;
+}
+.admin_main_panel .css-e53awj-MuiStack-root{
+ justify-content: flex-end;
+ margin-right: 20px;
+ margin-top: 25px;
+ margin-bottom: 10px;
+
+}
+.icon{
+    margin-right: 10px;
+}
+
+/* .row #icon{
+    flex: 30%;
+    display: grid;
+    place-items: center;
+} */
