@@ -1,16 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import App from '../../App';
 import Sidebar from "../Sidebar";
 import { MainNavigation } from "./MainNavigation";
-// import Nav from "./Nav";
+import { AuthContext } from '../store/auth-context';
 
 function Layout(props) {
+    const authCtx = useContext(AuthContext);
     return (
         <div>
             <div>
-                 <MainNavigation/>
-                {/* <Sidebar history={props.history}/> */}
-                <div className = "admin_main_panel">
+                <MainNavigation />
+                {authCtx.isLoggedIn && <Sidebar history={props.history} />}
+                <div className="admin_main_panel">
                     {props.children}
                 </div>
             </div>
@@ -19,17 +20,3 @@ function Layout(props) {
 }
 
 export default Layout;
-
-
-
-// import React, { Fragment } from "react";
-// import { MainNavigation } from "./MainNavigation";
-// const Layout = (props) => {
-//     return (
-//         <Fragment>
-//          <MainNavigation/>
-//          {props.children}
-//         </Fragment>
-//     )
-// }
-// export default Layout;

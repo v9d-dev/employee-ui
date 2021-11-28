@@ -1,0 +1,27 @@
+.button{
+    display: flex;
+    width: 100%;
+    background-color: #1E1E2D;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    border: none;
+}
+
+.button p{
+    font-weight: bold;
+}
+
+.button img {
+    border-radius: 5px;
+}
+
+.btnDiv {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.link {
+    text-decoration: none;
+    color: black;
+}

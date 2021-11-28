@@ -1,4 +1,5 @@
 import React, { Fragment, useContext } from 'react';
+import { useHistory } from "react-router-dom";
 import { useGoogleLogin } from 'react-google-login';
 import { AuthContext } from '../store/auth-context';
 import googleLogin from '../../assests/google-sign-in.png';
@@ -9,12 +10,19 @@ const LoginPage = () => {
 
   const authCtx = useContext(AuthContext);
 
-  const responseGoogle = (response) => {
-      console.log('.............response',response);
+  const history = useHistory();
 
-      if (!!response.tokenId) {
-        authCtx.login(response.tokenId);
-      } else if(!!response.message) {
+  const responseGoogle = (response) => {
+      try {
+        const emailId = response.profileObj.email;
+        const found = emailId.match(/successive.tech/g)[0];
+  
+        if (!!found && !!response.tokenId) {
+          authCtx.login(response.tokenId);
+          history.push("/");
+        }
+      } catch (err) {
+        throw 'PLease login with successive Mail Id'
       }
   }
 
@@ -32,8 +40,7 @@ const LoginPage = () => {
           <h2>Employee Management System</h2>
           <div className={classes.subCard}>
             <h4> Sign in to start your session</h4>
-            {<button onClick = {signIn}></button>}
-            {/* <button className={classes.button} ><img src={googleLogin} className={classes.buttonImg} alt="google login" onClick={signIn} /></button> */}
+            <button className={classes.button} ><img src={googleLogin} className={classes.buttonImg} alt="google login" onClick={signIn} /></button>
           </div>
         </div>
       </div>

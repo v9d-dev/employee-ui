@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import classes from './MainNavigation.module.css';
 import { AuthContext } from '../store/auth-context';
 import logo from '../../assests/successive_tech.png';
+import HeaderMenu from './HeaderMenu';
 
 
 export const MainNavigation = () => {
@@ -16,13 +17,11 @@ export const MainNavigation = () => {
     return (
         <header className={classes.header}>
             <Link to='/'>
-                <div className={classes.logo}><img src={logo} alt="logo"/></div>
+                <img src={logo} alt="logo" />
             </Link>
-            <nav>
-                <ul>
-                    {isLoggedIn && <li><button onClick={logoutHandler}>Logout</button></li>}
-                </ul>
-            </nav>
+            <div >
+                {isLoggedIn && <HeaderMenu />}
+            </div>
         </header>
     )
 }

@@ -6,7 +6,7 @@ import RedeemIcon from '@mui/icons-material/Redeem';
 const SidebarItems = [
     {
         name: "Home",
-        route: '/Home',
+        route: '/',
         icon: <HomeIcon />
     },
     {
