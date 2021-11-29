@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
         minHeight: "100vh",
         backgroundColor: theme.palette.grey[300],
         paddingTop: '20px',
-        padding: '20px'
+        padding: '0px 21px 66px 287px'
     },
 }));
 const StyledTableHead = withStyles({
