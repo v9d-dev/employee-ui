@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Paper, Box, Typography, TableContainer, Table, TableBody, TableHead, TableRow, TableCell, TablePagination, TableFooter } from "@material-ui/core";
+import { Container, Paper, Box, Typography, TableContainer, Table, TableBody, TableHead, TableRow, TableCell, TablePagination, TableFooter} from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import data from '../data/data.json';
 import SearchBar from "material-ui-search-bar";
@@ -8,6 +8,7 @@ import { useButton } from '@mui/base/ButtonUnstyled';
 import { styled } from '@mui/system';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
+import shadows from "@material-ui/core/styles/shadows";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,6 +33,8 @@ const StyledTableContainer = withStyles({
     },
   },
 })(TableContainer);
+
+
 
 const StyledTableCell = withStyles((theme) => ({
   root: {
@@ -185,8 +188,11 @@ const EmployeeDeatils = () => {
   return (
     <>
       <paper >
-        <Container className={classes.root}>
+        <Container className={classes.root} >
           <Stack spacing={2} direction="row">
+          <Typography variant="h4" align="center" style={{marginRight: "68rem", color:"#5B5d5F"}}>
+      Employee List Table
+     </Typography>
             <CustomButton onClick={getCsvReport}>Export</CustomButton>
           </Stack>
           <SearchBar
@@ -194,7 +200,6 @@ const EmployeeDeatils = () => {
             onChange={(searchVal) => requestSearch(searchVal)}
             onCancelSearch={() => cancelSearch()}
           />
-
           <StyledTableContainer>
             <Table>
               <StyledTableHead>
@@ -261,6 +266,7 @@ const EmployeeDeatils = () => {
         </Container>
       </paper>
     </>
+
   );
 }
 

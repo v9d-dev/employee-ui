@@ -125,6 +125,9 @@ export default function POC() {
   return (
       <>
     <Stack spacing={2} direction="row">
+    <Typography variant="h4" align="center" style={{marginRight: "70rem" , color:"#5B5d5F"}}>
+          POC List Table
+     </Typography>
       <CustomButton  onClick ={navigateTo}>ADD POC DETAILS</CustomButton>
     </Stack>
     <paper>
