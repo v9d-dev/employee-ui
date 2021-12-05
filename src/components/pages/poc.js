@@ -13,6 +13,7 @@ const CustomButtonRoot = styled('button')`
   background-color: #007fff;
   padding: 15px 20px;
   border-radius: 10px;
+  margin-bottom:0px;
   color: #fff;
   font-weight: 600;
   font-family: Helvetica, Arial, sans-serif;
@@ -132,11 +133,13 @@ export default function POC() {
     </Stack>
     <paper>
     <Container className={classes.root}>
-             <SearchBar 
-             value={searched}
+    <div className="searchBarPoc">
+          <SearchBar
+            value={searched}
             onChange={(searchVal) => requestSearch(searchVal)}
-            onCancelSearch={() => cancelSearch()} 
-             />
+            onCancelSearch={() => cancelSearch()}
+          />
+          </div>
             <StyledTableContainer>
                 <Table>
                     <StyledTableHead>

@@ -92,9 +92,18 @@ body{
     margin-top: 15px;
 }
 
-/* .ForwardRef-root-2{
+ .searchbar{
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    margin-bottom: 12px;
+     margin-top: 12px;
+     margin-right: 61rem;
+} 
+
+
+.searchBarPoc{
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     margin-bottom: 12px;
      margin-top: -18px;
+     margin-right: 61rem;
 
-} */
+}

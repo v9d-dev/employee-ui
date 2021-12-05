@@ -8,7 +8,8 @@ import { useButton } from '@mui/base/ButtonUnstyled';
 import { styled } from '@mui/system';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import shadows from "@material-ui/core/styles/shadows";
+import '/home/akhilesh.kumbhkar/Desktop/my-project/employee-ui/src/global.css'
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,8 +34,6 @@ const StyledTableContainer = withStyles({
     },
   },
 })(TableContainer);
-
-
 
 const StyledTableCell = withStyles((theme) => ({
   root: {
@@ -195,11 +194,13 @@ const EmployeeDeatils = () => {
      </Typography>
             <CustomButton onClick={getCsvReport}>Export</CustomButton>
           </Stack>
+          <div className="searchbar">
           <SearchBar
             value={searched}
             onChange={(searchVal) => requestSearch(searchVal)}
             onCancelSearch={() => cancelSearch()}
           />
+          </div>
           <StyledTableContainer>
             <Table>
               <StyledTableHead>
