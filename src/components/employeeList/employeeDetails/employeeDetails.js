@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Paper, Box, Typography, TableContainer, Table, TableBody, TableHead, TableRow, TableCell, TablePagination, TableFooter} from "@material-ui/core";
+import { Container, Paper, Box, Typography, TableContainer, Table, TableBody, TableHead, TableRow, TableCell, TablePagination, TableFooter } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import data from '../data/data.json';
 import SearchBar from "material-ui-search-bar";
@@ -9,7 +9,7 @@ import { styled } from '@mui/system';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import '/home/akhilesh.kumbhkar/Desktop/my-project/employee-ui/src/global.css'
-
+import Button from '@mui/material/Button';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -122,12 +122,43 @@ const EmployeeDeatils = () => {
   const classes = useStyles();
   const [rows, setRows] = useState(data);
   const [searched, setSearched] = useState("");
+  // const[csvFile, setCsvFile] = ("");
+  // const[csvArray, setCsvArray]= ("");
 
   const onChangePage = (event, newPage) => {
     setPage(newPage)
 
   }
 
+  // const processCsv = (str, delim=',')=>{
+  //   const headers = str.slice(0, str.indexOf('\n')).split(delim);
+  //   const rows = str.slice(str.indexOf('\n')+1).split('\n');
+
+  //   const newArray = rows.map(row=>{
+  //     const values= row.split(delim);
+  //     const eachObject = headers.reduce((obj, header, i )=>{
+  //       obj[header] = values[i];
+  //       return obj
+  //     },{})
+  //     return eachObject;
+  //   }) 
+  //    setCsvArray(newArray);
+
+  // }
+  // const uploadCsv = ()=>{
+
+  //   const file = csvFile;
+
+  //   const reader = new FileReader();
+
+  //   reader.onload = function(e){
+  //     const text = e.target.result;
+  //     processCsv(text);
+  //     console.log(text);
+  //   }
+  //   reader.readAsText(file);
+ 
+  // }
   const onChangeRowsPerPage = (event) => {
     setRowPerPage(event.target.value);
   }
@@ -189,17 +220,18 @@ const EmployeeDeatils = () => {
       <paper >
         <Container className={classes.root} >
           <Stack spacing={2} direction="row">
-          <Typography variant="h4" align="center" style={{marginRight: "68rem", color:"#5B5d5F"}}>
-      Employee List Table
-     </Typography>
+            <Typography variant="h4" align="center" style={{ marginRight: "68rem", color: "#5B5d5F" }}>
+             Employee List Table
+            </Typography>
             <CustomButton onClick={getCsvReport}>Export</CustomButton>
           </Stack>
           <div className="searchbar">
-          <SearchBar
-            value={searched}
-            onChange={(searchVal) => requestSearch(searchVal)}
-            onCancelSearch={() => cancelSearch()}
-          />
+            <SearchBar
+               align="end"
+              value={searched}
+              onChange={(searchVal) => requestSearch(searchVal)}
+              onCancelSearch={() => cancelSearch()}
+            />
           </div>
           <StyledTableContainer>
             <Table>

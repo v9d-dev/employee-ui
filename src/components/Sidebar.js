@@ -41,7 +41,7 @@ function Sidebar() {
                                    }}
                                   >
                                       <div className = "icon">{item.icon}</div>
-                                      <div>{item.name}</div>
+                                      <div id= "title">{item.name}</div>
                                   </li>
                               </Link>
                           );

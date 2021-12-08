@@ -7,8 +7,8 @@
     left: 0;
     z-index: 2;
     width: 260px;
-    margin-top: 6rem;
-    margin-bottom: 2rem;
+    padding-top: 6rem;
+    padding-bottom: 2rem;
 }
 
 .App{
@@ -39,6 +39,7 @@ body{
     Font: 20px;
     margin-left: 25px;
     align-items: center;
+    text-decoration: none;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
@@ -46,6 +47,7 @@ body{
     cursor: pointer;
     color: blue;
     width: 90%;
+    text-decoration: none !important;
 }
 .emp_admin .SideBar{
     position: fixed;
@@ -80,8 +82,16 @@ body{
     margin-bottom: 5px;
     margin-top: -12px;
 }
+#title{
+    text-decoration: none;
+}
 .SideBarList #active{
-    color: blue;
+    /* color: blue; */
+    background-color: #007fff;;
+    border: none;
+    color: #FFFFFF;
+    width: 12rem;
+    /* width: 12px; */
 }
 /* .row #icon{
     flex: 30%;
@@ -96,7 +106,8 @@ body{
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     margin-bottom: 12px;
      margin-top: 12px;
-     margin-right: 61rem;
+     align-items: flex-end;
+     margin-left: 61rem;
 } 
 
 
@@ -104,6 +115,85 @@ body{
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     margin-bottom: 12px;
      margin-top: -18px;
-     margin-right: 61rem;
+     margin-left: 61rem;
 
+}
+
+.MuiPaper-root .ForwardRef-root-2 .MuiPaper-elevation1 .MuiPaper-rounded{
+    align-items: flex-end;
+
+}
+.add_dtails .MuiTypography-root{
+    text-align: left;
+    margin-left: 20px;
+    font-size: 30px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.add_dtails{
+    max-width: 600px;
+     padding: 20px 5px;
+      margin: 50px auto 100px;
+     background-color: #f9f9f9!important;
+}
+.add_dtails .MuiFormControl-root .MuiInputLabel-root{
+  font-size: 20px;
+  color:#000;
+}
+
+.add_dtails  .MuiOutlinedInput-root, .add_dtails  .MuiFormControl-root {
+    box-shadow: 0px 8px 19px -13px rgb(0 0 0 / 9%);
+    padding: 0;
+   
+}
+
+.add_dtails .MuiOutlinedInput-notchedOutline{
+    border: none;
+}
+.add_dtails  .MuiOutlinedInput-input{
+    box-shadow: 0px 8px 19px -13px rgb(0 0 0 / 9%)!important;
+    background-color: #fff!important;
+    border-radius: 4px;
+}
+.add_dtails .MuiOutlinedInput-input{
+    padding: 30px 14px;
+}
+.add_dtails  textarea{
+    padding: 40px 14px !important;
+} 
+
+
+.add_dtails  .MuiInputLabel-outlined.MuiInputLabel-shrink{
+    padding-top: 20px;
+}
+
+.add_dtails   .cstm_date  .MuiFormControl-root {
+    background-color: #fff!important;
+    border-radius: 4px;
+    height: 60px;
+}
+   
+.add_dtails  .cstm_date .MuiFormControl-root .MuiInputLabel-root{
+    font-size: 20px;
+    margin-left: 20px;
+    margin-right: 10px;
+    color:#000;
+}
+.add_dtails  .cstm_date  .MuiInputBase-input{
+    margin-left: 20px;
+    margin-right: 10px;
+}
+.add_dtails  .cstm_date .MuiInputAdornment-root {
+    margin-right: 20px;
+}
+.add_dtails  .MuiButton-root {
+    padding: 16px;
+    font-size: 20px;
+
+}
+.add_dtails   .cstm_date  .MuiInput-underline:before ,.add_dtails   .cstm_date  .MuiInput-underline:after{
+ border-bottom: transparent;
+}
+.add_dtails    .MuiInput-underline:hover:not(.Mui-disabled):before{
+    border-bottom: transparent; 
 }
