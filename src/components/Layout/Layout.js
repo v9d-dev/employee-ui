@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import App from '../../App';
-import  Sidebar  from '../Sidebar';
+import Sidebar from '../SideBar/Sidebar';
 import { MainNavigation } from "./MainNavigation";
 import { AuthContext } from '../store/auth-context';
 

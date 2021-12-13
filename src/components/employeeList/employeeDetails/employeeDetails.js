@@ -170,10 +170,10 @@ const EmployeeDeatils = () => {
     setRows(filteredRows);
   };
 
-  const cancelSearch = () => {
-    setSearched("");
-    requestSearch(searched);
-  };
+  // const cancelSearch = () => {
+  //   setSearched("");
+  //   requestSearch(searched);
+  // };
 
   const getCsvReport = function () {
 
@@ -230,7 +230,7 @@ const EmployeeDeatils = () => {
                align="end"
               value={searched}
               onChange={(searchVal) => requestSearch(searchVal)}
-              onCancelSearch={() => cancelSearch()}
+              // onCancelSearch={() => cancelSearch()}
             />
           </div>
           <StyledTableContainer>
