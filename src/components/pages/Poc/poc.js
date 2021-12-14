@@ -136,6 +136,7 @@ export default function POC() {
   const deleteUser = async id => {
     await axios.delete(`http://localhost:4000/poc/${id}`);
     loadUsers();
+    window.location.reload(true);
   };
   
 

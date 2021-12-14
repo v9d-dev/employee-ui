@@ -5,6 +5,7 @@ import DatePicker from '@mui/lab/DatePicker';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import "../../../../src/global.css";
+import { useHistory } from 'react-router-dom';
 
 export default function AddDetails() {
   const [startDate, setStartDate] = useState('');
@@ -17,7 +18,7 @@ export default function AddDetails() {
   const [loading, setLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [data, setData] = useState(null);
-
+  let history = useHistory();
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -32,7 +33,7 @@ export default function AddDetails() {
       githubUrl: githubUrl,
       demoUrl: demoUrl
     }
-    
+
     axios.post('http://localhost:4000/poc', data).then(res => {
       setData(res.data);
       setName('');
@@ -47,6 +48,7 @@ export default function AddDetails() {
       setLoading(false);
       setIsError(true);
     });
+    history.push("/POC");
   }
 
   return (

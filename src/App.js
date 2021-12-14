@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Route, Switch } from "react-router-dom";
-import Certification from "./components/pages/certfication/Certification";
+import Certification from "./components/pages/Certfication/Certification";
 import POC from "./components/pages/Poc/poc";
 import NotFound from "./components/pages/NotFound";
 import Layout from "./components/Layout/Layout";
@@ -10,8 +10,8 @@ import { AuthContext } from './components/store/auth-context';
 import LoginPage from './components/pages/LoginPage';
 import HomePage from './components/pages/HomePage';
 import EditPoc from "./components/pages/Poc/editPoc";
-import EditCertification from "./components/pages/certfication/editCertification";
-import AddCertification from "./components/pages/certfication/addCertification";
+import EditCertification from "./components/pages/Certfication/editCertification";
+import AddCertification from "./components/pages/Certfication/addCertification";
 import "../src/global.css";
 
 function App() {

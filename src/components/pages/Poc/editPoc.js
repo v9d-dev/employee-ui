@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,moment } from 'react';
 import axios from 'axios';
 import { Grid, TextField, Button, Card, CardContent, Typography } from '@material-ui/core';
 import DatePicker from '@mui/lab/DatePicker';
@@ -25,6 +25,7 @@ export default function EditPoc() {
 
 
   const onInputChange = e => {
+    console.log('------------------e',e);
     setUser({ ...user, [e.target.name]: e.target.value })
   };
 
@@ -36,7 +37,7 @@ export default function EditPoc() {
   const onSubmit = async e => {
     e.preventDefault();
     await axios.patch(`http://localhost:4000/poc/${id}`, user);
-    history.push("//AddDetails")
+    history.push("/POC")
   };
 
   const loadUser = async () => {
