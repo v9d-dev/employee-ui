@@ -1,6 +1,7 @@
 import React, { Fragment, useContext } from 'react';
 import { useHistory } from "react-router-dom";
 import { useGoogleLogin } from 'react-google-login';
+import axios from 'axios';
 import { AuthContext } from '../store/auth-context';
 import googleLogin from '../../assests/google-sign-in.png';
 import classes from './LoginPage.module.css';
@@ -11,14 +12,43 @@ const LoginPage = () => {
   const authCtx = useContext(AuthContext);
 
   const history = useHistory();
+  let employeeID = null;
 
-  const responseGoogle = (response) => {
+  const responseGoogle = async (response) => {
       try {
         const emailId = response.profileObj.email;
         const found = emailId.match(/successive.tech/g)[0];
+
+        await axios.get(`http://localhost:4000/employee/auth/${response.googleId}`)
+        .then(res => {
+          employeeID = !!res.data && res.data
+        }).catch( (err) => {
+          console.log('employee/auth ERROR===========', err)
+        })
+
+        if(!employeeID) {
+          await axios.post(`http://localhost:4000/employee`, {
+            params: {
+              "fullName": response.profileObj.name,
+              "mailId": emailId,
+              "authId": response.profileObj.googleId,
+              "roles": "EMPLOYEE",
+            }
+          },
+          {
+            headers: {
+              'Authorization': response.tokenId
+            }
+          })
+          .then(res => {
+            employeeID = res.data.id
+          }).catch( (err) => {
+            console.log('employee ERROR', err)
+          })
+        }
   
         if (!!found && !!response.tokenId) {
-          authCtx.login(response.tokenId);
+          authCtx.login(response.tokenId, employeeID);
           history.push("/");
         }
       } catch (err) {

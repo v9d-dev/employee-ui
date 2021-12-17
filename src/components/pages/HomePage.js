@@ -1,16 +1,30 @@
-import { useContext } from "react"
-import jwt_decode from "jwt-decode";
-import { AuthContext } from "../store/auth-context";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 
 const HomePage = (props) => {
 
-    const authCtx = useContext(AuthContext);
+    const [userData, setUserData] = useState(null);
 
-    let userData = jwt_decode(authCtx.token);
+
+    useEffect(() => {
+        axios.get(`http://localhost:4000/employee/${props.authCtx.employeeID}`,
+        {
+          params: {
+            username: props.authCtx.employeeID,
+            password: props.authCtx.token
+          }
+        })
+        .then(res => {
+          setUserData(res.data);
+        }).catch( (err) => {
+          console.log('employee ERROR===========', err)
+        })
+
+      }, [props.authCtx]);
 
     return(
-        <p>{JSON.stringify(userData)}</p>
+        userData ? <p>{JSON.stringify(userData)}</p> : null
     );
 
 }

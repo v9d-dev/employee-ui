@@ -8,7 +8,6 @@ import { useButton } from '@mui/base/ButtonUnstyled';
 import { styled } from '@mui/system';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import '/home/akhilesh.kumbhkar/Desktop/my-project/employee-ui/src/global.css'
 import Button from '@mui/material/Button';
 
 const useStyles = makeStyles((theme) => ({

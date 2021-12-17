@@ -69,3 +69,32 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 # employee-ui
+
+### axios routes.
+
+Every routes must pass authCtx to it's page component.
+
+```javascript
+
+E.g:
+
+<Route path='/' exact><HomePage authCtx={authCtx}/></Route>
+
+```
+
+
+Every axious request must contain username and password like below for authentication purpose.
+
+```javascript
+
+E.g:
+
+axios.get(`http://localhost:4000/employee/${props.authCtx.employeeID}`,
+        {
+          params: {
+            username: props.authCtx.employeeID,
+            password: props.authCtx.token
+          }
+        })
+
+```
