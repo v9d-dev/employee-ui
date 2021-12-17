@@ -9,6 +9,8 @@ import { styled } from '@mui/system';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import Button from '@mui/material/Button';
+import '../../../global.css';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {

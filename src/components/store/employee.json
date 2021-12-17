@@ -1,0 +1,32 @@
+{
+    "id": 1,
+    "name": "pankaj sharma",
+    "emailId": "pankaj.sharma@successive.tech",
+    "phoneNumber": 9149205263,
+    "employeeId": "ST/SD/19/126",
+    "buHead": "Jitendra sir",
+    "reportingManagaer": "Phathraphone Panday",
+    "dateOfJoining": "24/7/2019",
+    "dateOfBirth": "01/03/1996",
+    "overAllExperience": "2.4",
+    "successiveExperience": "2.4",
+    "currentDesignation": "Associate Enginner",
+    "previousDesignation": "Associate Enginner",
+    "earlierProject": [
+        "Nokia", "densu"
+    ],
+    "currentProject": [
+        "Nokia"
+    ],
+    "projectType": [
+        "Internal, External"
+    ],
+    "primarySkills": [
+        "Javascript",
+        "React"
+    ],
+    "secondraySkills": [
+        "Javascript",
+        "React"
+    ]
+}

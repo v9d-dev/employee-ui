@@ -5,7 +5,7 @@ import DatePicker from '@mui/lab/DatePicker';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import "../../../../src/global.css";
-import { useParams, useHistory } from 'react-router';
+import { useParams, useHistory } from 'react-router-dom';
 
 export default function EditPoc() {
   const [user, setUser] = useState({

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
-import { Route, Switch } from "react-router-dom";
-import Certification from "./components/pages/certfication/Certification";
+import { Route, Switch, Redirect } from "react-router-dom";
+import Certification from "./components/pages/Certfication/Certification";
 import POC from "./components/pages/Poc/poc";
 import NotFound from "./components/pages/NotFound";
 import Layout from "./components/Layout/Layout";
@@ -10,35 +10,47 @@ import { AuthContext } from './components/store/auth-context';
 import LoginPage from './components/pages/LoginPage';
 import HomePage from './components/pages/HomePage';
 import EditPoc from "./components/pages/Poc/editPoc";
-import EditCertification from "./components/pages/certfication/editCertification";
-import AddCertification from "./components/pages/certfication/addCertification";
+import EditCertification from "./components/pages/Certfication/editCertification";
+import AddCertification from "./components/pages/Certfication/addCertification";
+import ProfilePage from "./components/pages/ProfilePage/ProfilePage";
 import "../src/global.css";
 
 function App() {
   const authCtx = useContext(AuthContext);
+
+  const AuthRoute = props => {
+    const { isLoggedIn, type } = props;
+    if (type !== "private" && !isLoggedIn) {
+      return <Route path='/' exact><LoginPage /></Route>;
+    }
+    else if (type === "private" && !isLoggedIn) {
+      return <Redirect to="/" />;
+    }
+    return <Route {...props} > {props.children}</Route>;
+  };
+
   return (
     <div className="App">
       <>
-          <Route render={(props) => (
-            <Layout {...props}>
-              <Switch>
-                {!authCtx.isLoggedIn && (
-                  <Route path='/' exact><LoginPage /></Route>
-                )}
-                <Route path='/' exact><HomePage authCtx={authCtx}/></Route> 
-                <Route path='/EmployeeDetails' exact><EmployeeDeatils /></Route>
-                <Route path='/POC' exact><POC /></Route>,
-                <Route path='/Certification' exact><Certification /></Route>,
-                <Route path='/AddDetails' exact><AddDetails /></Route>,
-                <Route path='/AddCertification' exact><AddCertification /></Route>,
-                <Route path="/poc/edit/:id" exact><EditPoc/></Route>,
-                <Route path='/certification/edit/:id' exact><EditCertification/></Route>
-                <Route><NotFound/></Route>
-              </Switch>
-            </Layout>
-          )} />
+        <Route render={(props) => (
+          <Layout {...props}>
+            <Switch>
+              <AuthRoute path='/' isLoggedIn={authCtx.isLoggedIn} exact />
+              <AuthRoute path='/' type="private" isLoggedIn={authCtx.isLoggedIn} authCtx={authCtx} exact><HomePage /></AuthRoute>
+              <AuthRoute path='/EmployeeDetails' type="private" isLoggedIn={authCtx.isLoggedIn} exact><EmployeeDeatils /></AuthRoute>
+              <AuthRoute path='/POC' type="private" isLoggedIn={authCtx.isLoggedIn} exact><POC /></AuthRoute>
+              <AuthRoute path='/Certification' type="private" isLoggedIn={authCtx.isLoggedIn} exact><Certification /></AuthRoute>
+              <AuthRoute path='/AddDetails' type="private" isLoggedIn={authCtx.isLoggedIn} exact><AddDetails /></AuthRoute>
+              <AuthRoute path='/AddCertification' isLoggedIn={authCtx.isLoggedIn} exact><AddCertification /></AuthRoute>,
+              <AuthRoute path="/poc/edit/:id" isLoggedIn={authCtx.isLoggedIn} exact><EditPoc /></AuthRoute>,
+              <AuthRoute path='/certification/edit/:id' isLoggedIn={authCtx.isLoggedIn} exact><EditCertification /></AuthRoute>
+              <AuthRoute path='/ProfilePage' type="private" isLoggedIn={authCtx.isLoggedIn} exact><ProfilePage /></AuthRoute>
+              <AuthRoute type="private" isLoggedIn={authCtx.isLoggedIn} ><NotFound /></AuthRoute>
+            </Switch>
+          </Layout>
+        )} />
       </>
-    </div>
+    </div >
   )
 }
 
