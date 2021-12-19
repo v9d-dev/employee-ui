@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { Grid, TextField, Button, Card, CardContent, Typography } from '@material-ui/core';
 import DatePicker from '@mui/lab/DatePicker';
@@ -6,6 +6,7 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import "../../../../src/global.css";
 import { useHistory } from 'react-router-dom';
+import { AuthContext } from '../../store/auth-context';
 
 export default function AddCertification() {
     const [name, setName] = useState('');
@@ -18,6 +19,8 @@ export default function AddCertification() {
     const [data, setData] = useState(null);
     let history = useHistory();
 
+    const authCtx = useContext(AuthContext);
+
     const handleSubmit = (e) => {
         e.preventDefault()
         setLoading(true);
@@ -27,8 +30,8 @@ export default function AddCertification() {
             techStack: techStack,
             complitionDate: complitionDate,
             expireDate: expireDate,
-            price: price
-
+            price: price,
+            employeeId : authCtx.employeeID
         }
 
         axios.post('http://localhost:4000/certification', data).then(res => {
