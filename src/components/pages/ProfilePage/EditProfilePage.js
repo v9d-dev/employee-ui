@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import Box from '@mui/material/Box';
 import CardActions from '@mui/material/CardActions';
 import classes from './ProfilePage.module.css';
@@ -11,6 +11,7 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import axios from 'axios';
+import { AuthContext } from '../../store/auth-context';
 
 const style = {
     position: 'absolute',
@@ -24,56 +25,51 @@ const style = {
     padding: 0,
 };
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        width: "100%"
-    },
-}));
-
 const EditProfilePage = () => {
-    const dispatch = useDispatch();
-    const useStyle = useStyles();
+    const authCtx = useContext(AuthContext);
 
     const userDetails = useSelector((state) => state.employeeReducer);
+   
 
     const [user, setUser] = useState(userDetails);
+
+    useEffect(() => {
+        setUser(userDetails);
+    },[userDetails]);
+    
     const [open, setOpen] = useState(false);
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    const { id, name, emailId, phoneNumber, employeeId, buHead, reportingManagaer, dateOfJoining, dateOfBirth,
-        overAllExperience, successiveExperience, currentDesignation, previousDesignation, earlierProject,
-        currentProject, projectType, primarySkills, secondraySkills } = user;
+    const { id, fullName, mailId, mobileNumber, employeeId, buHead, reportingManager, dateOfJoining, dateOfBirth,
+        overallExperience, successiveExperience, currentDesignation, previousDesignation, earlierProject,
+        currentProject, projectType, primaryKeySkill, secondaryKeySkill } = user;
 
     const onInputChange = e => {
         setUser({ ...user, [e.target.name]: e.target.value })
     };
 
-    // useEffect(() => {
-    //     // loadUser();
-    // }, []);
-
 
     const onSubmit = async e => {
         e.preventDefault();
-        console.log('ssssssssssssssssss', user);
         updateHandler();
-        // await axios.patch(`http://localhost:4000/poc/${id}`, user);
-        // history.push("/POC")
         handleClose();
     };
-
-    const [emailId1, setEmailId] = useState(emailId);
 
     const [joiningDate, setJoiningDate] = useState(dateOfJoining);
     const [dob, setDob] = useState(dateOfBirth);
 
 
-    const updateHandler = () => {
-       dispatch(update(user));
+    const updateHandler = async () => {
+        try{
+            await axios.patch(`http://localhost:4000/employee/${authCtx.employeeID}`, user);
+            window.location.reload(true);
+        }catch(err){
+         throw 'Employee Update Api Is Not working'
+        }
+        
     }
-
 
     return (
         <>
@@ -94,13 +90,13 @@ const EditProfilePage = () => {
                                 <form onSubmit={onSubmit} >
                                     <Grid container spacing={1}>
                                         <Grid xs={5} item>
-                                            <TextField placeholder="Name" label="Name" name="name" value={name}  onChange ={e => onInputChange(e)} fullWidth required />
+                                            <TextField placeholder="Name" label="Name" name="fullName" value={fullName} onChange={e => onInputChange(e)} fullWidth required />
                                         </Grid>
-                                         <Grid xs={7} item>
-                                            <TextField label="Email" name="emailId" value={emailId} onChange ={e => onInputChange(e)} fullWidth required />
+                                        <Grid xs={7} item>
+                                            <TextField label="Email" name="mailId" value={mailId} onChange={e => onInputChange(e)} fullWidth required />
                                         </Grid>
-                                       <Grid xs={5} item>
-                                            <TextField label="Employee ID" name="employeeId" value={employeeId} disabled onChange ={e => onInputChange(e)} fullWidth required />
+                                        <Grid xs={5} item>
+                                            <TextField label="Employee ID" name="employeeId" value={employeeId} disabled onChange={e => onInputChange(e)} fullWidth required />
                                         </Grid>
                                         <Grid xs={7} item>
                                             <LocalizationProvider dateAdapter={AdapterDateFns} fullWidth>
@@ -113,33 +109,33 @@ const EditProfilePage = () => {
                                                     onChange={(newValue) => {
                                                         setJoiningDate(newValue);
                                                     }}
-                                                    renderInput={(params) => <TextField {...params} name='joiningDate' onChange ={e => onInputChange(e)} {...params} style={{ width: "100%" }} />}
+                                                    renderInput={(params) => <TextField {...params} name='joiningDate' onChange={e => onInputChange(e)} {...params} style={{ width: "100%" }} />}
                                                     fullWidth
                                                 />
                                             </LocalizationProvider>
                                         </Grid>
 
                                         <Grid xs={5} item>
-                                            <TextField label="BU Head" name='buHead' value={buHead} onChange ={e => onInputChange(e)} fullWidth required />
+                                            <TextField label="BU Head" name='buHead' value={buHead} onChange={e => onInputChange(e)} fullWidth required />
                                         </Grid>
                                         <Grid xs={7} item>
-                                            <TextField label="Reporting Manager" name='reportingManagaer' value={reportingManagaer} onChange ={e => onInputChange(e)} fullWidth required />
+                                            <TextField label="Reporting Manager" name='reportingManager' value={reportingManager} onChange={e => onInputChange(e)} fullWidth required />
                                         </Grid>
                                         <Grid xs={5} item>
-                                            <TextField label="Phone Number" name='phoneNumber' value={phoneNumber} onChange ={e => onInputChange(e)} fullWidth required />
+                                            <TextField label="Phone Number" name='mobileNumber' value={mobileNumber} onChange={e => onInputChange(e)} fullWidth required />
                                         </Grid>
                                         <Grid xs={7} item>
-                                            <TextField label="Successive experience"  name='successiveExperience'value={successiveExperience} onChange ={e => onInputChange(e)} fullWidth required />
+                                            <TextField label="Successive experience" name='successiveExperience' value={successiveExperience} onChange={e => onInputChange(e)} fullWidth required />
                                         </Grid>
                                         <Grid xs={5} item>
-                                            <TextField label="Over All Experience" name='overAllExperience' value={overAllExperience} onChange ={e => onInputChange(e)} fullWidth required />
+                                            <TextField label="Over All Experience" name='overallExperience' value={overallExperience} onChange={e => onInputChange(e)} fullWidth required />
                                         </Grid>
 
                                         <Grid xs={7} item>
-                                            <TextField label="Current Designation"  name='currentDesignation' value={currentDesignation} onChange ={e => onInputChange(e)} fullWidth required />
+                                            <TextField label="Current Designation" name='currentDesignation' value={currentDesignation} onChange={e => onInputChange(e)} fullWidth required />
                                         </Grid>
                                         <Grid xs={5} item>
-                                            <TextField label="Previous Designation"  name='previousDesignation' value={previousDesignation} onChange ={e => onInputChange(e)} fullWidth required />
+                                            <TextField label="Previous Designation" name='previousDesignation' value={previousDesignation} onChange={e => onInputChange(e)} fullWidth required />
                                         </Grid>
                                         <Grid xs={7} item>
                                             <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -152,33 +148,33 @@ const EditProfilePage = () => {
                                                     onChange={(newValue) => {
                                                         setDob(newValue);
                                                     }}
-                                                    renderInput={(params) => <TextField {...params} name='dob' onChange ={e => onInputChange(e)} style={{ width: "100%" }} />}
+                                                    renderInput={(params) => <TextField {...params} name='dob' onChange={e => onInputChange(e)} style={{ width: "100%" }} />}
                                                 />
                                             </LocalizationProvider>
                                         </Grid>
 
                                         <Grid xs={5} item>
-                                            <TextField label="Project Type" name='projectType' value={projectType} onChange ={e => onInputChange(e)} fullWidth required />
+                                            <TextField label="Project Type" name='projectType' value={projectType} onChange={e => onInputChange(e)} fullWidth required />
                                         </Grid>
 
                                         <Grid xs={7} item>
-                                            <TextField label="Current Designation" name='currentDesignation' value={currentDesignation} onChange ={e => onInputChange(e)} fullWidth required />
+                                            <TextField label="Current Designation" name='currentDesignation' value={currentDesignation} onChange={e => onInputChange(e)} fullWidth required />
                                         </Grid>
 
                                         <Grid xs={12} item>
-                                            <TextField label="Primary skills" name='primarySkills' value={primarySkills} onChange ={e => onInputChange(e)} fullWidth required />
+                                            <TextField label="Primary skills" name='primaryKeySkill' value={primaryKeySkill} onChange={e => onInputChange(e)} fullWidth required />
                                         </Grid>
 
                                         <Grid item xs={12}>
-                                            <TextField label="Secondary skills" name='secondraySkills' value={secondraySkills} onChange ={e => onInputChange(e)} fullWidth required />
+                                            <TextField label="Secondary skills" name='secondaryKeySkill' value={secondaryKeySkill} onChange={e => onInputChange(e)} fullWidth required />
                                         </Grid>
 
                                         <Grid xs={12} item>
-                                            <TextField label="Earlier Project" name='earlierProject' value={earlierProject} onChange ={e => onInputChange(e)} fullWidth required />
+                                            <TextField label="Earlier Project" name='earlierProject' value={earlierProject} onChange={e => onInputChange(e)} fullWidth required />
                                         </Grid>
 
                                         <Grid item xs={12}>
-                                            <TextField label="Current Project" name='currentProject' value={currentProject} onChange ={e => onInputChange(e)} fullWidth required />
+                                            <TextField label="Current Project" name='currentProject' value={currentProject} onChange={e => onInputChange(e)} fullWidth required />
                                         </Grid>
                                         <Grid item xs={12}>
                                             <Button type="submit" variant="contained" color="primary" fullWidth>Submit</Button>

@@ -1,34 +1,29 @@
 import { createSlice } from '@reduxjs/toolkit';
-import employeeDetails from './employee.json';
 
-const initialState = {
-    ...employeeDetails
-}
+const initialState = {}
 
 export const employeeDetailSlice = createSlice({
   name: 'employeeDetail',
   initialState,
   reducers: {
     update: (state, action) => {
-
-
-    state.name = action.payload.name;
-    state.emailId= action.payload.emailId;
-    state.phoneNumber = action.payload.phoneNumber;
+    state.fullName = action.payload.fullName;
+    state.mailId= action.payload.mailId;
+    state.mobileNumber = action.payload.mobileNumber;
     state.employeeId =  action.payload.employeeId
     state.buHead= action.payload.buHead
-    state.reportingManagaer= action.payload.reportingManagaer
+    state.reportingManager= action.payload.reportingManager
     state.dateOfJoining= action.payload.dateOfJoining
     state.dateOfBirth = action.payload.dateOfBirth
-    state.overAllExperience= action.payload.overAllExperience
+    state.overallExperience= action.payload.overallExperience
     state.successiveExperience = action.payload.successiveExperience
     state.currentDesignation = action.payload.currentDesignation
     state.previousDesignation = action.payload.previousDesignation
     state.earlierProject =action.payload.earlierProject
     state.currentProject = action.payload.currentProject
     state.projectType = action.payload.projectType
-    state.primarySkills = action.payload.primarySkills
-    state.secondraySkills = action.payload.secondraySkills
+    state.primaryKeySkill = action.payload.primaryKeySkill
+    state.secondaryKeySkill = action.payload.secondaryKeySkill
     }
   },
 })
