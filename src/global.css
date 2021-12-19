@@ -191,6 +191,7 @@ body{
     font-size: 20px;
 
 }
+
 .add_dtails   .cstm_date  .MuiInput-underline:before ,.add_dtails   .cstm_date  .MuiInput-underline:after{
  border-bottom: transparent;
 }
@@ -201,6 +202,9 @@ body{
     overflow: auto;
     width: 100%;
 
+}
+.add_dtails .MuiButton-containedPrimary{
+  background-color:   #007fff
 }
 .main_table .MuiTableCell-root {
  white-space: nowrap;
