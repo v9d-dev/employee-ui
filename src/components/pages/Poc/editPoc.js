@@ -12,7 +12,6 @@ export default function EditPoc() {
     name: "",
     description: "",
     finishDate: "",
-    startDate: "",
     techStack: "",
     githubUrl: "",
     demoUrl: ""
@@ -21,6 +20,13 @@ export default function EditPoc() {
   let history = useHistory();
   const { id } = useParams();
 
+ const  handleChange=(date)=> {
+    setUser({
+      startDate: date
+    })
+  }
+
+
   const { name, techStack, description, finishDate, startDate, githubUrl, demoUrl } = user;
 
 
@@ -28,6 +34,8 @@ export default function EditPoc() {
     console.log('------------------e',e);
     setUser({ ...user, [e.target.name]: e.target.value })
   };
+
+
 
   useEffect(() => {
     loadUser();
@@ -81,6 +89,7 @@ export default function EditPoc() {
                       views={['year', 'month', 'day']}
                       name="startDate"
                       value={startDate}
+                      onInputChange={handleChange}
                       onChange={e => onInputChange(e)}
                       renderInput={(params) => <TextField {...params} />}
                     />

@@ -197,3 +197,27 @@ body{
 .add_dtails    .MuiInput-underline:hover:not(.Mui-disabled):before{
     border-bottom: transparent; 
 }
+.main_table{
+    overflow: auto;
+    width: 100%;
+
+}
+.main_table .MuiTableCell-root {
+ white-space: nowrap;
+ font-size: 20px;
+}
+.main_table .MuiTableCell-root a{
+    margin: 0px 5px;
+}
+.SideBarList #active{
+    padding: 14px 10px;
+    border-radius: 8px;
+    width: 10rem;
+    height: auto;
+    margin-left: 20px;
+}
+.SideBarList a {
+    text-decoration: none;
+font-size: 18px;
+font-weight: 700;
+}

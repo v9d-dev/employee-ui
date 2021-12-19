@@ -168,6 +168,7 @@ export default function Certification() {
                         />
                     </div>
                     <StyledTableContainer>
+                    <div className ="main_table">
                         <Table>
                             <StyledTableHead>
                                 <TableRow>
@@ -234,7 +235,8 @@ export default function Certification() {
                                     </TableRow>
                                 ))}
                             </TableBody>
-                            <TableFooter>
+                        </Table>
+                        </div>
                                 <TableRow>
                                     <TablePagination
                                         rowsPerPageOptions={[5, 10, 15, 20, 25]}
@@ -245,8 +247,6 @@ export default function Certification() {
                                         onChangeRowsPerPage={onChangeRowsPerPage}
                                     />
                                 </TableRow>
-                            </TableFooter>
-                        </Table>
                     </StyledTableContainer>
                 </Container>
             </paper>

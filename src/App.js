@@ -13,6 +13,7 @@ import EditPoc from "./components/pages/Poc/editPoc";
 import EditCertification from "./components/pages/Certfication/editCertification";
 import AddCertification from "./components/pages/Certfication/addCertification";
 import ProfilePage from "./components/pages/ProfilePage/ProfilePage";
+import EmployeeView from "./components/employeeList/employeeDetails/employeeView";
 import "../src/global.css";
 
 function App() {
@@ -44,6 +45,7 @@ function App() {
               <AuthRoute path='/AddCertification' isLoggedIn={authCtx.isLoggedIn} exact><AddCertification /></AuthRoute>,
               <AuthRoute path="/poc/edit/:id" isLoggedIn={authCtx.isLoggedIn} exact><EditPoc /></AuthRoute>,
               <AuthRoute path='/certification/edit/:id' isLoggedIn={authCtx.isLoggedIn} exact><EditCertification /></AuthRoute>
+              <AuthRoute path='/employee/view/:id' isLoggedIn={authCtx.isLoggedIn} exact><EmployeeView /></AuthRoute>
               <AuthRoute path='/ProfilePage' type="private" isLoggedIn={authCtx.isLoggedIn} exact><ProfilePage /></AuthRoute>
               <AuthRoute type="private" isLoggedIn={authCtx.isLoggedIn} ><NotFound /></AuthRoute>
             </Switch>

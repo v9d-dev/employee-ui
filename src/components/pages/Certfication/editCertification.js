@@ -16,7 +16,6 @@ export default function EditCertification() {
         expireDate: "",
     });
 
-
     let history = useHistory();
     const { id } = useParams();
     const { name, techStack, price, complitionDate, expireDate } = user;

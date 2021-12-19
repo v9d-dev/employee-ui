@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Container, Paper, Box, Typography, TableContainer, Table, TableBody, TableHead, TableRow, TableCell, TablePagination, TableFooter } from "@material-ui/core";
+import React, { useState, useEffect } from "react";
+import { Container,  Typography, TableContainer, Table, TableBody, TableHead, TableRow, TableCell, TablePagination, TableFooter } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import data from '../data/data.json';
 import SearchBar from "material-ui-search-bar";
@@ -8,8 +8,11 @@ import { useButton } from '@mui/base/ButtonUnstyled';
 import { styled } from '@mui/system';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import Button from '@mui/material/Button';
+import '../../../../src/global.css';
 import '../../../global.css';
+import axios from "axios";
+import { Link } from "react-router-dom";
+import PreviewIcon from '@mui/icons-material/Preview';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -121,15 +124,32 @@ const EmployeeDeatils = () => {
   const [page, setPage] = useState(0);
   const [rowPerPage, setRowPerPage] = useState(15);
   const classes = useStyles();
-  const [rows, setRows] = useState(data);
+  const [rows, setRows] = useState([]);
   const [searched, setSearched] = useState("");
   // const[csvFile, setCsvFile] = ("");
   // const[csvArray, setCsvArray]= ("");
-
+ console.log("tows", rows);
   const onChangePage = (event, newPage) => {
     setPage(newPage)
 
   }
+
+  useEffect(() => {
+    axios.get(`http://localhost:4000/employee`)
+      .then(res => {
+        setRows(res.data)
+      })
+
+  }, []);
+
+  useEffect(() => {
+    loadUsers();
+  }, []);
+
+  const loadUsers = async () => {
+    const result = await axios.get("http://localhost:4000/employee");
+    setRows(result.data);
+  };
 
   // const processCsv = (str, delim=',')=>{
   //   const headers = str.slice(0, str.indexOf('\n')).split(delim);
@@ -171,10 +191,10 @@ const EmployeeDeatils = () => {
     setRows(filteredRows);
   };
 
-  // const cancelSearch = () => {
-  //   setSearched("");
-  //   requestSearch(searched);
-  // };
+  const cancelSearch = () => {
+    setSearched("");
+    requestSearch(searched);
+  };
 
   const getCsvReport = function () {
 
@@ -218,7 +238,7 @@ const EmployeeDeatils = () => {
 
   return (
     <>
-      <paper >
+      <paper sx={{ width: '100%', overflow: 'hidden' }}>
         <Container className={classes.root} >
           <Stack spacing={2} direction="row">
             <Typography variant="h4" align="center" style={{ marginRight: "68rem", color: "#5B5d5F" }}>
@@ -231,30 +251,70 @@ const EmployeeDeatils = () => {
                align="end"
               value={searched}
               onChange={(searchVal) => requestSearch(searchVal)}
-              // onCancelSearch={() => cancelSearch()}
+              onCancelSearch={() => cancelSearch()}
             />
           </div>
-          <StyledTableContainer>
+          <StyledTableContainer sx={{ maxHeight: 440 }} >
+          <div className ="main_table">
             <Table>
               <StyledTableHead>
                 <TableRow>
                   <StyledTableCell >
-                    ID
+                  Employee Number
                   </StyledTableCell >
                   <StyledTableCell >
-                    Name
+                  Full Name
                   </StyledTableCell >
                   <StyledTableCell >
-                    Email
+                  Previous Designation
                   </StyledTableCell >
                   <StyledTableCell >
-                    Location
+                  Current Designation
                   </StyledTableCell >
                   <StyledTableCell >
-                    JoiningDate
+                  Date OfJoining
                   </StyledTableCell >
                   <StyledTableCell >
-                    EmoloyeeID
+                  Date Of Birth
+                  </StyledTableCell >
+                  <StyledTableCell >
+                  Email Id
+                  </StyledTableCell >
+                  <StyledTableCell >
+                  Mobile Number
+                  </StyledTableCell >
+                  <StyledTableCell >
+                  Reporting Manager
+                  </StyledTableCell >
+                  <StyledTableCell >
+                  BU Head
+                  </StyledTableCell >
+                  <StyledTableCell >
+                  Overall Experience
+                  </StyledTableCell >
+                  <StyledTableCell >
+                  Successive Experience
+                  </StyledTableCell >
+                  <StyledTableCell >
+                  Earlier Project
+                  </StyledTableCell >
+                  <StyledTableCell >
+                  Current Project
+                  </StyledTableCell >
+                  <StyledTableCell >
+                  Project Type
+                  </StyledTableCell >
+                  <StyledTableCell >
+                  PrimaryKey Skill
+                  </StyledTableCell >
+                  <StyledTableCell >
+                  SecondaryKey Skill
+                  </StyledTableCell >
+                  <StyledTableCell >
+                  roleId
+                  </StyledTableCell >
+                  <StyledTableCell >
+                    Actions
                   </StyledTableCell >
                 </TableRow>
 
@@ -263,27 +323,71 @@ const EmployeeDeatils = () => {
                 {rows.slice(page * rowPerPage, page * rowPerPage + rowPerPage).map((user) => (
                   <TableRow key={rows.name}>
                     <StyledTableCell >
-                      {user.id}
+                      {user.employeeNumber}
                     </StyledTableCell >
                     <StyledTableCell >
-                      {user.name}
+                      {user.fullName}
                     </StyledTableCell >
                     <StyledTableCell >
-                      {user.email}
+                      {user.previousDesignation}
                     </StyledTableCell >
                     <StyledTableCell >
-                      {user.location}
+                      {user.currentDesignation}
                     </StyledTableCell >
                     <StyledTableCell >
-                      {user.phone}
+                      {user.dateOfJoining}
                     </StyledTableCell >
                     <StyledTableCell >
-                      {user.total_orders}
+                      {user.dateOfBirth}
                     </StyledTableCell >
+                    <StyledTableCell >
+                      {user.mailId}
+                    </StyledTableCell >
+                    <StyledTableCell >
+                      {user.mobileNumber}
+                    </StyledTableCell >
+                    <StyledTableCell >
+                      {user.reportingManager}
+                    </StyledTableCell >
+                    <StyledTableCell >
+                      {user.buHead}
+                    </StyledTableCell >
+                    <StyledTableCell >
+                      {user.overallExperience}
+                    </StyledTableCell >
+                    <StyledTableCell >
+                      {user.successiveExperience}
+                    </StyledTableCell >
+                    <StyledTableCell >
+                      {user.earlierProject}
+                    </StyledTableCell >
+                    <StyledTableCell >
+                      {user.currentProject}
+                    </StyledTableCell >
+                    <StyledTableCell >
+                      {user.projectType}
+                    </StyledTableCell >
+                    <StyledTableCell >
+                      {user.primaryKeySkill}
+                    </StyledTableCell >
+                    <StyledTableCell >
+                      {user.secondaryKeySkill}
+                    </StyledTableCell >
+                    <StyledTableCell >
+                      {user.roleId}
+                    </StyledTableCell >
+                    <StyledTableCell>
+                    <Link
+                    to={`/employee/view/${user.id}`}
+                    >
+                    <PreviewIcon/>
+                    </Link>
+                    </StyledTableCell>
                   </TableRow>
                 ))}
               </TableBody>
-              <TableFooter>
+            </Table>
+            </div>
                 <TableRow>
                   <TablePagination
                     rowsPerPageOptions={[5, 10, 15, 20, 25]}
@@ -294,8 +398,6 @@ const EmployeeDeatils = () => {
                     onChangeRowsPerPage={onChangeRowsPerPage}
                   />
                 </TableRow>
-              </TableFooter>
-            </Table>
           </StyledTableContainer>
         </Container>
       </paper>

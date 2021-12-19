@@ -4,9 +4,8 @@ import Stack from '@mui/material/Stack';
 import axios from "axios";
 import ButtonUnstyled, { buttonUnstyledClasses } from '@mui/base/ButtonUnstyled';
 import { styled } from '@mui/system';
-import { Container, Typography, TableContainer, Table, TableBody, TableHead, TableRow, TableCell, TablePagination, TableFooter } from "@material-ui/core";
+import { Container, Typography, TableContainer, Table, TableBody, TableHead, TableRow, TableCell, TablePagination } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
-import data from '../data/data.json';
 import SearchBar from "material-ui-search-bar";
 import { Link } from "react-router-dom";
 import EditIcon from '@mui/icons-material/Edit';
@@ -104,6 +103,9 @@ export default function POC() {
   const [searched, setSearched] = useState("");
   const classes = useStyles();
 
+
+
+  console.log("rows issssssss----------------", rows);
   useEffect(() => {
     axios.get(`http://localhost:4000/poc`)
       .then(res => {
@@ -169,6 +171,7 @@ export default function POC() {
             />
           </div>
           <StyledTableContainer>
+          <div className ="main_table">
             <Table>
               <StyledTableHead>
                 <TableRow>
@@ -231,7 +234,7 @@ export default function POC() {
                     </StyledTableCell >
                     <StyledTableCell>
                   {/* <Link class="btn btn-primary mr-2" to={`/users/${user.id}`}>
-                    View
+                 <PreviewIcon/>
                   </Link> */}
                   <Link
                     class="btn btn-outline-primary mr-2"
@@ -249,7 +252,8 @@ export default function POC() {
                   </TableRow>
                 ))}
               </TableBody>
-              <TableFooter>
+            </Table>
+            </div>
                 <TableRow>
                   <TablePagination
                     rowsPerPageOptions={[5, 10, 15, 20, 25]}
@@ -260,8 +264,6 @@ export default function POC() {
                     onChangeRowsPerPage={onChangeRowsPerPage}
                   />
                 </TableRow>
-              </TableFooter>
-            </Table>
           </StyledTableContainer>
         </Container>
       </paper>
