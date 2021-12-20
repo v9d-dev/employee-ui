@@ -199,10 +199,24 @@ const EmployeeDeatils = () => {
   const getCsvReport = function () {
 
     const resData = rows.map(row => ({
-      id: row.id,
-      email: row.email,
-      location: row.location
-
+      employeeNumber:row.employeeNumber,
+      fullName:row.fullName,
+      previousDesignation:row.previousDesignation,
+      currentDesignation:row.currentDesignation,
+      dateOfJoining:row.dateOfJoining,
+      dateOfBirth:row.dateOfBirth,
+      mailId:row.mailId,
+      mobileNumber:row.mobileNumber,
+      reportingManager:row.reportingManager,
+      buHead:row.buHead,
+      overallExperience:row.overallExperience,
+      successiveExperience:row.successiveExperience,
+      earlierProject:row.earlierProject,
+      currentProject:row.currentProject,
+      projectType:row.projectType,
+      primaryKeySkill:row.primaryKeySkill,
+      secondaryKeySkill:row.secondaryKeySkill,
+      roleId:row.roleId
     }));
 
     const download = function (resData) {
