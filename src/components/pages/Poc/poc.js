@@ -103,7 +103,7 @@ export default function POC() {
   const [searched, setSearched] = useState("");
   const classes = useStyles();
 
-
+ console.log("rows ==========================", rows);
 
   console.log("rows issssssss----------------", rows);
   useEffect(() => {
@@ -153,13 +153,63 @@ export default function POC() {
   const history = useHistory();
   const navigateTo = () => history.push('/AddDetails');
 
+
+  const getCsvReport = function () {
+
+    const resData = rows.map(row => ({
+      name:row.name,
+      techStack: row.techStack,
+      description:row.description,
+      startDate:row.startDate,
+      finishDate:row.finishDate,
+      githubUrl:row.githubUrl,
+      demoUrl:row.demoUrl,
+      employee_id:row.employee_id
+    }));
+
+    const download = function (resData) {
+      const blob = new Blob([resData], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.setAttribute('hidden', '');
+      a.setAttribute('href', url);
+      a.setAttribute('download', 'poc.csv');
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    };
+
+    const objectToCsv = function (resData) {
+      console.log("ssssssssssssssssss resData", resData)
+      const csvRows = []
+      const headers = Object.keys(resData[0]);
+      csvRows.push(headers.join(','));
+
+      for (const row of resData) {
+        const values = headers.map(header => {
+           //Dont remove this commented line----  
+          // const escaped= (''+row[header]).replace(/"/g,'\\"');
+          // return `"${escaped}"`;
+          return row[header];
+
+        });
+        csvRows.push(values.join(','));
+      };
+      return csvRows.join('\n');
+    }
+    const csvData = objectToCsv(resData)
+    download(csvData);
+  }
+
+
   return (
     <>
       <Stack spacing={2} direction="row">
-        <Typography variant="h4" align="center" style={{ marginRight: "74rem", color: "#5B5d5F" }}>
+        <Typography variant="h4" style={{ marginRight: "66rem", color: "#5B5d5F" }}>
           POC List Table
         </Typography>
         <CustomButton onClick={navigateTo}>ADD POC</CustomButton>
+        <CustomButton onClick={getCsvReport}>EXPORT</CustomButton>
       </Stack>
       <paper>
         <Container className={classes.root}>

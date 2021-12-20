@@ -225,7 +225,7 @@ const EmployeeDeatils = () => {
       const a = document.createElement('a');
       a.setAttribute('hidden', '');
       a.setAttribute('href', url);
-      a.setAttribute('download', 'download.csv');
+      a.setAttribute('download', 'employee_list.csv');
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -238,6 +238,9 @@ const EmployeeDeatils = () => {
 
       for (const row of resData) {
         const values = headers.map(header => {
+           //Dont remove this commented line----  
+          // const escaped= (''+row[header]).replace(/"/g,'\\"');
+          // return `"${escaped}"`;
           return row[header];
 
         });
