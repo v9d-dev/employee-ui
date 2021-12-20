@@ -6,6 +6,7 @@ import { NavLink } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import { AuthContext } from "../store/auth-context";
 import classes from './HeaderMenu.module.css';
+import Image from './Image';
 
 export default function HeaderMenu() {
 
@@ -34,7 +35,7 @@ export default function HeaderMenu() {
         onClick={handleClick}
         className={classes.button}
       >
-         <p>{userData.name}</p><img src={userData.picture} width="25%"/>
+         <p>{userData.name}</p><Image src={userData.picture} width="25%"/>
       </button>
       <Menu
         id="basic-menu"

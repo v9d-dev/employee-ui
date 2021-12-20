@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import SidebarItems from "./SidebarItems";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import '../../../src/global.css';
 
 function Sidebar() {
@@ -27,30 +27,27 @@ function Sidebar() {
     // }, [location])
 
     return (
-          <div className = "SideBar">
-            <ul className = "SideBarList">
-                  {
-                      SidebarItems.map((item, key)=> {
-                          return (
-                              <Link to={item.route}>
-                                  <li  index={key} 
-                                  className="row"
-                                   id= {window.location.pathname === item.route ? "active": ""}
-                                   onClick= {()=>{
-                                       window.location.pathname = item.route;
-                                   }}
-                                  >
-                                      <div className = "icon">{item.icon}</div>
-                                      <div id= "title">{item.name}</div>
-                                  </li>
-                              </Link>
-                          );
-                      })
-                  }
+        <div className="SideBar">
+            <ul className="SideBarList">
+                {
+                    SidebarItems.map((item, key) => {
+                        return (
+                            <Link to={item.route}>
+                                <li index={key}
+                                    className="row"
+                                    id={window.location.pathname === item.route ? "active" : ""}
+                                >
+                                    <div className="icon">{item.icon}</div>
+                                    <div id="title">{item.name}</div>
+                                </li>
+                            </Link>
+                        );
+                    })
+                }
 
-              </ul>
-          </div>
-  );
+            </ul>
+        </div>
+    );
 }
 
 export default Sidebar;

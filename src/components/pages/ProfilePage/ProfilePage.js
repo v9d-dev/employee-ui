@@ -13,6 +13,7 @@ import EditProfilePage from './EditProfilePage';
 import { update, increment } from '../../store/employeeDetails';
 import axios from 'axios';
 import { AuthContext } from '../../store/auth-context';
+import Image from '../../Layout/Image';
 
 const style = {
     position: 'absolute',
@@ -62,7 +63,7 @@ const ProfilePage = () => {
             <div className={classes.divContainer1}>
                 <div>
                     <div>
-                        {/* <img src='https://lh3.googleusercontent.com/a/AATXAJwnjk6v2CYKJbfLddFJIBrup4JZD7PPizV0FKAG=s96-c' /> */}
+                        <Image />
                     </div>
                     <div >
                         <p>{fullName}</p>

@@ -27,19 +27,22 @@ const LoginPage = () => {
         })
 
         if(!employeeID) {
-          await axios.post(`http://localhost:4000/employee`, {
-            params: {
+          await axios.post(`http://localhost:4000/employee`, 
+          // {
+            // params: 
+            {
               "fullName": response.profileObj.name,
               "mailId": emailId,
               "authId": response.profileObj.googleId,
               "roles": "EMPLOYEE",
-            }
+            // }
           },
-          {
-            headers: {
-              'Authorization': response.tokenId
-            }
-          })
+          // {
+          //   headers: {
+          //     'Authorization': response.tokenId
+          //   }
+          // }
+          )
           .then(res => {
             employeeID = res.data.id
           }).catch( (err) => {
