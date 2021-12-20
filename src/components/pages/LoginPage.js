@@ -52,7 +52,7 @@ const LoginPage = () => {
   
         if (!!found && !!response.tokenId) {
           authCtx.login(response.tokenId, employeeID);
-          history.push("/");
+          history.push("/Home");
         }
       } catch (err) {
         throw 'PLease login with successive Mail Id'

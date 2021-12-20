@@ -37,7 +37,7 @@ function App() {
           <Layout {...props}>
             <Switch>
               <AuthRoute path='/' isLoggedIn={authCtx.isLoggedIn} exact />
-              <AuthRoute path='/' type="private" isLoggedIn={authCtx.isLoggedIn} authCtx={authCtx} exact><HomePage /></AuthRoute>
+              <AuthRoute path='/Home' type="private" isLoggedIn={authCtx.isLoggedIn}  exact><ProfilePage /></AuthRoute>
               <AuthRoute path='/EmployeeDetails' type="private" isLoggedIn={authCtx.isLoggedIn} exact><EmployeeDeatils /></AuthRoute>
               <AuthRoute path='/POC' type="private" isLoggedIn={authCtx.isLoggedIn} exact><POC /></AuthRoute>
               <AuthRoute path='/Certification' type="private" isLoggedIn={authCtx.isLoggedIn} exact><Certification /></AuthRoute>

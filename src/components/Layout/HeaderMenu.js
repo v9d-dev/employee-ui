@@ -46,7 +46,7 @@ export default function HeaderMenu() {
           'aria-labelledby': 'basic-button',
         }} 
       >
-        <MenuItem onClick={handleClose}><NavLink to="/ProfilePage" className={classes.link}>My Profile</NavLink></MenuItem>
+        {/* <MenuItem onClick={handleClose}><NavLink to="/ProfilePage" className={classes.link}>My Profile</NavLink></MenuItem> */}
         <MenuItem onClick={logoutHandler}> <NavLink to="/" className={classes.link}>Logout</NavLink></MenuItem>
       </Menu>
     </>
