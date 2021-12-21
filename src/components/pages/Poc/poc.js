@@ -309,6 +309,7 @@ export default function POC(props) {
                   
                   <Link
                     onClick={() => deleteUser(user.id)}
+                     to="#"
                   >
                     <DeleteIcon/>
                   </Link>

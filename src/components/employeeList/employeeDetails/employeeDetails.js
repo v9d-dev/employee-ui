@@ -424,6 +424,7 @@ const EmployeeDeatils = (props) => {
                     </Link>
                     <Link
                     onClick={() => deleteUser(user.id)}
+                    to="#"
                   >
                     <DeleteIcon/>
                   </Link>

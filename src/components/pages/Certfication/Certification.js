@@ -291,6 +291,7 @@ export default function Certification(props) {
                                             </Link>
                                             <Link
                                             onClick={() => deleteUser(user.id)}
+                                            to="#"
                                             >
                                              <DeleteIcon />
                                             </Link>
