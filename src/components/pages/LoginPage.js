@@ -33,7 +33,7 @@ const LoginPage = () => {
             {
               "fullName": response.profileObj.name,
               "mailId": emailId,
-              "authId": response.profileObj.googleId,
+              "authID": response.profileObj.googleId,
               "roles": "EMPLOYEE",
             // }
           },

@@ -96,7 +96,7 @@ function CustomButton(props) {
     return <ButtonUnstyled {...props} component={CustomButtonRoot} />;
 }
 
-export default function Certification() {
+export default function Certification(props) {
     const [page, setPage] = useState(0);
     const [rowPerPage, setRowPerPage] = useState(15);
     const [rows, setRows] = useState([]);
@@ -104,7 +104,12 @@ export default function Certification() {
     const classes = useStyles();
 
     useEffect(() => {
-        axios.get(`http://localhost:4000/certification`)
+        axios.get(`http://localhost:4000/certification`, {
+            params: {
+                username: props.authCtx.employeeID,
+                password: props.authCtx.token
+              }
+        })
             .then(res => {
                 setRows(res.data)
             })
@@ -120,7 +125,12 @@ export default function Certification() {
     }, []);
 
     const loadUsers = async () => {
-        const result = await axios.get("http://localhost:4000/certification");
+        const result = await axios.get("http://localhost:4000/certification", {
+            params: {
+                username: props.authCtx.employeeID,
+                password: props.authCtx.token
+              }
+        });
         setRows(result.data);
     };
 
@@ -133,7 +143,12 @@ export default function Certification() {
     };
 
     const deleteUser = async id => {
-        await axios.delete(`http://localhost:4000/certification/${id}`);
+        await axios.delete(`http://localhost:4000/certification/${id}`, {
+            params: {
+                username: props.authCtx.employeeID,
+                password: props.authCtx.token
+              }
+        });
         loadUsers();
         window.location.reload(true);
     };

@@ -8,7 +8,7 @@ import "../../../../src/global.css";
 import { useHistory } from 'react-router-dom';
 import { AuthContext } from '../../store/auth-context';
 
-export default function AddCertification() {
+export default function AddCertification(props) {
     const [name, setName] = useState('');
     const [techStack, setTechStack] = useState('');
     const [complitionDate, setComplitionDate] = useState('');
@@ -34,7 +34,12 @@ export default function AddCertification() {
             employeeId : authCtx.employeeID
         }
 
-        axios.post('http://localhost:4000/certification', data).then(res => {
+        axios.post('http://localhost:4000/certification', data, {
+            params: {
+                username: props.authCtx.employeeID,
+                password: props.authCtx.token
+            }
+        }).then(res => {
             setData(res.data);
             setName('');
             setTechStack('');

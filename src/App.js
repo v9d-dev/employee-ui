@@ -37,16 +37,16 @@ function App() {
           <Layout {...props}>
             <Switch>
               <AuthRoute path='/' isLoggedIn={authCtx.isLoggedIn} exact />
-              <AuthRoute path='/Home' type="private" isLoggedIn={authCtx.isLoggedIn}  exact><ProfilePage /></AuthRoute>
-              <AuthRoute path='/EmployeeDetails' type="private" isLoggedIn={authCtx.isLoggedIn} exact><EmployeeDeatils /></AuthRoute>
-              <AuthRoute path='/POC' type="private" isLoggedIn={authCtx.isLoggedIn} exact><POC /></AuthRoute>
-              <AuthRoute path='/Certification' type="private" isLoggedIn={authCtx.isLoggedIn} exact><Certification /></AuthRoute>
-              <AuthRoute path='/AddDetails' type="private" isLoggedIn={authCtx.isLoggedIn} exact><AddDetails /></AuthRoute>
-              <AuthRoute path='/AddCertification' isLoggedIn={authCtx.isLoggedIn} exact><AddCertification /></AuthRoute>,
-              <AuthRoute path="/poc/edit/:id" isLoggedIn={authCtx.isLoggedIn} exact><EditPoc /></AuthRoute>,
-              <AuthRoute path='/certification/edit/:id' isLoggedIn={authCtx.isLoggedIn} exact><EditCertification /></AuthRoute>
-              <AuthRoute path='/employee/view/:id' isLoggedIn={authCtx.isLoggedIn} exact><EmployeeView /></AuthRoute>
-              <AuthRoute path='/ProfilePage' type="private" isLoggedIn={authCtx.isLoggedIn} exact><ProfilePage /></AuthRoute>
+              <AuthRoute path='/Home' type="private" isLoggedIn={authCtx.isLoggedIn} exact><ProfilePage  authCtx={authCtx} /></AuthRoute>
+              <AuthRoute path='/EmployeeDetails' type="private" isLoggedIn={authCtx.isLoggedIn} exact><EmployeeDeatils authCtx={authCtx} /></AuthRoute>
+              <AuthRoute path='/POC' type="private" isLoggedIn={authCtx.isLoggedIn} exact><POC authCtx={authCtx} /></AuthRoute>
+              <AuthRoute path='/Certification' type="private" isLoggedIn={authCtx.isLoggedIn} exact><Certification authCtx={authCtx} /></AuthRoute>
+              <AuthRoute path='/AddDetails' type="private" isLoggedIn={authCtx.isLoggedIn} exact><AddDetails  authCtx={authCtx}/></AuthRoute>
+              <AuthRoute path='/AddCertification' isLoggedIn={authCtx.isLoggedIn} exact><AddCertification  authCtx={authCtx}/></AuthRoute>,
+              <AuthRoute path="/poc/edit/:id" isLoggedIn={authCtx.isLoggedIn} exact><EditPoc  authCtx={authCtx}/></AuthRoute>,
+              <AuthRoute path='/certification/edit/:id' isLoggedIn={authCtx.isLoggedIn} exact><EditCertification authCtx={authCtx} /></AuthRoute>
+              <AuthRoute path='/employee/view/:id' isLoggedIn={authCtx.isLoggedIn} exact><EmployeeView authCtx={authCtx} /></AuthRoute>
+              <AuthRoute path='/ProfilePage' type="private" isLoggedIn={authCtx.isLoggedIn} exact><ProfilePage authCtx={authCtx} /></AuthRoute>
               <AuthRoute type="private" isLoggedIn={authCtx.isLoggedIn} ><NotFound /></AuthRoute>
             </Switch>
           </Layout>

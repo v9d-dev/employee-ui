@@ -20,14 +20,19 @@ const style = {
 
 
 
-const EmployeeView = () => {
+const EmployeeView = (props) => {
     const [employee, setEmployee] = useState([])
     const { id } = useParams();
 
 
     useEffect(() => {
         async function getResults() {
-          const results = await axios(`http://localhost:4000/employee/${id}`);
+          const results = await axios.get(`http://localhost:4000/employee/${id}`,{
+            params: {
+                username: props.authCtx.employeeID,
+                password: props.authCtx.token
+              }
+          });
           setEmployee(results.data)
         }
         getResults()

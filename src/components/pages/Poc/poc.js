@@ -96,7 +96,7 @@ function CustomButton(props) {
   return <ButtonUnstyled {...props} component={CustomButtonRoot} />;
 }
 
-export default function POC() {
+export default function POC(props) {
   const [page, setPage] = useState(0);
   const [rowPerPage, setRowPerPage] = useState(15);
   const [rows, setRows] = useState([]);
@@ -105,9 +105,13 @@ export default function POC() {
 
  console.log("rows ==========================", rows);
 
-  console.log("rows issssssss----------------", rows);
   useEffect(() => {
-    axios.get(`http://localhost:4000/poc`)
+    axios.get(`http://localhost:4000/poc`, {
+      params: {
+        username: props.authCtx.employeeID,
+        password: props.authCtx.token
+      }
+    })
       .then(res => {
         setRows(res.data)
       })
@@ -123,7 +127,12 @@ export default function POC() {
   }, []);
 
   const loadUsers = async () => {
-    const result = await axios.get("http://localhost:4000/poc");
+    const result = await axios.get("http://localhost:4000/poc", {
+      params: {
+        username: props.authCtx.employeeID,
+        password: props.authCtx.token
+      }
+    });
     setRows(result.data);
   };
 
@@ -136,7 +145,12 @@ export default function POC() {
   };
 
   const deleteUser = async id => {
-    await axios.delete(`http://localhost:4000/poc/${id}`);
+    await axios.delete(`http://localhost:4000/poc/${id}`,{
+      params: {
+        username: props.authCtx.employeeID,
+        password: props.authCtx.token
+      }
+    });
     loadUsers();
     window.location.reload(true);
   };

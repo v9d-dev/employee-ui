@@ -8,7 +8,7 @@ import "../../../../src/global.css";
 import { useHistory } from 'react-router-dom';
 import { AuthContext } from '../../store/auth-context';
 
-export default function AddDetails() {
+export default function AddDetails(props) {
   const [startDate, setStartDate] = useState('');
   const [finishDate, setFinishDate] = useState('');
   const [name, setName] = useState('');
@@ -38,7 +38,12 @@ export default function AddDetails() {
       employeeId : authCtx.employeeID
     }
 
-    axios.post('http://localhost:4000/poc', data).then(res => {
+    axios.post('http://localhost:4000/poc', data, {
+      params: {
+        username: props.authCtx.employeeID,
+        password: props.authCtx.token
+      }
+    }).then(res => {
       setData(res.data);
       setName('');
       setTechStack('');

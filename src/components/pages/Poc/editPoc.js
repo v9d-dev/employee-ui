@@ -7,7 +7,7 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import "../../../../src/global.css";
 import { useParams, useHistory } from 'react-router-dom';
 
-export default function EditPoc() {
+export default function EditPoc(props) {
   const [user, setUser] = useState({
     name: "",
     description: "",
@@ -44,12 +44,22 @@ export default function EditPoc() {
 
   const onSubmit = async e => {
     e.preventDefault();
-    await axios.patch(`http://localhost:4000/poc/${id}`, user);
+    await axios.patch(`http://localhost:4000/poc/${id}`, user, {
+      params: {
+        username: props.authCtx.employeeID,
+        password: props.authCtx.token
+      }
+    });
     history.push("/POC")
   };
 
   const loadUser = async () => {
-    const result = await axios.get(`http://localhost:4000/poc/${id}`);
+    const result = await axios.get(`http://localhost:4000/poc/${id}`, {
+      params: {
+        username: props.authCtx.employeeID,
+        password: props.authCtx.token
+      }
+    });
     setUser(result.data);
   };
 

@@ -120,7 +120,7 @@ CustomButton.propTypes = {
   children: PropTypes.node,
 };
 
-const EmployeeDeatils = () => {
+const EmployeeDeatils = (props) => {
   const [page, setPage] = useState(0);
   const [rowPerPage, setRowPerPage] = useState(15);
   const classes = useStyles();
@@ -128,14 +128,19 @@ const EmployeeDeatils = () => {
   const [searched, setSearched] = useState("");
   // const[csvFile, setCsvFile] = ("");
   // const[csvArray, setCsvArray]= ("");
- console.log("tows", rows);
   const onChangePage = (event, newPage) => {
     setPage(newPage)
 
   }
 
   useEffect(() => {
-    axios.get(`http://localhost:4000/employee`)
+    axios.get(`http://localhost:4000/employee`,{
+      params: {
+        username: props.authCtx.employeeID,
+        password: props.authCtx.token
+      }
+    }
+    )
       .then(res => {
         setRows(res.data)
       })
@@ -147,7 +152,12 @@ const EmployeeDeatils = () => {
   }, []);
 
   const loadUsers = async () => {
-    const result = await axios.get("http://localhost:4000/employee");
+    const result = await axios.get("http://localhost:4000/employee", {
+      params: {
+        username: props.authCtx.employeeID,
+        password: props.authCtx.token
+      }
+    });
     setRows(result.data);
   };
 
@@ -338,6 +348,7 @@ const EmployeeDeatils = () => {
               </StyledTableHead>
               <TableBody>
                 {rows.slice(page * rowPerPage, page * rowPerPage + rowPerPage).map((user) => (
+                  
                   <TableRow key={rows.name}>
                     <StyledTableCell >
                       {user.employeeNumber}

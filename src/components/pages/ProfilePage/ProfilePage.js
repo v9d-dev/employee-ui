@@ -29,14 +29,20 @@ const style = {
 
 
 
-const ProfilePage = () => {
+const ProfilePage = (props) => {
 
     const authCtx = useContext(AuthContext);
     const dispatch = useDispatch();
 
 
     const fetchUsers = () => {
-        axios.get(`http://localhost:4000/employee/${authCtx.employeeID}`).then(res => {
+        axios.get(`http://localhost:4000/employee/${authCtx.employeeID}`,
+        {
+            params: {
+              username: props.authCtx.employeeID,
+              password: props.authCtx.token
+            }
+        }).then(res => {
             dispatch(update(res.data));
         })
     }

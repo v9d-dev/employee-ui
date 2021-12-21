@@ -7,7 +7,7 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import "../../../../src/global.css";
 import { useParams, useHistory } from 'react-router-dom';
 
-export default function EditCertification() {
+export default function EditCertification(props) {
     const [user, setUser] = useState({
         name: "",
         techStack: "",
@@ -31,12 +31,22 @@ export default function EditCertification() {
 
     const onSubmit = async e => {
         e.preventDefault();
-        await axios.patch(`http://localhost:4000/certification/${id}`, user);
+        await axios.patch(`http://localhost:4000/certification/${id}`, user, {
+            params: {
+                username: props.authCtx.employeeID,
+                password: props.authCtx.token
+              }
+        });
         history.push("/AddCertification")
     };
 
     const loadUser = async () => {
-        const result = await axios.get(`http://localhost:4000/certification/${id}`);
+        const result = await axios.get(`http://localhost:4000/certification/${id}`, {
+            params: {
+                username: props.authCtx.employeeID,
+                password: props.authCtx.token
+              }
+        });
         setUser(result.data);
     };
 
