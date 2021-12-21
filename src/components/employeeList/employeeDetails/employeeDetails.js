@@ -13,6 +13,7 @@ import '../../../global.css';
 import axios from "axios";
 import { Link } from "react-router-dom";
 import PreviewIcon from '@mui/icons-material/Preview';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -161,6 +162,18 @@ const EmployeeDeatils = (props) => {
     setRows(result.data);
   };
 
+  const deleteUser = async id => {
+    await axios.delete(`http://localhost:4000/employee/${id}`,{
+      params: {
+        username: props.authCtx.employeeID,
+        password: props.authCtx.token
+      }
+    });
+    loadUsers();
+    // window.location.reload();
+  };
+  
+
   // const processCsv = (str, delim=',')=>{
   //   const headers = str.slice(0, str.indexOf('\n')).split(delim);
   //   const rows = str.slice(str.indexOf('\n')+1).split('\n');
@@ -261,7 +274,6 @@ const EmployeeDeatils = (props) => {
     const csvData = objectToCsv(resData)
     download(csvData);
   }
-
 
   return (
     <>
@@ -410,6 +422,11 @@ const EmployeeDeatils = (props) => {
                     >
                     <PreviewIcon/>
                     </Link>
+                    <Link
+                    onClick={() => deleteUser(user.id)}
+                  >
+                    <DeleteIcon/>
+                  </Link>
                     </StyledTableCell>
                   </TableRow>
                 ))}

@@ -20,6 +20,14 @@ export default function EditCertification(props) {
     const { id } = useParams();
     const { name, techStack, price, complitionDate, expireDate } = user;
 
+
+
+  const  handleChange=(date, dateType)=> {
+    setUser({ ...user,
+      [dateType]: date
+    })
+  }
+
     const onInputChange = e => {
         setUser({ ...user, [e.target.name]: e.target.value })
     };
@@ -37,7 +45,7 @@ export default function EditCertification(props) {
                 password: props.authCtx.token
               }
         });
-        history.push("/AddCertification")
+        history.push("/Certification")
     };
 
     const loadUser = async () => {
@@ -75,12 +83,12 @@ export default function EditCertification(props) {
                                         <DatePicker
                                             disableFuture
                                             variant="outlined"
-                                            label="Start Date"
+                                            label="Complition Date"
                                             openTo="year"
                                             views={['year', 'month', 'day']}
                                             name="complitionDate"
                                             value={complitionDate}
-                                            onChange={e => onInputChange(e)}
+                                            onChange={e => handleChange(e, 'complitionDate')}
                                             renderInput={(params) => <TextField {...params} />}
                                         />
                                     </LocalizationProvider>
@@ -90,12 +98,12 @@ export default function EditCertification(props) {
                                         <DatePicker
                                             disableFuture
                                             variant="outlined"
-                                            label="End Date"
+                                            label="Expire Date"
                                             openTo="year"
                                             views={['year', 'month', 'day']}
                                             name="expireDate"
                                             value={expireDate}
-                                            onChange={e => onInputChange(e)}
+                                            onChange={e => handleChange(e, 'expireDate')}
                                             renderInput={(params) => <TextField
                                                 {...params} />}
                                         />

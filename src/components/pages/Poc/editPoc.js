@@ -1,4 +1,4 @@
-import React, { useState, useEffect,moment } from 'react';
+import React, { useState, useEffect, moment } from 'react';
 import axios from 'axios';
 import { Grid, TextField, Button, Card, CardContent, Typography } from '@material-ui/core';
 import DatePicker from '@mui/lab/DatePicker';
@@ -11,6 +11,7 @@ export default function EditPoc(props) {
   const [user, setUser] = useState({
     name: "",
     description: "",
+    startDate:"",
     finishDate: "",
     techStack: "",
     githubUrl: "",
@@ -20,9 +21,9 @@ export default function EditPoc(props) {
   let history = useHistory();
   const { id } = useParams();
 
- const  handleChange=(date)=> {
-    setUser({
-      startDate: date
+  const  handleChange=(date, dateType)=> {
+    setUser({ ...user,
+      [dateType]: date
     })
   }
 
@@ -31,7 +32,7 @@ export default function EditPoc(props) {
 
 
   const onInputChange = e => {
-    console.log('------------------e',e);
+    console.log('------------------e', e);
     setUser({ ...user, [e.target.name]: e.target.value })
   };
 
@@ -99,8 +100,7 @@ export default function EditPoc(props) {
                       views={['year', 'month', 'day']}
                       name="startDate"
                       value={startDate}
-                      onInputChange={handleChange}
-                      onChange={e => onInputChange(e)}
+                      onChange={e => handleChange(e, 'startDate')}
                       renderInput={(params) => <TextField {...params} />}
                     />
                   </LocalizationProvider>
@@ -115,7 +115,7 @@ export default function EditPoc(props) {
                       views={['year', 'month', 'day']}
                       name="finishDate"
                       value={finishDate}
-                      onChange={e => onInputChange(e)}
+                      onChange={e => handleChange(e, 'finishDate')}
                       renderInput={(params) => <TextField
                         {...params} />}
                     />

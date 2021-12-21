@@ -152,7 +152,7 @@ export default function POC(props) {
       }
     });
     loadUsers();
-    window.location.reload(true);
+    // window.location.reload();
   };
   
 
