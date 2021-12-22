@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import "../../../../src/global.css";
+import PreviewIcon from '@mui/icons-material/Preview';
 
 const CustomButtonRoot = styled('button')`
   background-color: #007fff;
@@ -169,7 +170,6 @@ export default function POC(props) {
 
 
   const getCsvReport = function () {
-
     const resData = rows.map(row => ({
       name:row.name,
       techStack: row.techStack,
@@ -297,9 +297,9 @@ export default function POC(props) {
                       {user.employee_id}
                     </StyledTableCell >
                     <StyledTableCell>
-                  {/* <Link class="btn btn-primary mr-2" to={`/users/${user.id}`}>
+                  <Link class="btn btn-primary mr-2" to={`/poc/view/${user.id}`}>
                  <PreviewIcon/>
-                  </Link> */}
+                  </Link>
                   <Link
                     class="btn btn-outline-primary mr-2"
                     to={`/poc/edit/${user.id}`}

@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
-import classes from './ProfilePage.module.css';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import '../../employeeList/employeeDetails/employee.css'
 
 const style = {
     position: 'absolute',
@@ -55,7 +55,7 @@ const EmployeeView = (props) => {
              
             <Card sx={{ maxWidth: '80%', minHeight: 500, marginTop: '5%', marginLeft: '18%' }}>
             {/* { employee.map((user)=>( */}
-                <div className={classes.divContainer1}>
+                <div className="divContainer1">
                     <div>
                         <div>
                             <img src='https://lh3.googleusercontent.com/a/AATXAJwnjk6v2CYKJbfLddFJIBrup4JZD7PPizV0FKAG=s96-c' />

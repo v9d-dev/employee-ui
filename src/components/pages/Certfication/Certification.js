@@ -11,6 +11,7 @@ import "../../../../src/global.css";
 import { Link } from "react-router-dom";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import PreviewIcon from '@mui/icons-material/Preview';
 
 const CustomButtonRoot = styled('button')`
   background-color: #007fff;
@@ -281,9 +282,9 @@ export default function Certification(props) {
                                             {user.employee_id}
                                         </StyledTableCell >
                                         <StyledTableCell>
-                                                    {/* <Link class="btn btn-primary mr-2" to={`/users/${user.id}`}>
-                                                    View
-                                                     </Link> */}
+                                                    <Link class="btn btn-primary mr-2" to={`/certification/view/${user.id}`}>
+                                                    <PreviewIcon/>
+                                                     </Link>
                                             <Link
                                                 to={`/certification/edit/${user.id}`}
                                             >
