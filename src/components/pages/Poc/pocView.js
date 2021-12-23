@@ -49,7 +49,7 @@ const PocView = (props) => {
                             <p>Start Date:- <span style={{marginLeft:"5.2rem"}}>{details.startDate}</span> </p>
                             <p>Finish Date:- <span style={{marginLeft:"4.6rem"}}>{details.finishDate}</span>  </p>
                             <p>Github Url:- <span style={{marginLeft:"5rem"}}>{details.githubUrl} </span></p>
-                            <p>Demo Url:- <span style={{marginLeft:"5.5rem"}}> {details.demoUrl}</span> </p>
+                            <p>Demo Url:- <span style={{marginLeft:"5rem"}}> {details.demoUrl}</span> </p>
                         </div>
                     </div>
                 </div>
