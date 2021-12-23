@@ -1,15 +1,12 @@
-import React, { useState, useRef, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Box from '@mui/material/Box';
-import CardActions from '@mui/material/CardActions';
 import classes from './ProfilePage.module.css';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Modal from '@mui/material/Modal';
-import { update, increment } from '../../store/employeeDetails';
 import { Grid, TextField, Button, Card, CardContent, Typography } from '@material-ui/core';
 import DatePicker from '@mui/lab/DatePicker';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import { makeStyles, withStyles } from "@material-ui/core/styles";
 import axios from 'axios';
 import { AuthContext } from '../../store/auth-context';
 
@@ -50,16 +47,17 @@ const EditProfilePage = (props) => {
         setUser({ ...user, [e.target.name]: e.target.value })
     };
 
-
+    const handleChange = (date, dateType) => {
+        setUser({
+          ...user,
+          [dateType]: date
+        })
+      }
     const onSubmit = e => {
         e.preventDefault();
         updateHandler();
         handleClose();
     };
-
-    const [joiningDate, setJoiningDate] = useState(dateOfJoining);
-    const [dob, setDob] = useState(dateOfBirth);
-
 
     const updateHandler = async () => {
         try {
@@ -107,14 +105,12 @@ return (
                                     <Grid xs={7} item>
                                         <LocalizationProvider dateAdapter={AdapterDateFns} fullWidth>
                                             <DatePicker
-
                                                 label="Date of Joining"
                                                 openTo="year"
+                                                name="dateOfJoining"
                                                 views={['year', 'month', 'day']}
-                                                value={joiningDate}
-                                                onChange={(newValue) => {
-                                                    setJoiningDate(newValue);
-                                                }}
+                                                value={dateOfJoining}
+                                                onChange={e => handleChange(e, 'dateOfJoining')}
                                                 renderInput={(params) => <TextField {...params} name='joiningDate' onChange={e => onInputChange(e)} {...params} style={{ width: "100%" }} />}
                                                 fullWidth
                                             />
@@ -149,11 +145,10 @@ return (
                                                 disableFuture
                                                 label="Date of Birth"
                                                 openTo="year"
+                                                name="dateOfBirth"
                                                 views={['year', 'month', 'day']}
-                                                value={dob}
-                                                onChange={(newValue) => {
-                                                    setDob(newValue);
-                                                }}
+                                                value={dateOfBirth}
+                                                onChange={e => handleChange(e, 'dateOfBirth')}
                                                 renderInput={(params) => <TextField {...params} name='dob' onChange={e => onInputChange(e)} style={{ width: "100%" }} />}
                                             />
                                         </LocalizationProvider>
