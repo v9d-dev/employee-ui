@@ -6,23 +6,28 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import "../../../../src/global.css";
 import { useParams, useHistory } from 'react-router-dom';
+import Alert from '@mui/material/Alert';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export default function EditPoc(props) {
   const [user, setUser] = useState({
     name: "",
     description: "",
-    startDate:"",
+    startDate: "",
     finishDate: "",
     techStack: "",
     githubUrl: "",
     demoUrl: ""
   });
+  const [loading, setLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   let history = useHistory();
   const { id } = useParams();
 
-  const  handleChange=(date, dateType)=> {
-    setUser({ ...user,
+  const handleChange = (date, dateType) => {
+    setUser({
+      ...user,
       [dateType]: date
     })
   }
@@ -32,7 +37,6 @@ export default function EditPoc(props) {
 
 
   const onInputChange = e => {
-    console.log('------------------e', e);
     setUser({ ...user, [e.target.name]: e.target.value })
   };
 
@@ -45,6 +49,8 @@ export default function EditPoc(props) {
 
   const onSubmit = async e => {
     e.preventDefault();
+    setLoading(true);
+    setIsError(false);
     await axios.patch(`http://localhost:4000/poc/${id}`, user, {
       params: {
         username: props.authCtx.employeeID,
@@ -55,7 +61,7 @@ export default function EditPoc(props) {
   };
 
   const loadUser = async () => {
-    const result = await axios.get(`http://localhost:4000/poc/${id}`, {
+  const result = await axios.get(`http://localhost:4000/poc/${id}`, {
       params: {
         username: props.authCtx.employeeID,
         password: props.authCtx.token
@@ -122,8 +128,10 @@ export default function EditPoc(props) {
                   </LocalizationProvider>
                 </Grid>
                 <Grid item xs={6}>
-                  {/* {isError && <small className="mt-3 d-inline-block text-danger">Something went wrong. Please try again later.</small>} */}
-                  <Button type="submit" variant="contained" color="primary" fullWidth onClick={onSubmit}>update</Button>
+                {isError &&  <Alert variant="outlined"  severity="error" align="top"  style={{marginBottom:"34px" ,width:"100%" }} >
+                    Something went wrong try again later !
+                  </Alert>}
+                  <Button type="submit" variant="contained" color="primary" fullWidth onClick={onSubmit} disabled={loading}>{loading ?   <CircularProgress /> : 'UPDATE'}</Button>
                 </Grid>
               </Grid>
             </form>

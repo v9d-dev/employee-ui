@@ -44,3 +44,45 @@
     flex-direction: column;
     margin-bottom: 0;
 }
+
+.poc_view {
+    min-height: auto !important;
+    width: 30%!important;
+    margin: 110px auto!important;;
+    box-shadow: 0 1px 4px 0 rgb(0 0 0 / 14%)!important;
+    position: relative;
+    overflow: inherit!important;
+    
+}
+.poc_details{
+    flex-direction: column!important;
+    
+    width: 100%!important;
+    margin-top: 68px;
+    text-align: center;
+}
+.poc_details{
+    flex-direction: column!important;
+    width: 100%!important;
+    margin-top: 68px;
+    text-align: left;
+    padding-left: 10%;
+}
+.poc_details p{
+    font-size: 24px;
+}
+.poc_details p span{ 
+    font-size: 20px;
+    margin-left: 10px;
+    text-align: right;
+}
+.poc_details img{
+    position: absolute;
+    top: -42px;
+    left: 42%;
+}
+
+.poc_content p{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}

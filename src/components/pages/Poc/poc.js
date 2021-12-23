@@ -104,7 +104,7 @@ export default function POC(props) {
   const [searched, setSearched] = useState("");
   const classes = useStyles();
 
- console.log("rows ==========================", rows);
+  console.log("rows ==========================", rows);
 
   useEffect(() => {
     axios.get(`http://localhost:4000/poc`, {
@@ -146,7 +146,7 @@ export default function POC(props) {
   };
 
   const deleteUser = async id => {
-    await axios.delete(`http://localhost:4000/poc/${id}`,{
+    await axios.delete(`http://localhost:4000/poc/${id}`, {
       params: {
         username: props.authCtx.employeeID,
         password: props.authCtx.token
@@ -155,7 +155,7 @@ export default function POC(props) {
     loadUsers();
     // window.location.reload();
   };
-  
+
 
   const cancelSearch = () => {
     setSearched("");
@@ -171,14 +171,14 @@ export default function POC(props) {
 
   const getCsvReport = function () {
     const resData = rows.map(row => ({
-      name:row.name,
+      name: row.name,
       techStack: row.techStack,
-      description:row.description,
-      startDate:row.startDate,
-      finishDate:row.finishDate,
-      githubUrl:row.githubUrl,
-      demoUrl:row.demoUrl,
-      employee_id:row.employee_id
+      description: row.description,
+      startDate: row.startDate,
+      finishDate: row.finishDate,
+      githubUrl: row.githubUrl,
+      demoUrl: row.demoUrl,
+      employee_id: row.employee_id
     }));
 
     const download = function (resData) {
@@ -201,7 +201,7 @@ export default function POC(props) {
 
       for (const row of resData) {
         const values = headers.map(header => {
-           //Dont remove this commented line----  
+          //Dont remove this commented line----  
           // const escaped= (''+row[header]).replace(/"/g,'\\"');
           // return `"${escaped}"`;
           return row[header];
@@ -235,100 +235,100 @@ export default function POC(props) {
             />
           </div>
           <StyledTableContainer>
-          <div className ="main_table">
-            <Table>
-              <StyledTableHead>
-                <TableRow>
-                  <StyledTableCell >
-                    Name
-                  </StyledTableCell >
-                  <StyledTableCell >
-                    Tech Stack
-                  </StyledTableCell >
-                  <StyledTableCell >
-                    Description
-                  </StyledTableCell >
-                  <StyledTableCell >
-                    Start Date
-                  </StyledTableCell >
-                  <StyledTableCell >
-                    Finsih Date
-                  </StyledTableCell >
-                  <StyledTableCell >
-                    Github URL
-                  </StyledTableCell >
-                  <StyledTableCell >
-                    DEMO URL
-                  </StyledTableCell >
-                  <StyledTableCell >
-                    Employee ID
-                  </StyledTableCell >
-                  <StyledTableCell >
-                    Actions
-                  </StyledTableCell >
-                </TableRow>
-
-              </StyledTableHead>
-              <TableBody>
-                {rows.slice(page * rowPerPage, page * rowPerPage + rowPerPage).map((user) => (
-                  <TableRow key={rows.name}>
+            <div className="main_table">
+              <Table>
+                <StyledTableHead>
+                  <TableRow>
                     <StyledTableCell >
-                      {user.name}
+                      Name
                     </StyledTableCell >
                     <StyledTableCell >
-                      {user.techStack}
+                      Tech Stack
                     </StyledTableCell >
                     <StyledTableCell >
-                      {user.description}
+                      Description
                     </StyledTableCell >
                     <StyledTableCell >
-                      {user.startDate}
+                      Start Date
                     </StyledTableCell >
                     <StyledTableCell >
-                      {user.finishDate}
+                      Finsih Date
                     </StyledTableCell >
                     <StyledTableCell >
-                      {user.githubUrl}
+                      Github URL
                     </StyledTableCell >
                     <StyledTableCell >
-                      {user.demoUrl}
+                      DEMO URL
                     </StyledTableCell >
                     <StyledTableCell >
-                      {user.employee_id}
+                      Employee ID
                     </StyledTableCell >
-                    <StyledTableCell>
-                  <Link class="btn btn-primary mr-2" to={`/poc/view/${user.id}`}>
-                 <PreviewIcon/>
-                  </Link>
-                  <Link
-                    class="btn btn-outline-primary mr-2"
-                    to={`/poc/edit/${user.id}`}
-                  >
-                    <EditIcon/>
-                  </Link>
-                  
-                  <Link
-                    onClick={() => deleteUser(user.id)}
-                     to="#"
-                  >
-                    <DeleteIcon/>
-                  </Link>
-                </StyledTableCell>
+                    <StyledTableCell >
+                      Actions
+                    </StyledTableCell >
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+
+                </StyledTableHead>
+                <TableBody>
+                  {rows.slice(page * rowPerPage, page * rowPerPage + rowPerPage).map((user) => (
+                    <TableRow key={rows.name}>
+                      <StyledTableCell >
+                        {user.name}
+                      </StyledTableCell >
+                      <StyledTableCell >
+                        {user.techStack}
+                      </StyledTableCell >
+                      <StyledTableCell >
+                        {user.description}
+                      </StyledTableCell >
+                      <StyledTableCell >
+                        {user.startDate}
+                      </StyledTableCell >
+                      <StyledTableCell >
+                        {user.finishDate}
+                      </StyledTableCell >
+                      <StyledTableCell >
+                        {user.githubUrl}
+                      </StyledTableCell >
+                      <StyledTableCell >
+                        {user.demoUrl}
+                      </StyledTableCell >
+                      <StyledTableCell >
+                        {user.employee_id}
+                      </StyledTableCell >
+                      <StyledTableCell>
+                        <Link class="btn btn-primary mr-2" to={`/poc/view/${user.id}`}>
+                          <PreviewIcon />
+                        </Link>
+                        <Link
+                          class="btn btn-outline-primary mr-2"
+                          to={`/poc/edit/${user.id}`}
+                        >
+                          <EditIcon />
+                        </Link>
+
+                        <Link
+                          onClick={() => deleteUser(user.id)}
+                          to="#"
+                        >
+                          <DeleteIcon />
+                        </Link>
+                      </StyledTableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
             </div>
-                <TableRow>
-                  <TablePagination
-                    rowsPerPageOptions={[5, 10, 15, 20, 25]}
-                    count={rows.length}
-                    rowsPerPage={rowPerPage}
-                    page={page}
-                    onChangePage={onChangePage}
-                    onChangeRowsPerPage={onChangeRowsPerPage}
-                  />
-                </TableRow>
+            <TableRow>
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 15, 20, 25]}
+                count={rows.length}
+                rowsPerPage={rowPerPage}
+                page={page}
+                onChangePage={onChangePage}
+                onChangeRowsPerPage={onChangeRowsPerPage}
+              />
+            </TableRow>
           </StyledTableContainer>
         </Container>
       </paper>

@@ -7,6 +7,8 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import "../../../../src/global.css";
 import { useHistory } from 'react-router-dom';
 import { AuthContext } from '../../store/auth-context';
+import Alert from '@mui/material/Alert';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export default function AddDetails(props) {
   const [startDate, setStartDate] = useState('');
@@ -35,7 +37,7 @@ export default function AddDetails(props) {
       techStack: techStack,
       githubUrl: githubUrl,
       demoUrl: demoUrl,
-      employeeId : authCtx.employeeID
+      employeeId: authCtx.employeeID
     }
 
     axios.post('http://localhost:4000/poc', data, {
@@ -53,11 +55,11 @@ export default function AddDetails(props) {
       setStartDate('');
       setFinishDate('');
       setLoading(false);
+      history.push("/POC");
     }).catch(err => {
       setLoading(false);
       setIsError(true);
     });
-    history.push("/POC");
   }
 
   return (
@@ -119,8 +121,10 @@ export default function AddDetails(props) {
                   </LocalizationProvider>
                 </Grid>
                 <Grid item xs={6}>
-                  {isError && <small className="mt-3 d-inline-block text-danger">Something went wrong. Please try again later.</small>}
-                  <Button type="submit" variant="contained" color="primary" fullWidth onClick={handleSubmit} disabled={loading}>{loading ? 'Loading...' : 'Submit'}</Button>
+                  {isError &&  <Alert variant="outlined"  severity="error" align="top"  style={{marginBottom:"34px" ,width:"100%" }} >
+                    Something went wrong try again later !
+                  </Alert>}
+                  <Button type="submit" variant="contained" color="primary" fullWidth onClick={handleSubmit} disabled={loading}>{loading ?   <CircularProgress /> : 'Submit'}</Button>
                 </Grid>
               </Grid>
             </form>

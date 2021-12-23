@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import '../../employeeList/employeeDetails/employee.css'
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableRow from '@mui/material/TableRow';
+import Grid from '@mui/material/Grid';
+import { styled } from '@mui/material/styles';
+import Paper from '@mui/material/Paper';
+import Image from '../../Layout/Image';
 
 const style = {
     position: 'absolute',
@@ -27,20 +34,28 @@ const EmployeeView = (props) => {
 
     useEffect(() => {
         async function getResults() {
-          const results = await axios.get(`http://localhost:4000/employee/${id}`,{
-            params: {
-                username: props.authCtx.employeeID,
-                password: props.authCtx.token
-              }
-          });
-          setEmployee(results.data)
+            const results = await axios.get(`http://localhost:4000/employee/${id}`, {
+                params: {
+                    username: props.authCtx.employeeID,
+                    password: props.authCtx.token
+                }
+            });
+            setEmployee(results.data)
         }
         getResults()
-      },[])
+    }, [])
 
     useEffect(() => {
         loadUser();
     }, []);
+
+
+    const Item = styled(Paper)(({ theme }) => ({
+        ...theme.typography.body2,
+        padding: theme.spacing(0),
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
+    }));
 
 
 
@@ -51,47 +66,232 @@ const EmployeeView = (props) => {
     };
 
     return (
-        <Box>
-             
-            <Card sx={{ maxWidth: '80%', minHeight: 500, marginTop: '5%', marginLeft: '18%' }}>
-            {/* { employee.map((user)=>( */}
-                <div className="divContainer1">
-                    <div>
-                        <div>
-                            <img src='https://lh3.googleusercontent.com/a/AATXAJwnjk6v2CYKJbfLddFJIBrup4JZD7PPizV0FKAG=s96-c' />
-                        </div>
-                        <div >
-                            {/* <p>{name}</p> */}
-                            <p>Name: {employee.fullName}</p>
-                            <p>Phone Number:- {employee.mobileNumber}</p>
-                            <p>Email Id:- {employee.mailId}</p>
-                            <p>Employee ID:- {employee.employeeNumber}</p>
-                            <p> Roll ID : {employee.roleId}</p>  
-                            <p>Project Type:  {employee.projectType}</p>          
-                        </div>
-                        <div>
-                            <p>Date of Joinning: {employee.dateOfJoining}</p>
-                            <p>Current Designation: {employee.currentDesignation} </p>
-                            <p>Previous Designation: {employee.previousDesignation}</p>
-                            <p>Date Of Birth: {employee.dateOfBirth}</p>
-                            <p>Primary Key Skills: {employee.primaryKeySkill}</p>
-                            <p> Current Project: {employee.currentProject}</p>
-                        </div>
-                        <div>
-                            <p>Reporting Manager: {employee.reportingManager} </p>
-                            <p>BU HEAD:{employee.buHead}</p>
-                            <p>Over All Experience:{employee.overallExperience}</p>
-                            <p>Successive Experience:{employee.successiveExperience}</p>
-                            <p> Secondary Key Skills: {employee.secondaryKeySkill}</p>
-                            <p> Earlier Project: {employee.earlierProject}</p>
-                           
-                        </div>
-                    </div>
-                    {/* <Button variant="contained" className={classes.Button} onClick={handleOpen} ><small>Edit Profile</small></Button> */}
-                </div>
-                  {/* ))}  */}
-            </Card>
-           </Box>
+
+        <Box sx={{ flexGrow: 1, width: "80%", float: "right", marginTop: "2%", marginRight: "2%" }}>
+            <Grid container spacing={0}>
+                <Grid container xs={12} sx={{ height: "100%" }}>
+                    <Grid item xs={4} >
+                        <Item sx={{ minHeight: "100%" }}>
+                            <Image style={{ borderRadius: "20px", width: "30%", alignCenter: "center" }} />
+                            <h3>{employee.fullName}</h3>
+                            <h3>{employee.currentDesignation}</h3>
+                        </Item>
+                    </Grid>
+                    <Grid item xs={8}>
+                        <Item>
+                            <TableContainer component={Paper}>
+                                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                    <TableBody>
+                                        <TableRow
+                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                        >
+                                            <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px" }}>
+                                                <p style={{ fontWeight: "bold", fontSize: "16px" }}> Full Name</p>
+                                            </TableCell>
+                                            <TableCell component="th" scope="row">
+                                                {employee.fullName}
+                                            </TableCell>
+                                        </TableRow>
+
+                                        <TableRow
+                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                        >
+                                            <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px" }}>
+                                                <p style={{ fontWeight: "bold", fontSize: "16px" }}> Email</p>
+                                            </TableCell>
+                                            <TableCell component="th" scope="row">
+                                                {employee.mailId}
+                                            </TableCell>
+                                        </TableRow>
+
+                                        <TableRow
+                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                        >
+                                            <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px" }}>
+                                                <p style={{ fontWeight: "bold", fontSize: "16px" }}> Contact Number</p>
+                                            </TableCell>
+                                            <TableCell component="th" scope="row">
+                                                {employee.mobileNumber}
+                                            </TableCell>
+                                        </TableRow>
+
+                                        <TableRow
+                                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                        >
+                                            <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px" }}>
+                                                <p style={{ fontWeight: "bold", fontSize: "16px" }}> Employee ID</p>
+                                            </TableCell>
+                                            <TableCell component="th" scope="row">
+                                                {employee.employeeId}
+                                            </TableCell>
+                                        </TableRow>
+
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </Item>
+                    </Grid>
+                </Grid>
+
+
+                <Grid item xs={12}>
+                    <Item>
+                        <TableContainer component={Paper}>
+                            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                <TableBody>
+                                    <TableRow
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px", width: "25%" }}>
+                                            <p style={{ fontWeight: "bold", fontSize: "16px" }}> Date of Joining</p>
+                                        </TableCell>
+                                        <TableCell component="th" scope="row">
+                                            {employee.dateOfJoining}
+                                        </TableCell>
+                                    </TableRow>
+
+                                    <TableRow
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px", width: "25%" }}>
+                                            <p style={{ fontWeight: "bold", fontSize: "16px" }}> date Of Birth</p>
+                                        </TableCell>
+                                        <TableCell component="th" scope="row">
+                                            {employee.dateOfBirth}
+                                        </TableCell>
+                                    </TableRow>
+
+                                    <TableRow
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px" }}>
+                                            <p style={{ fontWeight: "bold", fontSize: "16px" }}> Over All Experience</p>
+                                        </TableCell>
+                                        <TableCell component="th" scope="row">
+                                            {employee.overallExperience}
+                                        </TableCell>
+                                    </TableRow>
+
+                                    <TableRow
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px" }}>
+                                            <p style={{ fontWeight: "bold", fontSize: "16px" }}> Successive Experience</p>
+                                        </TableCell>
+                                        <TableCell component="th" scope="row">
+                                            {employee.successiveExperience}
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px" }}>
+                                            <p style={{ fontWeight: "bold", fontSize: "16px" }}> BU Head</p>
+                                        </TableCell>
+                                        <TableCell component="th" scope="row">
+                                            {employee.buHead}
+                                        </TableCell>
+                                    </TableRow>
+
+                                    <TableRow
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px" }}>
+                                            <p style={{ fontWeight: "bold", fontSize: "16px" }}> Reporting Manager</p>
+                                        </TableCell>
+                                        <TableCell component="th" scope="row">
+                                            {employee.reportingManager}
+                                        </TableCell>
+                                    </TableRow>
+
+                                    <TableRow
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px" }}>
+                                            <p style={{ fontWeight: "bold", fontSize: "16px" }}> Current Designation</p>
+                                        </TableCell>
+                                        <TableCell component="th" scope="row">
+                                            {employee.currentDesignation}
+                                        </TableCell>
+                                    </TableRow>
+
+                                    <TableRow
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px" }}>
+                                            <p style={{ fontWeight: "bold", fontSize: "16px" }}>Previous Designation</p>
+                                        </TableCell>
+                                        <TableCell component="th" scope="row">
+                                            {employee.previousDesignation}
+                                        </TableCell>
+                                    </TableRow>
+
+
+                                    <TableRow
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px" }}>
+                                            <p style={{ fontWeight: "bold", fontSize: "16px" }}> Earlier Project</p>
+                                        </TableCell>
+                                        <TableCell component="th" scope="row">
+                                            {employee.earlierProject}
+                                        </TableCell>
+                                    </TableRow>
+
+                                    <TableRow
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px" }}>
+                                            <p style={{ fontWeight: "bold", fontSize: "16px" }}>Current Project</p>
+                                        </TableCell>
+                                        <TableCell component="th" scope="row">
+                                            {employee.currentProject}
+                                        </TableCell>
+                                    </TableRow>
+
+                                    <TableRow
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px" }}>
+                                            <p style={{ fontWeight: "bold", fontSize: "16px" }}> Project Type</p>
+                                        </TableCell>
+                                        <TableCell component="th" scope="row">
+                                            {employee.projectType}
+                                        </TableCell>
+                                    </TableRow>
+
+                                    <TableRow
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px" }}>
+                                            <p style={{ fontWeight: "bold", fontSize: "16px" }}>Primary Key Skill</p>
+                                        </TableCell>
+                                        <TableCell component="th" scope="row">
+                                            {employee.primaryKeySkill}
+                                        </TableCell>
+                                    </TableRow>
+
+                                    <TableRow
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px" }}>
+                                            <p style={{ fontWeight: "bold", fontSize: "16px" }}>Secondary Key Skill</p>
+                                        </TableCell>
+                                        <TableCell component="th" scope="row">
+                                            {employee.secondaryKeySkill}
+                                        </TableCell>
+                                    </TableRow>
+
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+
+                    </Item>
+                </Grid>
+            </Grid>
+        </Box>
+
+
     )
 }
 

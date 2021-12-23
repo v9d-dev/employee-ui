@@ -33,24 +33,24 @@ const CertificationView = (props) => {
 
     return (
         <Box>
-            <Card sx={{ maxWidth: '80%', minHeight: 500, marginTop: '5%', marginLeft: '18%' }}>
+            <Card sx={{ maxWidth: '80%', minHeight: 500, marginTop: '5%', marginLeft: '18%' }} className="certification_view">
                 <div className="divContainer1">
-                    <div>
+                    <div className="certification_details">
                         <div>
-                            <img src='https://lh3.googleusercontent.com/a/AATXAJwnjk6v2CYKJbfLddFJIBrup4JZD7PPizV0FKAG=s96-c' />
+                            <img src='https://lh3.googleusercontent.com/a/AATXAJwehSK25ZijXShwp799RRb_WTIwN97Oyze3AoDAsA=s96-c' />
                         </div>
-                        <div >
-                            <p>Name: {details.name}</p>
-                            <p>Tech Stack:-{details.techStack}</p>
-                            <p>Price:- {details.price}</p>
-                            <p>Complition Date:-{details.name}</p>
-                            <p> Expire Date : {details.complitionDate}</p>
-                            <p>Employee Id: {details.employee_Id}</p>
+                        <div className="content" >
+                            <p>Name :- <span style={{marginLeft:"127px"}}>{details.name}</span></p>
+                            <p>Tech Stack :- <span style={{marginLeft:"78px"}}>{details.techStack}</span></p>
+                            <p>Price :- <span style={{marginLeft:"136px"}}>{details.price}</span></p>
+                            <p>Complition Date :- <span style={{marginLeft:"14px"}}>{details.name}</span></p>
+                            <p> Expire Date :- <span style={{marginLeft:"61px"}}>{details.complitionDate}</span></p>
+                            <p>Employee Id :- <span style={{marginLeft:"20px"}}>{details.employee_Id}</span></p>
                         </div>
-                            <div>
-                            </div>
-                            <div>
-                            </div>
+                        <div>
+                        </div>
+                        <div>
+                        </div>
                     </div>
                 </div>
             </Card>
