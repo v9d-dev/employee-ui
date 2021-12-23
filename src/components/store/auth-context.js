@@ -5,6 +5,7 @@ export const AuthContext = React.createContext({
     token: '',
     isLoggedIn: false,
     employeeID: '',
+    role:'',
     login: (token) => { },
     logout: () => { }
 });
@@ -24,15 +25,17 @@ export const AuthContextProvider = (props) => {
     const storeemployeeID = retriveStoredAuth();
     const [token, setToken] = useState(storeToken);
     const [employeeID, setemployeeID] = useState(storeemployeeID);
+    const [role, setRole] = useState('');
 
     const logoutHandler = () => {
         setToken(null);
         localStorage.removeItem('token');
     }
 
-    const loginHandler = (token, employeeID) => {
+    const loginHandler = (token, employeeID, role) => {
         setToken(token);
         setemployeeID(employeeID);
+        setRole(role)
         localStorage.setItem('token', token);
         localStorage.setItem('employeeID', employeeID);
     }
@@ -41,6 +44,7 @@ export const AuthContextProvider = (props) => {
         token: token,
         isLoggedIn: !!token,
         employeeID: employeeID,
+        role:role,
         login: loginHandler,
         logout: logoutHandler
     }

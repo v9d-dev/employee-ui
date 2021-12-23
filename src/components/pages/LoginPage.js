@@ -13,6 +13,7 @@ const LoginPage = () => {
 
   const history = useHistory();
   let employeeID = null;
+  let role = '';
 
   const responseGoogle = async (response) => {
       try {
@@ -20,38 +21,49 @@ const LoginPage = () => {
         const found = emailId.match(/successive.tech/g)[0];
 
         await axios.get(`http://localhost:4000/employee/auth/${response.googleId}`)
-        .then(res => {
-          employeeID = !!res.data && res.data
+        .then(async res => {
+          employeeID = !!res.data && res.data;
+          await axios.get(`http://localhost:4000/employee/${employeeID}`,
+          {
+              params: {
+                  username: employeeID,
+                  password: response.tokenId
+              }
+          }).then(res => {
+            role = res.data.roles;
+          })
+
         }).catch( (err) => {
           console.log('employee/auth ERROR===========', err)
         })
 
         if(!employeeID) {
           await axios.post(`http://localhost:4000/employee`, 
-          // {
-            // params: 
             {
               "fullName": response.profileObj.name,
               "mailId": emailId,
               "authID": response.profileObj.googleId,
               "roles": "EMPLOYEE",
-            // }
           },
-          // {
-          //   headers: {
-          //     'Authorization': response.tokenId
-          //   }
-          // }
+          {
+            params: {
+              username: 'New',
+              password: response.tokenId
+            }
+        }
           )
           .then(res => {
-            employeeID = res.data.id
+            employeeID = res.data.id;
+            role = res.data.roles;
           }).catch( (err) => {
             console.log('employee ERROR', err)
           })
         }
+
+
   
         if (!!found && !!response.tokenId) {
-          authCtx.login(response.tokenId, employeeID);
+          authCtx.login(response.tokenId, employeeID, role);
           history.push("/Home");
         }
       } catch (err) {

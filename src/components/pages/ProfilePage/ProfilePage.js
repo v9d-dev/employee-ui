@@ -14,6 +14,17 @@ import { update, increment } from '../../store/employeeDetails';
 import axios from 'axios';
 import { AuthContext } from '../../store/auth-context';
 import Image from '../../Layout/Image';
+import Grid from '@mui/material/Grid';
+import { styled } from '@mui/material/styles';
+import Paper from '@mui/material/Paper';
+
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import { fontWeight } from '@mui/system';
 
 const style = {
     position: 'absolute',
@@ -27,6 +38,12 @@ const style = {
     p: 4,
 };
 
+const Item = styled(Paper)(({ theme }) => ({
+    ...theme.typography.body2,
+    padding: theme.spacing(0),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+}));
 
 
 const ProfilePage = (props) => {
@@ -37,14 +54,14 @@ const ProfilePage = (props) => {
 
     const fetchUsers = () => {
         axios.get(`http://localhost:4000/employee/${authCtx.employeeID}`,
-        {
-            params: {
-              username: props.authCtx.employeeID,
-              password: props.authCtx.token
-            }
-        }).then(res => {
-            dispatch(update(res.data));
-        })
+            {
+                params: {
+                    username: props.authCtx.employeeID,
+                    password: props.authCtx.token
+                }
+            }).then(res => {
+                dispatch(update(res.data));
+            })
     }
 
     const userDetails = useSelector((state) => state.employeeReducer);
@@ -59,84 +76,235 @@ const ProfilePage = (props) => {
     })
 
     const {
-        id, fullName, mailId, mobileNumber, employeeId, buHead, reportingManager, dateOfJoining, dateOfBirth,
+        id, fullName, mailId, mobileNumber, employeeNumber, buHead, reportingManager, dateOfJoining, dateOfBirth,
         overallExperience, successiveExperience, currentDesignation, previousDesignation, earlierProject,
         currentProject, projectType, primaryKeySkill, secondaryKeySkill
     } = user;
 
     return (
-        <Card sx={{ maxWidth: '80%', minHeight: 500, marginTop: '5%', marginLeft: '18%' }}>
-            <div className={classes.divContainer1}>
-                <div>
-                    <div>
-                        <Image />
-                    </div>
-                    <div >
-                        <p>{fullName}</p>
-                        <p>Phone Number:- {mobileNumber}</p>
-                        <p>Email Id:- {mailId}</p>
-                        <p>Employee ID:- {employeeId}</p>
-                    </div>
 
-                    <div>
-                        <p>Date of Joinning: {dateOfJoining}</p>
-                        <p>Current Designation: {currentDesignation} </p>
-                        <p>Previous Designation: {previousDesignation}</p>
-                        <p>Date Of Birth: {dateOfBirth}</p>
-                    </div>
-                    <div>
-                        <p>Reporting Manager: {reportingManager} </p>
-                        <p>BU HEAD:{buHead}</p>
-                        <p>Over All Experience:{overallExperience}</p>
-                        <p>Successive Experience:{successiveExperience}</p>
-                    </div>
-                </div>
-                {/* <Button variant="contained" className={classes.Button} onClick={handleOpen} ><small>Edit Profile</small></Button> */}
-                <EditProfilePage />
-            </div>
-            <div className={classes.divContainer2}>
-                <div>
-                    <Typography sx={{ fontSize: 22 }} color="text.secondary"  >
-                        Earlier Project
-                    </Typography>
-                    <div>
-                        <Typography color="text.secondary" className={classes.typography} variant="p" component="p" gutterBottom> {earlierProject}</Typography>
-                    </div>
-                </div>
-                <div>
-                    <Typography sx={{ fontSize: 22 }} color="text.secondary">
-                        Current Project
-                    </Typography>
-                    <div>
-                        <Typography color="text.secondary" className={classes.typography} variant="p" component="p" gutterBottom> {currentProject}</Typography>
-                    </div>
-                </div>
-                <div>
-                    <Typography sx={{ fontSize: 22 }} color="text.secondary">
-                        Project Type
-                    </Typography>
-                    <div>
-                        <Typography color="text.secondary" className={classes.typography} variant="p" component="p" gutterBottom> {projectType}</Typography>
-                    </div>
-                </div>
-                <div>
-                    <Typography sx={{ fontSize: 22 }} color="text.secondary">
-                        Primary Key Skills
-                    </Typography>
-                    <div>
-                        <Typography color="text.secondary" className={classes.typography} variant="p" component="p" gutterBottom> {primaryKeySkill}</Typography>
-                    </div>
-                </div>
-                <div>
-                    <Typography sx={{ fontSize: 22 }} color="text.secondary">
-                        Secondray Key Skills
-                    </Typography>
-                    <div>
-                        <Typography color="text.secondary" className={classes.typography} variant="p" component="p" gutterBottom> {secondaryKeySkill}</Typography>
-                    </div>
-                </div>
-            </div>
-        </Card>
+        <Box sx={{ flexGrow: 1, width: "80%", float: "right", marginTop: "2%", marginRight: "2%" }}>
+            <EditProfilePage />
+            <Grid container spacing={0}>
+                <Grid container xs={12} sx={{height:"100%"}}>
+                <Grid item xs={4} >
+                    <Item sx={{ minHeight: "100%",  }}>
+                        <Image style={{ borderRadius: "20px", marginTop:"15%", width: "30%", alignCenter:"center" }} />
+                    </Item>
+                </Grid>
+                <Grid item xs={8}>
+                    <Item>
+                        <TableContainer component={Paper}>
+                            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                <TableBody>
+                                    <TableRow
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px" }}>
+                                            <p style={{ fontWeight: "bold", fontSize: "16px" }}> Full Name</p>
+                                        </TableCell>
+                                        <TableCell component="th" scope="row">
+                                            {fullName}
+                                        </TableCell>
+                                    </TableRow>
+
+                                    <TableRow
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px" }}>
+                                            <p style={{ fontWeight: "bold", fontSize: "16px" }}> Email</p>
+                                        </TableCell>
+                                        <TableCell component="th" scope="row">
+                                            {mailId}
+                                        </TableCell>
+                                    </TableRow>
+
+                                    <TableRow
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px" }}>
+                                            <p style={{ fontWeight: "bold", fontSize: "16px" }}> Contact Number</p>
+                                        </TableCell>
+                                        <TableCell component="th" scope="row">
+                                            {mobileNumber}
+                                        </TableCell>
+                                    </TableRow>
+
+                                    <TableRow
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px" }}>
+                                            <p style={{ fontWeight: "bold", fontSize: "16px" }}> Employee ID</p>
+                                        </TableCell>
+                                        <TableCell component="th" scope="row">
+                                            {employeeNumber}
+                                        </TableCell>
+                                    </TableRow>
+
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </Item>
+                </Grid>
+                </Grid>
+
+
+                <Grid item xs={12}>
+                    <Item>
+                        <TableContainer component={Paper}>
+                            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                <TableBody>
+                                    <TableRow
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px", width:"25%" }}>
+                                            <p style={{ fontWeight: "bold", fontSize: "16px" }}> Date of Joining</p>
+                                        </TableCell>
+                                        <TableCell component="th" scope="row">
+                                            {dateOfJoining}
+                                        </TableCell>
+                                    </TableRow>
+
+                                    <TableRow
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px", width:"25%" }}>
+                                            <p style={{ fontWeight: "bold", fontSize: "16px" }}> date Of Birth</p>
+                                        </TableCell>
+                                        <TableCell component="th" scope="row">
+                                            {dateOfBirth}
+                                        </TableCell>
+                                    </TableRow>
+
+                                    <TableRow
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px" }}>
+                                            <p style={{ fontWeight: "bold", fontSize: "16px" }}> Over All Experience</p>
+                                        </TableCell>
+                                        <TableCell component="th" scope="row">
+                                            {overallExperience}
+                                        </TableCell>
+                                    </TableRow>
+
+                                    <TableRow
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px" }}>
+                                            <p style={{ fontWeight: "bold", fontSize: "16px" }}> Successive Experience</p>
+                                        </TableCell>
+                                        <TableCell component="th" scope="row">
+                                            {successiveExperience}
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px" }}>
+                                            <p style={{ fontWeight: "bold", fontSize: "16px" }}> BU Head</p>
+                                        </TableCell>
+                                        <TableCell component="th" scope="row">
+                                            {buHead}
+                                        </TableCell>
+                                    </TableRow>
+
+                                    <TableRow
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px" }}>
+                                            <p style={{ fontWeight: "bold", fontSize: "16px" }}> Reporting Manager</p>
+                                        </TableCell>
+                                        <TableCell component="th" scope="row">
+                                            {reportingManager}
+                                        </TableCell>
+                                    </TableRow>
+
+                                    <TableRow
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px" }}>
+                                            <p style={{ fontWeight: "bold", fontSize: "16px" }}> Current Designation</p>
+                                        </TableCell>
+                                        <TableCell component="th" scope="row">
+                                            {currentDesignation}
+                                        </TableCell>
+                                    </TableRow>
+
+                                    <TableRow
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px" }}>
+                                            <p style={{ fontWeight: "bold", fontSize: "16px" }}>Previous Designation</p>
+                                        </TableCell>
+                                        <TableCell component="th" scope="row">
+                                            {previousDesignation}
+                                        </TableCell>
+                                    </TableRow>
+
+
+                                    <TableRow
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px" }}>
+                                            <p style={{ fontWeight: "bold", fontSize: "16px" }}> Earlier Project</p>
+                                        </TableCell>
+                                        <TableCell component="th" scope="row">
+                                            {earlierProject}
+                                        </TableCell>
+                                    </TableRow>
+
+                                    <TableRow
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px" }}>
+                                            <p style={{ fontWeight: "bold", fontSize: "16px" }}>Current Project</p>
+                                        </TableCell>
+                                        <TableCell component="th" scope="row">
+                                            {currentProject}
+                                        </TableCell>
+                                    </TableRow>
+
+                                    <TableRow
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px" }}>
+                                            <p style={{ fontWeight: "bold", fontSize: "16px" }}> Project Type</p>
+                                        </TableCell>
+                                        <TableCell component="th" scope="row">
+                                            {projectType}
+                                        </TableCell>
+                                    </TableRow>
+
+                                    <TableRow
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px" }}>
+                                            <p style={{ fontWeight: "bold", fontSize: "16px" }}>Primary Key Skill</p>
+                                        </TableCell>
+                                        <TableCell component="th" scope="row">
+                                            {primaryKeySkill}
+                                        </TableCell>
+                                    </TableRow>
+
+                                    <TableRow
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px" }}>
+                                            <p style={{ fontWeight: "bold", fontSize: "16px" }}>Secondary Key Skill</p>
+                                        </TableCell>
+                                        <TableCell component="th" scope="row">
+                                            {secondaryKeySkill}
+                                        </TableCell>
+                                    </TableRow>
+
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+
+                    </Item>
+                </Grid>
+            </Grid>
+        </Box>
     )
 }
 

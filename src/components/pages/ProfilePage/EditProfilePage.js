@@ -42,7 +42,7 @@ const EditProfilePage = (props) => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    const { id, fullName, mailId, mobileNumber, employeeId, buHead, reportingManager, dateOfJoining, dateOfBirth,
+    const { id, fullName, mailId, mobileNumber, employeeNumber, buHead, reportingManager, dateOfJoining, dateOfBirth,
         overallExperience, successiveExperience, currentDesignation, previousDesignation, earlierProject,
         currentProject, projectType, primaryKeySkill, secondaryKeySkill } = user;
 
@@ -64,11 +64,10 @@ const EditProfilePage = (props) => {
     const updateHandler = async () => {
         try {
             
-            console.log(' sssssssssssssssssssss:', authCtx.employeeID);
             await axios.patch(`http://localhost:4000/employee/${authCtx.employeeID}`, user, {
                 params: {
-                  username: props.authCtx.employeeID,
-                  password: props.authCtx.token
+                  username: authCtx.employeeID,
+                  password: authCtx.token
                 }
               });
         window.location.reload(true);
@@ -80,7 +79,7 @@ const EditProfilePage = (props) => {
 
 return (
     <>
-        <Button variant="contained" className={classes.Button} onClick={handleOpen} ><small>Edit Profile</small></Button>
+        <Button variant="contained" className={classes.Button} color="primary" onClick={handleOpen} ><small>Edit Profile</small></Button>
         <Modal
             open={open}
             onClose={handleClose}
@@ -103,7 +102,7 @@ return (
                                         <TextField label="Email" name="mailId" value={mailId} onChange={e => onInputChange(e)} fullWidth required />
                                     </Grid>
                                     <Grid xs={5} item>
-                                        <TextField label="Employee ID" name="employeeId" value={employeeId} disabled onChange={e => onInputChange(e)} fullWidth required />
+                                        <TextField label="Employee ID" name="employeeNumber" value={employeeNumber} onChange={e => onInputChange(e)} fullWidth required />
                                     </Grid>
                                     <Grid xs={7} item>
                                         <LocalizationProvider dateAdapter={AdapterDateFns} fullWidth>
@@ -160,12 +159,8 @@ return (
                                         </LocalizationProvider>
                                     </Grid>
 
-                                    <Grid xs={5} item>
+                                    <Grid xs={12} item>
                                         <TextField label="Project Type" name='projectType' value={projectType} onChange={e => onInputChange(e)} fullWidth required />
-                                    </Grid>
-
-                                    <Grid xs={7} item>
-                                        <TextField label="Current Designation" name='currentDesignation' value={currentDesignation} onChange={e => onInputChange(e)} fullWidth required />
                                     </Grid>
 
                                     <Grid xs={12} item>

@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import SidebarItems from "./SidebarItems";
 import { Link } from "react-router-dom";
 import '../../../src/global.css';
+import { AuthContext } from '../store/auth-context';
 
 function Sidebar() {
+    const authCtx = useContext(AuthContext);
     // const location = props.history.location;
     // const lastActiveIndexString = localStorage.getItem("lastActiveIndex");
     // const lastActiveIndex = Number(lastActiveIndexString);
@@ -30,7 +32,7 @@ function Sidebar() {
         <div className="SideBar">
             <ul className="SideBarList">
                 {
-                    SidebarItems.map((item, key) => {
+                    SidebarItems({ role: authCtx.role }).map((item, key) => {
                         return (
                             <Link to={item.route}>
                                 <li index={key}
