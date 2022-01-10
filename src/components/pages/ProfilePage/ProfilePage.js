@@ -83,16 +83,10 @@ const ProfilePage = (props) => {
 
     return (
 
-        <Box sx={{ flexGrow: 1, width: "80%", float: "right", marginTop: "2%", marginRight: "2%" }}>
+        <Box sx={{ flexGrow: 1, width: "80%", float: "right", marginTop: "5%", marginRight: "2%" }}>
             <EditProfilePage />
-            <Grid container spacing={0}>
-                <Grid container xs={12} sx={{height:"100%"}}>
-                <Grid item xs={4} >
-                    <Item sx={{ minHeight: "100%",  }}>
-                        <Image style={{ borderRadius: "20px", marginTop:"15%", width: "30%", alignCenter:"center" }} />
-                    </Item>
-                </Grid>
-                <Grid item xs={8}>
+            <Grid container spacing={2}>
+                <Grid item xs={6}>
                     <Item>
                         <TableContainer component={Paper}>
                             <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -140,20 +134,6 @@ const ProfilePage = (props) => {
                                             {employeeNumber}
                                         </TableCell>
                                     </TableRow>
-
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                    </Item>
-                </Grid>
-                </Grid>
-
-
-                <Grid item xs={12}>
-                    <Item>
-                        <TableContainer component={Paper}>
-                            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                                <TableBody>
                                     <TableRow
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
@@ -164,8 +144,17 @@ const ProfilePage = (props) => {
                                             {dateOfJoining}
                                         </TableCell>
                                     </TableRow>
-
-                                    <TableRow
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </Item>
+                </Grid>
+                <Grid item xs={6}>
+                    <Item>
+                        <TableContainer component={Paper}>
+                            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                <TableBody>
+                                <TableRow
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
                                         <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px", width:"25%" }}>
@@ -180,23 +169,24 @@ const ProfilePage = (props) => {
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
                                         <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px" }}>
-                                            <p style={{ fontWeight: "bold", fontSize: "16px" }}> Over All Experience</p>
+                                            <p style={{ fontWeight: "bold", fontSize: "16px" }}> Reporting Manager</p>
                                         </TableCell>
                                         <TableCell component="th" scope="row">
-                                            {overallExperience}
+                                            {reportingManager}
                                         </TableCell>
                                     </TableRow>
-
                                     <TableRow
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
                                         <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px" }}>
-                                            <p style={{ fontWeight: "bold", fontSize: "16px" }}> Successive Experience</p>
+                                            <p style={{ fontWeight: "bold", fontSize: "16px" }}>Current Project</p>
                                         </TableCell>
                                         <TableCell component="th" scope="row">
-                                            {successiveExperience}
+                                            {currentProject}
                                         </TableCell>
                                     </TableRow>
+
+
                                     <TableRow
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
@@ -207,26 +197,48 @@ const ProfilePage = (props) => {
                                             {buHead}
                                         </TableCell>
                                     </TableRow>
-
-                                    <TableRow
+                                      <TableRow
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
                                         <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px" }}>
-                                            <p style={{ fontWeight: "bold", fontSize: "16px" }}> Reporting Manager</p>
+                                            <p style={{ fontWeight: "bold", fontSize: "16px" }}> Project Type</p>
                                         </TableCell>
                                         <TableCell component="th" scope="row">
-                                            {reportingManager}
+                                            {projectType}
                                         </TableCell>
                                     </TableRow>
 
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </Item>
+                </Grid>
+
+
+                <Grid item xs={12}>
+                    <Item>
+                        <TableContainer component={Paper}>
+                            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                <TableBody>
+
+                                <TableRow
+                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px" }}>
+                                            <p style={{ fontWeight: "bold", fontSize: "16px" }}> Over All Experience</p>
+                                        </TableCell>
+                                        <TableCell component="th" scope="row">
+                                            {overallExperience}
+                                        </TableCell>
+                                    </TableRow>
                                     <TableRow
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
                                         <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px" }}>
-                                            <p style={{ fontWeight: "bold", fontSize: "16px" }}> Current Designation</p>
+                                            <p style={{ fontWeight: "bold", fontSize: "16px" }}> Successive Experience</p>
                                         </TableCell>
                                         <TableCell component="th" scope="row">
-                                            {currentDesignation}
+                                            {successiveExperience}
                                         </TableCell>
                                     </TableRow>
 
@@ -257,21 +269,10 @@ const ProfilePage = (props) => {
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
                                         <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px" }}>
-                                            <p style={{ fontWeight: "bold", fontSize: "16px" }}>Current Project</p>
+                                            <p style={{ fontWeight: "bold", fontSize: "16px" }}> Current Designation</p>
                                         </TableCell>
                                         <TableCell component="th" scope="row">
-                                            {currentProject}
-                                        </TableCell>
-                                    </TableRow>
-
-                                    <TableRow
-                                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                    >
-                                        <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px" }}>
-                                            <p style={{ fontWeight: "bold", fontSize: "16px" }}> Project Type</p>
-                                        </TableCell>
-                                        <TableCell component="th" scope="row">
-                                            {projectType}
+                                            {currentDesignation}
                                         </TableCell>
                                     </TableRow>
 
@@ -303,6 +304,7 @@ const ProfilePage = (props) => {
 
                     </Item>
                 </Grid>
+            {/* </Grid> */}
             </Grid>
         </Box>
     )
