@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   name: '',
-  techStack:[]
+  techStack:''
 }
 
 export const certificationSlice = createSlice({
@@ -13,13 +13,11 @@ export const certificationSlice = createSlice({
             state.name = action.payload.name;
         },
         updateTechStack: (state, action) => {
-        console.log('state :', state);
-        console.log('qqqqqqqqqqqqq', action.payload.techStack);
             state.techStack = action.payload.techStack;
         },
         reset: (state)=>{
             state.name = '';
-            state.techStack = [];
+            state.techStack = '';
         }
     },
     

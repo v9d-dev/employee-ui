@@ -1,19 +1,28 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = {}
+const initialState = {
+    name: '',
+    techStack:''
+}
 
 export const pocFilterSlice = createSlice({
     name: 'pocFilter',
     initialState,
     reducers: {
-        update: (state, action) => {
-            state.name = action.payload.fullName;
-            state.techStack = action.payload.techStack
+        updateName: (state, action) => {
+            state.name = action.payload.name;
+        },
+        updateTechStack: (state, action) => {
+            state.techStack = action.payload.techStack;
+        },
+        reset: (state)=>{
+            state.name = '';
+            state.techStack = '';
         }
     },
 })
 
 // Action creators are generated for each case reducer function
-export const { update } = pocFilterSlice.actions
+export const { updateName,  updateTechStack, reset } = pocFilterSlice.actions
 
 export default pocFilterSlice.reducer;

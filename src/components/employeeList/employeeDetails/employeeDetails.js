@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Container, Typography, TableContainer, Table, TableBody, TableHead, TableRow, TableCell, TablePagination, TableFooter } from "@material-ui/core";
+import { Container, Typography, TableContainer, Table, TableBody, TableHead, TableRow, TableCell, TablePagination } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import data from '../data/data.json';
-import SearchBar from "material-ui-search-bar";
 import Stack from '@mui/material/Stack';
 import { useButton } from '@mui/base/ButtonUnstyled';
 import { styled } from '@mui/system';
@@ -14,16 +13,9 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import PreviewIcon from '@mui/icons-material/Preview';
 import DeleteIcon from '@mui/icons-material/Delete';
-// import FilterSearchBar from "../../Layout/FilterSearchBar/FilterSearchBar";
-
-
-const options = [
-  'FullName',
-  'BU Head',
-  'Reporting Manager',
-  'Tech Stack',
-];
-
+import Filter from '../../Layout/FilterSearchBar/Filter';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateName,  updateOverAllExp, updatePrimarySkill, updateSecondarySkill } from '../../store/employeeListFilter';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -135,10 +127,9 @@ const EmployeeDeatils = (props) => {
   const [rowPerPage, setRowPerPage] = useState(15);
   const classes = useStyles();
   const [rows, setRows] = useState([]);
-  const [searched, setSearched] = useState("");
-
-  // const[csvFile, setCsvFile] = ("");
-  // const[csvArray, setCsvArray]= ("");
+  const [flag, setFlag] = useState(false);
+  const dispatch = useDispatch();
+  const filterData = useSelector((state) => state.employeeListFilterReducer);
 
   const onChangePage = (event, newPage) => {
     setPage(newPage)
@@ -146,28 +137,17 @@ const EmployeeDeatils = (props) => {
   }
 
   useEffect(() => {
-    axios.get(`http://localhost:4000/employee`, {
-      params: {
-        username: props.authCtx.employeeID,
-        password: props.authCtx.token
-      }
-    }
-    )
-      .then(res => {
-        setRows(res.data)
-      })
-
-  }, []);
-
-  useEffect(() => {
     loadUsers();
-  }, []);
+  }, [filterData, props.authCtx]);
 
   const loadUsers = async () => {
     const result = await axios.get("http://localhost:4000/employee", {
       params: {
         username: props.authCtx.employeeID,
-        password: props.authCtx.token
+        password: props.authCtx.token,
+        filters: {
+          ...filterData
+        }
       }
     });
     setRows(result.data);
@@ -183,46 +163,6 @@ const EmployeeDeatils = (props) => {
     loadUsers();
   };
 
-  const searchBarHandler = (data) => {
-
-    setTimeout(()=>{
-      setRows(data.result);
-    },[1000])
-    
-
-    console.log('111111111111111111111',rows);
-  }
-
-
-  // const processCsv = (str, delim=',')=>{
-  //   const headers = str.slice(0, str.indexOf('\n')).split(delim);
-  //   const rows = str.slice(str.indexOf('\n')+1).split('\n');
-
-  //   const newArray = rows.map(row=>{
-  //     const values= row.split(delim);
-  //     const eachObject = headers.reduce((obj, header, i )=>{
-  //       obj[header] = values[i];
-  //       return obj
-  //     },{})
-  //     return eachObject;
-  //   }) 
-  //    setCsvArray(newArray);
-
-  // }
-  // const uploadCsv = ()=>{
-
-  //   const file = csvFile;
-
-  //   const reader = new FileReader();
-
-  //   reader.onload = function(e){
-  //     const text = e.target.result;
-  //     processCsv(text);
-  //     console.log(text);
-  //   }
-  //   reader.readAsText(file);
-
-  // }
   const onChangeRowsPerPage = (event) => {
     setRowPerPage(event.target.value);
   }
@@ -285,6 +225,25 @@ const EmployeeDeatils = (props) => {
     download(csvData);
   }
 
+  const filterHandler = (type, filterValue) => {
+    if (type === 'fullName') {
+        dispatch(updateName({ "fullName": filterValue }));
+        setFlag(!flag);
+    }
+    if (type === 'overallExperience') {
+        dispatch(updateOverAllExp({ 'overallExperience': filterValue }));
+        setFlag(!flag);
+    }
+    if (type === 'primaryKeySkill') {
+      dispatch(updatePrimarySkill({ "primaryKeySkill": filterValue }));
+      setFlag(!flag);
+    }
+    if (type === 'secondaryKeySkill') {
+        dispatch(updateSecondarySkill({ 'secondaryKeySkill': filterValue }));
+        setFlag(!flag);
+    }
+}
+
   return (
     <>
       <paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -295,10 +254,12 @@ const EmployeeDeatils = (props) => {
             </Typography>
             <CustomButton onClick={getCsvReport}>Export</CustomButton>
           </Stack>
-
-          {/* <div className="searchbar"> */}
-            {/* <FilterSearchBar {...props} filterSearchbar ={searchBarHandler} /> */}
-          {/* </div> */}
+          <div style={{display:"flex"}}>
+            <Filter filterName="Name" type="fullName" filterData={filterHandler} />
+            <Filter filterName="OverAll Experience" type="overallExperience" filterData={filterHandler} />
+            <Filter filterName="Primary Skill" type="primaryKeySkill" filterData={filterHandler} />
+            <Filter filterName="Secondary Skill" type="secondaryKeySkill" filterData={filterHandler} />
+          </div>
           <StyledTableContainer sx={{ maxHeight: 440 }} >
             <div className="main_table">
               <Table>
@@ -365,7 +326,7 @@ const EmployeeDeatils = (props) => {
 
                 </StyledTableHead>
                  <TableBody>
-                  {rows.length!=0 && rows.slice(page * rowPerPage, page * rowPerPage + rowPerPage).map((user) => (
+                  {rows.length!==0 && rows.slice(page * rowPerPage, page * rowPerPage + rowPerPage).map((user) => (
 
                     <TableRow key={rows.name}>
                       <StyledTableCell >
@@ -414,10 +375,10 @@ const EmployeeDeatils = (props) => {
                         {user.projectType}
                       </StyledTableCell >
                       <StyledTableCell >
-                        {user.primaryKeySkill}
+                        {user.primaryKeySkill.toString().replace(',', ', ')}
                       </StyledTableCell >
                       <StyledTableCell >
-                        {user.secondaryKeySkill}
+                        {user.secondaryKeySkill.toString().replace(',', ', ')}
                       </StyledTableCell >
                       <StyledTableCell >
                         {user.roleId}

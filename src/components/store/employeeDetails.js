@@ -26,6 +26,7 @@ export const employeeDetailSlice = createSlice({
     state.secondaryKeySkill = action.payload.secondaryKeySkill
     state.poc = action.payload.poc
     state.certification = action.payload.certification
+    state.roles = action.payload.roles
     }
   },
 })
