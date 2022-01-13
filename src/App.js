@@ -21,12 +21,13 @@ function App() {
 
   const AuthRoute = props => {
     const { isLoggedIn, type, path } = props;
+    console.log('isLoggedIn, type, path :', isLoggedIn, type, path);
     if (type !== "private" && !isLoggedIn) {
       return <Route path='/' exact><LoginPage /></Route>;
     }
     else if (type === "private" && !isLoggedIn) {
       return <Redirect to="/" />;
-    } else if(type === "private" && !!isLoggedIn && path=='/'){
+    } else if( !!isLoggedIn && path=='/'){
       return <Redirect to="/Home" /> 
     }
     return <Route {...props} > {props.children}</Route>;
