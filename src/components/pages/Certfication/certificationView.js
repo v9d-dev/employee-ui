@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableRow, CircularProgress, styled, TableHead } from '@mui/material';
-import Card from '@mui/material/Card';
+import { Grid, Paper, Table, TableBody, TableCell, TableContainer, TableRow, CircularProgress, styled, TableHead } from '@mui/material';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import '../../pages/Certfication/certification.css';
-import Image from '../../Layout/Image';
 
 const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
@@ -17,10 +15,11 @@ const Item = styled(Paper)(({ theme }) => ({
 const CertificationView = (props) => {
     const [details, setDetails] = useState([])
     const { id } = useParams();
+    const ID = !!id ? id : props.id;
 
     useEffect(() => {
         async function getResults() {
-            const results = await axios.get(`http://localhost:4000/certification/${id}`, {
+            const results = await axios.get(`http://localhost:4000/certification/${ID}`, {
                 params: {
                     username: props.authCtx.employeeID,
                     password: props.authCtx.token
@@ -36,7 +35,7 @@ const CertificationView = (props) => {
     }, []);
 
     const loadUser = async () => {
-        const res = await axios.get(`http://localhost:4000/certification${id}`);
+        const res = await axios.get(`http://localhost:4000/certification${ID}`);
         setDetails(res.data);
     };
 

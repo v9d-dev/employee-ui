@@ -18,10 +18,11 @@ const PocView = (props) => {
 
     const [details, setDetails] = useState([])
     const { id } = useParams();
+    const ID = !!id ? id : props.id;
 
     useEffect(() => {
         async function getResults() {
-            const results = await axios.get(`http://localhost:4000/poc/${id}`, {
+            const results = await axios.get(`http://localhost:4000/poc/${ID}`, {
                 params: {
                     username: props.authCtx.employeeID,
                     password: props.authCtx.token
@@ -37,7 +38,7 @@ const PocView = (props) => {
     }, []);
 
     const loadUser = async () => {
-        const res = await axios.get(`http://localhost:4000/poc${id}`);
+        const res = await axios.get(`http://localhost:4000/poc${ID}`);
         console.log("result is----------------", res);
         setDetails(res.data);
     };
