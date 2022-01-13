@@ -166,7 +166,7 @@ export default function POC(props) {
     setRowPerPage(event.target.value);
   }
   const history = useHistory();
-  const navigateTo = () => history.push('/AddDetails');
+  const navigateTo = () => history.push('/POC/Add');
 
 
   const getCsvReport = function () {

@@ -12,6 +12,9 @@ import { Link } from "react-router-dom";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import PreviewIcon from '@mui/icons-material/Preview';
+import Filter from '../../Layout/FilterSearchBar/Filter';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateName, updateTechStack, reset } from '../../store/certificationFilter';
 
 const CustomButtonRoot = styled('button')`
   background-color: #007fff;
@@ -102,14 +105,29 @@ export default function Certification(props) {
     const [rowPerPage, setRowPerPage] = useState(15);
     const [rows, setRows] = useState([]);
     const [searched, setSearched] = useState("");
+    const [flag, setFlag] = useState(false);
     const classes = useStyles();
+    const dispatch = useDispatch();
+    const filterData = useSelector((state) => state.certificationFilterReducer);
+
+    useEffect(async () => {
+        const filtered = await axios.post('http://localhost:4000/certification/getdatabyfilter', {
+            "filter": filterData
+        }, {
+            params: {
+                username: props.authCtx.employeeID,
+                password: props.authCtx.token
+            }
+        })
+        setRows(filtered.data.result);
+    },[filterData.name, filterData.techStack]);
 
     useEffect(() => {
         axios.get(`http://localhost:4000/certification`, {
             params: {
                 username: props.authCtx.employeeID,
                 password: props.authCtx.token
-              }
+            }
         })
             .then(res => {
                 setRows(res.data)
@@ -130,88 +148,101 @@ export default function Certification(props) {
             params: {
                 username: props.authCtx.employeeID,
                 password: props.authCtx.token
-              }
+            }
         });
         setRows(result.data);
     };
 
-
-    const requestSearch = (searchedVal) => {
-        const filteredRows = rows.filter((row) => {
-            return row.name.toLowerCase().includes(searchedVal.toLowerCase());
-        });
-        setRows(filteredRows);
-    };
 
     const deleteUser = async id => {
         await axios.delete(`http://localhost:4000/certification/${id}`, {
             params: {
                 username: props.authCtx.employeeID,
                 password: props.authCtx.token
-              }
+            }
         });
         loadUsers();
         window.location.reload(true);
     };
 
 
-    const cancelSearch = () => {
-        setSearched("");
-        requestSearch(searched);
-    };
+    // const cancelSearch = () => {
+    //     setSearched("");
+    //     requestSearch(searched);
+    // };
 
     const onChangeRowsPerPage = (event) => {
         setRowPerPage(event.target.value);
     }
     const history = useHistory();
-    const navigateTo = () => history.push('/AddCertification');
+    const navigateTo = () => history.push('/Certification/Add');
 
 
     const getCsvReport = function () {
 
         const resData = rows.map(row => ({
-          name:row.name,
-          techStack: row.techStack,
-          price:row.price,
-          complitionDate:row.complitionDate,
-          expireDate:row.expireDate,
-          employee_id:row.employee_id
+            name: row.name,
+            techStack: row.techStack,
+            price: row.price,
+            complitionDate: row.complitionDate,
+            expireDate: row.expireDate,
+            employee_id: row.employee_id
         }));
-    
+
         const download = function (resData) {
-          const blob = new Blob([resData], { type: 'text/csv' });
-          const url = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.setAttribute('hidden', '');
-          a.setAttribute('href', url);
-          a.setAttribute('download', 'certification.csv');
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
+            const blob = new Blob([resData], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.setAttribute('hidden', '');
+            a.setAttribute('href', url);
+            a.setAttribute('download', 'certification.csv');
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
         };
-    
+
         const objectToCsv = function (resData) {
-          console.log("ssssssssssssssssss resData", resData)
-          const csvRows = []
-          const headers = Object.keys(resData[0]);
-          csvRows.push(headers.join(','));
-    
-          for (const row of resData) {
-            const values = headers.map(header => {
-              //Dont remove this commented line----  
-              // const escaped= (''+row[header]).replace(/"/g,'\\"');
-              // return `"${escaped}"`;
-              return row[header];
-    
-            });
-            csvRows.push(values.join(','));
-          };
-          return csvRows.join('\n');
+            console.log("ssssssssssssssssss resData", resData)
+            const csvRows = []
+            const headers = Object.keys(resData[0]);
+            csvRows.push(headers.join(','));
+
+            for (const row of resData) {
+                const values = headers.map(header => {
+                    //Dont remove this commented line----  
+                    // const escaped= (''+row[header]).replace(/"/g,'\\"');
+                    // return `"${escaped}"`;
+                    return row[header];
+
+                });
+                csvRows.push(values.join(','));
+            };
+            return csvRows.join('\n');
         }
         const csvData = objectToCsv(resData)
         download(csvData);
-      }
-    
+    }
+
+    const transformIntoArray = (value) => {
+        if (value.indexOf(',') > -1) {
+            const val = value.split(',');
+            return val.map(el => el.trim())
+        } else {
+            return [value.trim()];
+        }
+    }
+
+    const filterHandler = (type, filterValue) => {
+        if (type == 'name') {
+            dispatch(updateName({ "name": filterValue }));
+            setFlag(!flag);
+        }
+        if (type == 'techStack') {
+            const val = transformIntoArray(filterValue)
+            dispatch(updateTechStack({ 'techStack': val }));
+            setFlag(!flag);
+        }
+    }
 
     return (
         <>
@@ -224,94 +255,91 @@ export default function Certification(props) {
             </Stack>
             <paper>
                 <Container className={classes.root}>
-                    <div className="searchBarPoc">
-                        <SearchBar
-                            value={searched}
-                            onChange={(searchVal) => requestSearch(searchVal)}
-                            onCancelSearch={() => cancelSearch()}
-                        />
+                    <div style={{display:"flex"}}>
+                        <Filter filterName="Name" type="name" filterData={filterHandler} />
+                        <Filter filterName="TechStack" type="techStack" filterData={filterHandler} />
                     </div>
                     <StyledTableContainer>
-                    <div className ="main_table">
-                        <Table>
-                            <StyledTableHead>
-                                <TableRow>
-                                    <StyledTableCell >
-                                        Name
-                                    </StyledTableCell >
-                                    <StyledTableCell >
-                                        Tech Stack
-                                    </StyledTableCell >
-                                    <StyledTableCell >
-                                        Price
-                                    </StyledTableCell >
-                                    <StyledTableCell >
-                                        Completion Date
-                                    </StyledTableCell >
-                                    <StyledTableCell >
-                                        Expire Date
-                                    </StyledTableCell >
-                                    <StyledTableCell >
-                                        Employee Id
-                                    </StyledTableCell >
-                                    <StyledTableCell >
-                                        Actions
-                                    </StyledTableCell >
-                                </TableRow>
-
-                            </StyledTableHead>
-                            <TableBody>
-                                {rows.slice(page * rowPerPage, page * rowPerPage + rowPerPage).map((user) => (
-                                    <TableRow key={rows.name}>
+                        <div className="main_table">
+                            <Table>
+                                <StyledTableHead>
+                                    <TableRow>
                                         <StyledTableCell >
-                                            {user.name}
+                                            Name
                                         </StyledTableCell >
                                         <StyledTableCell >
-                                            {user.techStack}
+                                            Tech Stack
                                         </StyledTableCell >
                                         <StyledTableCell >
-                                            {user.price}
+                                            Price
                                         </StyledTableCell >
                                         <StyledTableCell >
-                                            {user.complitionDate}
+                                            Completion Date
                                         </StyledTableCell >
                                         <StyledTableCell >
-                                            {user.expireDate}
+                                            Expire Date
                                         </StyledTableCell >
                                         <StyledTableCell >
-                                            {user.employee_id}
+                                            Employee Id
                                         </StyledTableCell >
-                                        <StyledTableCell>
-                                                    <Link class="btn btn-primary mr-2" to={`/certification/view/${user.id}`}>
-                                                    <PreviewIcon/>
-                                                     </Link>
-                                            <Link
-                                                to={`/certification/edit/${user.id}`}
-                                            >
-                                            <EditIcon />
-                                            </Link>
-                                            <Link
-                                            onClick={() => deleteUser(user.id)}
-                                            to="#"
-                                            >
-                                             <DeleteIcon />
-                                            </Link>
-                                        </StyledTableCell>
+                                        <StyledTableCell >
+                                            Actions
+                                        </StyledTableCell >
                                     </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
+
+                                </StyledTableHead>
+                                <TableBody>
+                                    {rows.slice(page * rowPerPage, page * rowPerPage + rowPerPage).map((user) => (
+                                        <TableRow key={rows.name}>
+                                            <StyledTableCell >
+                                                {user.name}
+                                            </StyledTableCell >
+                                            <StyledTableCell >
+                                                {user.techStack}
+                                            </StyledTableCell >
+                                            <StyledTableCell >
+                                                {user.price}
+                                            </StyledTableCell >
+                                            <StyledTableCell >
+                                                {user.complitionDate}
+                                            </StyledTableCell >
+                                            <StyledTableCell >
+                                                {user.expireDate}
+                                            </StyledTableCell >
+                                            <StyledTableCell >
+                                                {user.employee_id}
+                                            </StyledTableCell >
+                                            <StyledTableCell>
+                                                <Link class="btn btn-primary mr-2" to={`/certification/view/${user.id}`}>
+                                                    <PreviewIcon />
+                                                </Link>
+                                                <Link
+                                                    to={`/certification/edit/${user.id}`}
+                                                >
+                                                    <EditIcon />
+                                                </Link>
+                                                <Link
+                                                    onClick={() => deleteUser(user.id)}
+                                                    to="#"
+                                                >
+                                                    <DeleteIcon />
+                                                </Link>
+                                            </StyledTableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
                         </div>
-                                <TableRow>
-                                    <TablePagination
-                                        rowsPerPageOptions={[5, 10, 15, 20, 25]}
-                                        count={rows.length}
-                                        rowsPerPage={rowPerPage}
-                                        page={page}
-                                        onChangePage={onChangePage}
-                                        onChangeRowsPerPage={onChangeRowsPerPage}
-                                    />
-                                </TableRow>
+                        <TableRow>
+                            <TablePagination
+                                rowsPerPageOptions={[5, 10, 15, 20, 25]}
+                                count={rows.length}
+                                rowsPerPage={rowPerPage}
+                                page={page}
+                                onChangePage={onChangePage}
+                                onChangeRowsPerPage={onChangeRowsPerPage}
+                            />
+                        </TableRow>
                     </StyledTableContainer>
                 </Container>
             </paper>

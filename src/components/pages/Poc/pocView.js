@@ -4,6 +4,7 @@ import Card from '@mui/material/Card';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import '../../pages/Poc/poc.css';
+import Image from '../../Layout/Image';
 
 const PocView = (props) => {
 
@@ -39,7 +40,7 @@ const PocView = (props) => {
                 <div className="divContainer1">
                     <div className="poc_details">
                         <div>
-                            <img src='https://lh3.googleusercontent.com/a/AATXAJwehSK25ZijXShwp799RRb_WTIwN97Oyze3AoDAsA=s96-c' />
+                            <Image />
                         </div>
                         <div className="poc_content">
                             <p>Name: -<span style={{marginLeft:"9rem"}}>{details.name}</span> </p>

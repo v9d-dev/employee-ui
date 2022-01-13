@@ -12,7 +12,7 @@ const Items = [
     },
     {
         name: "Employee List",
-        route: '/EmployeeDetails',
+        route: '/EmployeeList',
         icon: <PeopleIcon/>
     },
     {

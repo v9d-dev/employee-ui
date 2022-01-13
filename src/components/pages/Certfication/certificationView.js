@@ -4,6 +4,7 @@ import Card from '@mui/material/Card';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import '../../pages/Certfication/certification.css';
+import Image from '../../Layout/Image';
 
 const CertificationView = (props) => {
     const [details, setDetails] = useState([])
@@ -37,7 +38,7 @@ const CertificationView = (props) => {
                 <div className="divContainer1">
                     <div className="certification_details">
                         <div>
-                            <img src='https://lh3.googleusercontent.com/a/AATXAJwehSK25ZijXShwp799RRb_WTIwN97Oyze3AoDAsA=s96-c' />
+                            <Image />
                         </div>
                         <div className="content" >
                             <p>Name :- <span style={{marginLeft:"127px"}}>{details.name}</span></p>

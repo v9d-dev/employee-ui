@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container,  Typography, TableContainer, Table, TableBody, TableHead, TableRow, TableCell, TablePagination, TableFooter } from "@material-ui/core";
+import { Container, Typography, TableContainer, Table, TableBody, TableHead, TableRow, TableCell, TablePagination, TableFooter } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import data from '../data/data.json';
 import SearchBar from "material-ui-search-bar";
@@ -14,6 +14,15 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import PreviewIcon from '@mui/icons-material/Preview';
 import DeleteIcon from '@mui/icons-material/Delete';
+// import FilterSearchBar from "../../Layout/FilterSearchBar/FilterSearchBar";
+
+
+const options = [
+  'FullName',
+  'BU Head',
+  'Reporting Manager',
+  'Tech Stack',
+];
 
 
 const useStyles = makeStyles((theme) => ({
@@ -127,15 +136,17 @@ const EmployeeDeatils = (props) => {
   const classes = useStyles();
   const [rows, setRows] = useState([]);
   const [searched, setSearched] = useState("");
+
   // const[csvFile, setCsvFile] = ("");
   // const[csvArray, setCsvArray]= ("");
+
   const onChangePage = (event, newPage) => {
     setPage(newPage)
 
   }
 
   useEffect(() => {
-    axios.get(`http://localhost:4000/employee`,{
+    axios.get(`http://localhost:4000/employee`, {
       params: {
         username: props.authCtx.employeeID,
         password: props.authCtx.token
@@ -163,16 +174,25 @@ const EmployeeDeatils = (props) => {
   };
 
   const deleteUser = async id => {
-    await axios.delete(`http://localhost:4000/employee/${id}`,{
+    await axios.delete(`http://localhost:4000/employee/${id}`, {
       params: {
         username: props.authCtx.employeeID,
         password: props.authCtx.token
       }
     });
     loadUsers();
-    // window.location.reload();
   };
-  
+
+  const searchBarHandler = (data) => {
+
+    setTimeout(()=>{
+      setRows(data.result);
+    },[1000])
+    
+
+    console.log('111111111111111111111',rows);
+  }
+
 
   // const processCsv = (str, delim=',')=>{
   //   const headers = str.slice(0, str.indexOf('\n')).split(delim);
@@ -201,45 +221,35 @@ const EmployeeDeatils = (props) => {
   //     console.log(text);
   //   }
   //   reader.readAsText(file);
- 
+
   // }
   const onChangeRowsPerPage = (event) => {
     setRowPerPage(event.target.value);
   }
 
-  const requestSearch = (searchedVal) => {
-    const filteredRows = data.filter((row) => {
-      return row.name.toLowerCase().includes(searchedVal.toLowerCase());
-    });
-    setRows(filteredRows);
-  };
 
-  const cancelSearch = () => {
-    setSearched("");
-    requestSearch(searched);
-  };
 
   const getCsvReport = function () {
 
     const resData = rows.map(row => ({
-      employeeNumber:row.employeeNumber,
-      fullName:row.fullName,
-      previousDesignation:row.previousDesignation,
-      currentDesignation:row.currentDesignation,
-      dateOfJoining:row.dateOfJoining,
-      dateOfBirth:row.dateOfBirth,
-      mailId:row.mailId,
-      mobileNumber:row.mobileNumber,
-      reportingManager:row.reportingManager,
-      buHead:row.buHead,
-      overallExperience:row.overallExperience,
-      successiveExperience:row.successiveExperience,
-      earlierProject:row.earlierProject,
-      currentProject:row.currentProject,
-      projectType:row.projectType,
-      primaryKeySkill:row.primaryKeySkill,
-      secondaryKeySkill:row.secondaryKeySkill,
-      roleId:row.roleId
+      employeeNumber: row.employeeNumber,
+      fullName: row.fullName,
+      previousDesignation: row.previousDesignation,
+      currentDesignation: row.currentDesignation,
+      dateOfJoining: row.dateOfJoining,
+      dateOfBirth: row.dateOfBirth,
+      mailId: row.mailId,
+      mobileNumber: row.mobileNumber,
+      reportingManager: row.reportingManager,
+      buHead: row.buHead,
+      overallExperience: row.overallExperience,
+      successiveExperience: row.successiveExperience,
+      earlierProject: row.earlierProject,
+      currentProject: row.currentProject,
+      projectType: row.projectType,
+      primaryKeySkill: row.primaryKeySkill,
+      secondaryKeySkill: row.secondaryKeySkill,
+      roleId: row.roleId
     }));
 
     const download = function (resData) {
@@ -261,7 +271,7 @@ const EmployeeDeatils = (props) => {
 
       for (const row of resData) {
         const values = headers.map(header => {
-           //Dont remove this commented line----  
+          //Dont remove this commented line----  
           // const escaped= (''+row[header]).replace(/"/g,'\\"');
           // return `"${escaped}"`;
           return row[header];
@@ -281,170 +291,166 @@ const EmployeeDeatils = (props) => {
         <Container className={classes.root} >
           <Stack spacing={2} direction="row">
             <Typography variant="h4" align="center" style={{ marginRight: "68rem", color: "#5B5d5F" }}>
-             Employee List Table
+              Employee List Table
             </Typography>
             <CustomButton onClick={getCsvReport}>Export</CustomButton>
           </Stack>
-          <div className="searchbar">
-            <SearchBar
-               align="end"
-              value={searched}
-              onChange={(searchVal) => requestSearch(searchVal)}
-              onCancelSearch={() => cancelSearch()}
-            />
-          </div>
-          <StyledTableContainer sx={{ maxHeight: 440 }} >
-          <div className ="main_table">
-            <Table>
-              <StyledTableHead>
-                <TableRow>
-                  <StyledTableCell >
-                  Employee Number
-                  </StyledTableCell >
-                  <StyledTableCell >
-                  Full Name
-                  </StyledTableCell >
-                  <StyledTableCell >
-                  Previous Designation
-                  </StyledTableCell >
-                  <StyledTableCell >
-                  Current Designation
-                  </StyledTableCell >
-                  <StyledTableCell >
-                  Date OfJoining
-                  </StyledTableCell >
-                  <StyledTableCell >
-                  Date Of Birth
-                  </StyledTableCell >
-                  <StyledTableCell >
-                  Email Id
-                  </StyledTableCell >
-                  <StyledTableCell >
-                  Mobile Number
-                  </StyledTableCell >
-                  <StyledTableCell >
-                  Reporting Manager
-                  </StyledTableCell >
-                  <StyledTableCell >
-                  BU Head
-                  </StyledTableCell >
-                  <StyledTableCell >
-                  Overall Experience
-                  </StyledTableCell >
-                  <StyledTableCell >
-                  Successive Experience
-                  </StyledTableCell >
-                  <StyledTableCell >
-                  Earlier Project
-                  </StyledTableCell >
-                  <StyledTableCell >
-                  Current Project
-                  </StyledTableCell >
-                  <StyledTableCell >
-                  Project Type
-                  </StyledTableCell >
-                  <StyledTableCell >
-                  PrimaryKey Skill
-                  </StyledTableCell >
-                  <StyledTableCell >
-                  SecondaryKey Skill
-                  </StyledTableCell >
-                  <StyledTableCell >
-                  roleId
-                  </StyledTableCell >
-                  <StyledTableCell >
-                    Actions
-                  </StyledTableCell >
-                </TableRow>
 
-              </StyledTableHead>
-              <TableBody>
-                {rows.slice(page * rowPerPage, page * rowPerPage + rowPerPage).map((user) => (
-                  
-                  <TableRow key={rows.name}>
+          {/* <div className="searchbar"> */}
+            {/* <FilterSearchBar {...props} filterSearchbar ={searchBarHandler} /> */}
+          {/* </div> */}
+          <StyledTableContainer sx={{ maxHeight: 440 }} >
+            <div className="main_table">
+              <Table>
+                <StyledTableHead>
+                  <TableRow>
                     <StyledTableCell >
-                      {user.employeeNumber}
+                      Employee Number
                     </StyledTableCell >
                     <StyledTableCell >
-                      {user.fullName}
+                      Full Name
                     </StyledTableCell >
                     <StyledTableCell >
-                      {user.previousDesignation}
+                      Previous Designation
                     </StyledTableCell >
                     <StyledTableCell >
-                      {user.currentDesignation}
+                      Current Designation
                     </StyledTableCell >
                     <StyledTableCell >
-                      {user.dateOfJoining}
+                      Date OfJoining
                     </StyledTableCell >
                     <StyledTableCell >
-                      {user.dateOfBirth}
+                      Date Of Birth
                     </StyledTableCell >
                     <StyledTableCell >
-                      {user.mailId}
+                      Email Id
                     </StyledTableCell >
                     <StyledTableCell >
-                      {user.mobileNumber}
+                      Mobile Number
                     </StyledTableCell >
                     <StyledTableCell >
-                      {user.reportingManager}
+                      Reporting Manager
                     </StyledTableCell >
                     <StyledTableCell >
-                      {user.buHead}
+                      BU Head
                     </StyledTableCell >
                     <StyledTableCell >
-                      {user.overallExperience}
+                      Overall Experience
                     </StyledTableCell >
                     <StyledTableCell >
-                      {user.successiveExperience}
+                      Successive Experience
                     </StyledTableCell >
                     <StyledTableCell >
-                      {user.earlierProject}
+                      Earlier Project
                     </StyledTableCell >
                     <StyledTableCell >
-                      {user.currentProject}
+                      Current Project
                     </StyledTableCell >
                     <StyledTableCell >
-                      {user.projectType}
+                      Project Type
                     </StyledTableCell >
                     <StyledTableCell >
-                      {user.primaryKeySkill}
+                      PrimaryKey Skill
                     </StyledTableCell >
                     <StyledTableCell >
-                      {user.secondaryKeySkill}
+                      SecondaryKey Skill
                     </StyledTableCell >
                     <StyledTableCell >
-                      {user.roleId}
+                      roleId
                     </StyledTableCell >
-                    <StyledTableCell>
-                    <Link
-                    to={`/employee/view/${user.id}`}
-                    >
-                    <PreviewIcon/>
-                    </Link>
-                    <Link
-                    onClick={() => deleteUser(user.id)}
-                    to="#"
-                  >
-                    <DeleteIcon/>
-                  </Link>
-                    </StyledTableCell>
+                    <StyledTableCell >
+                      Actions
+                    </StyledTableCell >
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+
+                </StyledTableHead>
+                 <TableBody>
+                  {rows.length!=0 && rows.slice(page * rowPerPage, page * rowPerPage + rowPerPage).map((user) => (
+
+                    <TableRow key={rows.name}>
+                      <StyledTableCell >
+                        {user.employeeNumber}
+                      </StyledTableCell >
+                      <StyledTableCell >
+                        {user.fullName}
+                      </StyledTableCell >
+                      <StyledTableCell >
+                        {user.previousDesignation}
+                      </StyledTableCell >
+                      <StyledTableCell >
+                        {user.currentDesignation}
+                      </StyledTableCell >
+                      <StyledTableCell >
+                        {user.dateOfJoining}
+                      </StyledTableCell >
+                      <StyledTableCell >
+                        {user.dateOfBirth}
+                      </StyledTableCell >
+                      <StyledTableCell >
+                        {user.mailId}
+                      </StyledTableCell >
+                      <StyledTableCell >
+                        {user.mobileNumber}
+                      </StyledTableCell >
+                      <StyledTableCell >
+                        {user.reportingManager}
+                      </StyledTableCell >
+                      <StyledTableCell >
+                        {user.buHead}
+                      </StyledTableCell >
+                      <StyledTableCell >
+                        {user.overallExperience}
+                      </StyledTableCell >
+                      <StyledTableCell >
+                        {user.successiveExperience}
+                      </StyledTableCell >
+                      <StyledTableCell >
+                        {user.earlierProject}
+                      </StyledTableCell >
+                      <StyledTableCell >
+                        {user.currentProject}
+                      </StyledTableCell >
+                      <StyledTableCell >
+                        {user.projectType}
+                      </StyledTableCell >
+                      <StyledTableCell >
+                        {user.primaryKeySkill}
+                      </StyledTableCell >
+                      <StyledTableCell >
+                        {user.secondaryKeySkill}
+                      </StyledTableCell >
+                      <StyledTableCell >
+                        {user.roleId}
+                      </StyledTableCell >
+                      <StyledTableCell>
+                        <Link
+                          to={`/EmployeeList/view/${user.id}`}
+                        >
+                          <PreviewIcon />
+                        </Link>
+                        <Link
+                          onClick={() => deleteUser(user.id)}
+                          to="#"
+                        >
+                          <DeleteIcon />
+                        </Link>
+                      </StyledTableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
             </div>
-                <TableRow>
-                  <TablePagination
-                    rowsPerPageOptions={[5, 10, 15, 20, 25]}
-                    count={data.length}
-                    rowsPerPage={rowPerPage}
-                    page={page}
-                    onChangePage={onChangePage}
-                    onChangeRowsPerPage={onChangeRowsPerPage}
-                  />
-                </TableRow>
-          </StyledTableContainer>
+            <TableRow>
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 15, 20, 25]}
+                count={data.length}
+                rowsPerPage={rowPerPage}
+                page={page}
+                onChangePage={onChangePage}
+                onChangeRowsPerPage={onChangeRowsPerPage}
+              />
+            </TableRow> 
+          </StyledTableContainer> 
         </Container>
       </paper>
     </>
