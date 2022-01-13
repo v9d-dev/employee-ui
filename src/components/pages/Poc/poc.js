@@ -211,6 +211,7 @@ export default function POC(props) {
 }
 
 
+
   return (
     <>
       <Stack spacing={2} direction="row">
@@ -289,18 +290,18 @@ export default function POC(props) {
                         {user.employee_id}
                       </StyledTableCell >
                       <StyledTableCell>
-                        <Link class="btn btn-primary mr-2" to={`/POC/view/${user.id}`}>
+                        <Link class="btn btn-primary mr-2" to={`/POC/view/${user._id}`}>
                           <PreviewIcon />
                         </Link>
                         <Link
                           class="btn btn-outline-primary mr-2"
-                          to={`/POC/edit/${user.id}`}
+                          to={`/POC/edit/${user._id}`}
                         >
                           <EditIcon />
                         </Link>
 
                         <Link
-                          onClick={() => deleteUser(user.id)}
+                          onClick={() => deleteUser(user._id)}
                           to="#"
                         >
                           <DeleteIcon />

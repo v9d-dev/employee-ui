@@ -43,7 +43,7 @@ const ProfilePage = (props) => {
     return (
 
         <Box sx={{ flexGrow: 1, width: "80%", float: "right", marginTop: "1%", marginRight: "2%" }}>
-            <EditProfilePage />
+            <EditProfilePage editHandler={editHandler} employeeID={employeeID}/>
             <Grid container spacing={2}>
                 <Grid item xs={6}>
                     <Item>

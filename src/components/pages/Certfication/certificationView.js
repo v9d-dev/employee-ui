@@ -30,15 +30,6 @@ const CertificationView = (props) => {
         getResults()
     }, [])
 
-    useEffect(() => {
-        loadUser();
-    }, []);
-
-    const loadUser = async () => {
-        const res = await axios.get(`http://localhost:4000/certification${ID}`);
-        setDetails(res.data);
-    };
-
     return (
 
         <Grid xs={12} sx={{ display:"flex", flexDirection:"column",justifyContent:"center", alignItems: "center", minHeight:"700px", width:"86%", float:"right"}}>
