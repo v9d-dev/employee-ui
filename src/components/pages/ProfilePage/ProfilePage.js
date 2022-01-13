@@ -172,8 +172,6 @@ const ProfilePage = (props) => {
                         </TableContainer>
                     </Item>
                 </Grid>
-
-
                 <Grid item xs={12}>
                     <Item>
                         <TableContainer component={Paper}>
@@ -263,7 +261,6 @@ const ProfilePage = (props) => {
 
                     </Item>
                 </Grid>
-            {/* </Grid> */}
             </Grid>
         </Box>
     )

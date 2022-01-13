@@ -30,7 +30,7 @@ const Items = [
 const SidebarItems = (props) => {
     let list = Items.filter((item) => {
         if(props.role === 'EMPLOYEE'){
-            return props.role =='EMPLOYEE'&& item.route !== '/EmployeeDetails';
+            return props.role =='EMPLOYEE'&& item.route !== '/EmployeeList';
         } else {
           return item;
         }

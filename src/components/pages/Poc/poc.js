@@ -297,12 +297,12 @@ export default function POC(props) {
                         {user.employee_id}
                       </StyledTableCell >
                       <StyledTableCell>
-                        <Link class="btn btn-primary mr-2" to={`/poc/view/${user.id}`}>
+                        <Link class="btn btn-primary mr-2" to={`/POC/view/${user.id}`}>
                           <PreviewIcon />
                         </Link>
                         <Link
                           class="btn btn-outline-primary mr-2"
-                          to={`/poc/edit/${user.id}`}
+                          to={`/POC/edit/${user.id}`}
                         >
                           <EditIcon />
                         </Link>
