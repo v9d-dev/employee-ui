@@ -12,7 +12,6 @@ import EditPoc from "./components/pages/Poc/editPoc";
 import EditCertification from "./components/pages/Certfication/editCertification";
 import AddCertification from "./components/pages/Certfication/addCertification";
 import ProfilePage from "./components/pages/ProfilePage/ProfilePage";
-import EmployeeView from "./components/employeeList/employeeDetails/employeeView";
 import PocView from "./components/pages/Poc/pocView";
 import CertificationView from "./components/pages/Certfication/certificationView";
 import "../src/global.css";

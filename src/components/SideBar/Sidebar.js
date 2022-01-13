@@ -34,6 +34,7 @@ function Sidebar() {
             <ul className="SideBarList">
                 {
                     SidebarItems({ role: authCtx.role }).map((item, key) => {
+                        const active = location.pathname.match(item.route)? true: false
                         return (
                             <Link to={item.route}>
                                 <li index={key}
