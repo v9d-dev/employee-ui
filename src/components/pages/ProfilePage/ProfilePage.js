@@ -22,8 +22,11 @@ const ProfilePage = (props) => {
     const { isLoading, error, SendingRequest: fetchUser } = useHttps(); 
     const { userId } = useParams();
     const employeeID = userId || authCtx.employeeID;
+   
     useEffect(async () => {
         const response = await fetchUser('get', `employee/${employeeID}`);
+        response.data.primaryKeySkill = response.data.primaryKeySkill.toString().replace(',', ', ');
+        response.data.secondaryKeySkill = response.data.secondaryKeySkill.toString().replace(',', ', ');
         dispatch(update(response.data));
         setEdited(false);
     }, [fetchUser, isEdited]);
