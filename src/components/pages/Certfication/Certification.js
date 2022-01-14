@@ -275,16 +275,16 @@ export default function Certification(props) {
                                                 {user.employee_id}
                                             </StyledTableCell >
                                             <StyledTableCell>
-                                                <Link class="btn btn-primary mr-2" to={`/certification/view/${user._id}`}>
+                                                <Link class="btn btn-primary mr-2" to={`/certification/view/${user.id}`}>
                                                     <PreviewIcon />
                                                 </Link>
                                                 <Link
-                                                    to={`/certification/edit/${user._id}`}
+                                                    to={`/certification/edit/${user.id}`}
                                                 >
                                                     <EditIcon />
                                                 </Link>
                                                 <Link
-                                                    onClick={() => deleteUser(user._id)}
+                                                    onClick={() => deleteUser(user.id)}
                                                     to="#"
                                                 >
                                                     <DeleteIcon />
