@@ -7,6 +7,7 @@ import { AuthContext } from '../../store/auth-context';
 import Image from '../../Layout/Image';
 import { useParams } from 'react-router-dom';
 import useHttps from '../../hooks/use-https';
+import Moment from 'react-moment';
 
 const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
@@ -104,7 +105,7 @@ const ProfilePage = (props) => {
                                             <p style={{ fontWeight: "bold", fontSize: "16px" }}> Date of Joining</p>
                                         </TableCell>
                                         <TableCell component="th" scope="row">
-                                            {dateOfJoining}
+                                            <Moment  format="DD/MM/YYYY">{dateOfJoining}</Moment>
                                         </TableCell>
                                     </TableRow>
                                 </TableBody>
@@ -123,8 +124,8 @@ const ProfilePage = (props) => {
                                         <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px", width: "25%" }}>
                                             <p style={{ fontWeight: "bold", fontSize: "16px" }}> Date Of Birth</p>
                                         </TableCell>
-                                        <TableCell component="th" scope="row">
-                                            {dateOfBirth}
+                                        <TableCell component="th" scope="row">     
+                                            <Moment  format="DD/MM/YYYY">{dateOfBirth}</Moment>
                                         </TableCell>
                                     </TableRow>
 

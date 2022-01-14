@@ -8,6 +8,7 @@ import { Container, Typography, TableContainer, Table, TableBody, TableHead, Tab
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import SearchBar from "material-ui-search-bar";
 import { Link } from "react-router-dom";
+import Moment from 'react-moment';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import "../../../../src/global.css";
@@ -282,10 +283,10 @@ export default function POCList(props) {
                         {user.description}
                       </StyledTableCell >
                       <StyledTableCell >
-                        {user.startDate}
+                        <Moment  format="DD/MM/YYYY">{user.startDate}</Moment>
                       </StyledTableCell >
                       <StyledTableCell >
-                        {user.finishDate}
+                        <Moment  format="DD/MM/YYYY">{user.finishDate}</Moment>
                       </StyledTableCell >
                       <StyledTableCell >
                         {user.githubUrl}

@@ -3,6 +3,7 @@ import { Grid, Paper, Table, TableBody, TableCell, TableContainer, TableRow, Cir
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import '../../pages/Certfication/certification.css';
+import Moment from 'react-moment';
 
 const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
@@ -89,7 +90,7 @@ const CertificationView = (props) => {
                                     <p style={{ fontWeight: "bold", fontSize: "16px" }}> Complition Date :</p>
                                 </TableCell>
                                 <TableCell component="th" scope="row">
-                                    {details.complitionDate}
+                                    <Moment  format="DD/MM/YYYY">{details.complitionDate}</Moment>
                                 </TableCell>
                             </TableRow>
 
@@ -100,7 +101,7 @@ const CertificationView = (props) => {
                                     <p style={{ fontWeight: "bold", fontSize: "16px" }}> Expire Date :</p>
                                 </TableCell>
                                 <TableCell component="th" scope="row">
-                                    {details.expireDate}
+                                    <Moment  format="DD/MM/YYYY">{details.expireDate}</Moment>
                                 </TableCell>
                             </TableRow>
                         </TableBody>

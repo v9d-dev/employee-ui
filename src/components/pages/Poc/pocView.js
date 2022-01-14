@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import '../../pages/Poc/poc.css';
 import Image from '../../Layout/Image';
+import Moment from 'react-moment';
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -91,7 +92,7 @@ const PocView = (props) => {
                                     <p style={{ fontWeight: "bold", fontSize: "16px" }}>Start Date :</p>
                                 </TableCell>
                                 <TableCell component="th" scope="row">
-                                    {details.startDate}
+                                    <Moment  format="DD/MM/YYYY">{details.startDate}</Moment>
                                 </TableCell>
                             </TableRow>
 
@@ -102,8 +103,8 @@ const PocView = (props) => {
                                 <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px" }}>
                                     <p style={{ fontWeight: "bold", fontSize: "16px" }}>Finish Date :</p>
                                 </TableCell>
-                                <TableCell component="th" scope="row">
-                                    {details.finishDate}
+                                <TableCell component="th" scope="row">         
+                                    <Moment  format="DD/MM/YYYY">{details.finishDate}</Moment>
                                 </TableCell>
                             </TableRow>
 

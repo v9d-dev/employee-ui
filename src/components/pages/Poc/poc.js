@@ -12,6 +12,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import "../../../../src/global.css";
 import PreviewIcon from '@mui/icons-material/Preview';
 import Filter from '../../Layout/FilterSearchBar/Filter';
+import Moment from 'react-moment';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateName, updateTechStack } from '../../store/pocFilter';
 
@@ -274,10 +275,10 @@ export default function POC(props) {
                         {user.description}
                       </StyledTableCell >
                       <StyledTableCell >
-                        {user.startDate}
+                        <Moment  format="DD/MM/YYYY">{user.startDate}</Moment>
                       </StyledTableCell >
                       <StyledTableCell >
-                        {user.finishDate}
+                        <Moment  format="DD/MM/YYYY">{user.finishDate}</Moment>
                       </StyledTableCell >
                       <StyledTableCell >
                         {user.githubUrl}

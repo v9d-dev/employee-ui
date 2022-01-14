@@ -8,6 +8,7 @@ import { Container, Typography, TableContainer, Table, TableBody, TableHead, Tab
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import "../../../../src/global.css";
 import { Link } from "react-router-dom";
+import Moment from 'react-moment';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import PreviewIcon from '@mui/icons-material/Preview';
@@ -266,10 +267,10 @@ export default function Certification(props) {
                                                 {user.price}
                                             </StyledTableCell >
                                             <StyledTableCell >
-                                                {user.complitionDate}
+                                            <Moment format="DD/MM/YYYY">{user.complitionDate}</Moment>
                                             </StyledTableCell >
                                             <StyledTableCell >
-                                                {user.expireDate}
+                                                <Moment format="DD/MM/YYYY">{user.expireDate}</Moment>
                                             </StyledTableCell >
                                             <StyledTableCell >
                                                 {user.employee_id}

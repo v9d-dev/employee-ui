@@ -6,6 +6,7 @@ import Stack from '@mui/material/Stack';
 import { useButton } from '@mui/base/ButtonUnstyled';
 import { styled } from '@mui/system';
 import PropTypes from 'prop-types';
+import Moment from 'react-moment';
 import clsx from 'clsx';
 import '../../../../src/global.css';
 import '../../../global.css';
@@ -15,7 +16,7 @@ import PreviewIcon from '@mui/icons-material/Preview';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Filter from '../../Layout/FilterSearchBar/Filter';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateName,  updateOverAllExp, updatePrimarySkill, updateSecondarySkill } from '../../store/employeeListFilter';
+import { updateName, updateOverAllExp, updatePrimarySkill, updateSecondarySkill } from '../../store/employeeListFilter';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -227,22 +228,22 @@ const EmployeeDeatils = (props) => {
 
   const filterHandler = (type, filterValue) => {
     if (type === 'fullName') {
-        dispatch(updateName({ "fullName": filterValue }));
-        setFlag(!flag);
+      dispatch(updateName({ "fullName": filterValue }));
+      setFlag(!flag);
     }
     if (type === 'overallExperience') {
-        dispatch(updateOverAllExp({ 'overallExperience': filterValue }));
-        setFlag(!flag);
+      dispatch(updateOverAllExp({ 'overallExperience': filterValue }));
+      setFlag(!flag);
     }
     if (type === 'primaryKeySkill') {
       dispatch(updatePrimarySkill({ "primaryKeySkill": filterValue }));
       setFlag(!flag);
     }
     if (type === 'secondaryKeySkill') {
-        dispatch(updateSecondarySkill({ 'secondaryKeySkill': filterValue }));
-        setFlag(!flag);
+      dispatch(updateSecondarySkill({ 'secondaryKeySkill': filterValue }));
+      setFlag(!flag);
     }
-}
+  }
 
   return (
     <>
@@ -254,7 +255,7 @@ const EmployeeDeatils = (props) => {
             </Typography>
             <CustomButton onClick={getCsvReport}>Export</CustomButton>
           </Stack>
-          <div style={{display:"flex"}}>
+          <div style={{ display: "flex" }}>
             <Filter filterName="Name" type="fullName" filterData={filterHandler} />
             <Filter filterName="OverAll Experience" type="overallExperience" filterData={filterHandler} />
             <Filter filterName="Primary Skill" type="primaryKeySkill" filterData={filterHandler} />
@@ -325,8 +326,8 @@ const EmployeeDeatils = (props) => {
                   </TableRow>
 
                 </StyledTableHead>
-                 <TableBody>
-                  {rows.length!==0 && rows.slice(page * rowPerPage, page * rowPerPage + rowPerPage).map((user) => (
+                <TableBody>
+                  {rows.length !== 0 && rows.slice(page * rowPerPage, page * rowPerPage + rowPerPage).map((user) => (
 
                     <TableRow key={rows.name}>
                       <StyledTableCell >
@@ -342,10 +343,10 @@ const EmployeeDeatils = (props) => {
                         {user.currentDesignation}
                       </StyledTableCell >
                       <StyledTableCell >
-                        {user.dateOfJoining}
+                        <Moment format="DD/MM/YYYY">{user.dateOfJoining}</Moment>
                       </StyledTableCell >
                       <StyledTableCell >
-                        {user.dateOfBirth}
+                        <Moment format="DD/MM/YYYY">{user.dateOfBirth}</Moment>
                       </StyledTableCell >
                       <StyledTableCell >
                         {user.mailId}
@@ -410,8 +411,8 @@ const EmployeeDeatils = (props) => {
                 onChangePage={onChangePage}
                 onChangeRowsPerPage={onChangeRowsPerPage}
               />
-            </TableRow> 
-          </StyledTableContainer> 
+            </TableRow>
+          </StyledTableContainer>
         </Container>
       </paper>
     </>

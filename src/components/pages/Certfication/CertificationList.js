@@ -10,6 +10,7 @@ import SearchBar from "material-ui-search-bar";
 import "../../../../src/global.css";
 import { Link } from "react-router-dom";
 import EditIcon from '@mui/icons-material/Edit';
+import Moment from 'react-moment';
 import DeleteIcon from '@mui/icons-material/Delete';
 import PreviewIcon from '@mui/icons-material/Preview';
 import Filter from '../../Layout/FilterSearchBar/Filter';
@@ -301,10 +302,10 @@ export default function CertificationList(props) {
                                                 {user.price}
                                             </StyledTableCell >
                                             <StyledTableCell >
-                                                {user.complitionDate}
+                                                <Moment format="DD/MM/YYYY"> {user.complitionDate}</Moment>
                                             </StyledTableCell >
                                             <StyledTableCell >
-                                                {user.expireDate}
+                                                <Moment format="DD/MM/YYYY">{user.expireDate}</Moment>
                                             </StyledTableCell >
                                             <StyledTableCell >
                                                 {user.employee_id}
