@@ -43,7 +43,8 @@ const ProfilePage = (props) => {
     return (
 
         <Box sx={{ flexGrow: 1, width: "80%", float: "right", marginTop: "1%", marginRight: "2%" }}>
-            <EditProfilePage editHandler={editHandler} employeeID={employeeID}/>
+            {!!isLoading && <div style ={{ display:"flex", justifyContent:"center", alignItems:"center", minHeight:"600px"}} ><CircularProgress /></div>}
+           {!isLoading && ([<EditProfilePage editHandler={editHandler} employeeID = {employeeID} />,
             <Grid container spacing={2}>
                 <Grid item xs={6}>
                     <Item>
@@ -261,7 +262,7 @@ const ProfilePage = (props) => {
 
                     </Item>
                 </Grid>
-            </Grid>
+            </Grid>])}
         </Box>
     )
 }
