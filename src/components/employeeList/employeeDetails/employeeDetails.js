@@ -3,11 +3,7 @@ import { Container, Typography, TableContainer, Table, TableBody, TableHead, Tab
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import data from '../data/data.json';
 import Stack from '@mui/material/Stack';
-import { useButton } from '@mui/base/ButtonUnstyled';
-import { styled } from '@mui/system';
-import PropTypes from 'prop-types';
 import Moment from 'react-moment';
-import clsx from 'clsx';
 import '../../../../src/global.css';
 import '../../../global.css';
 import axios from "axios";
@@ -17,6 +13,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Filter from '../../Layout/FilterSearchBar/Filter';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateName, updateOverAllExp, updatePrimarySkill, updateSecondarySkill } from '../../store/employeeListFilter';
+import CustomButton from "../../common/customButton";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -64,64 +61,6 @@ const StyledTableCell = withStyles((theme) => ({
     fontSize: 14,
   },
 }))(TableCell);
-
-const CustomButtonRoot = styled('button')`
-  background-color: #007fff;
-  padding: 15px 20px;
-  border-radius: 10px;
-  color: #fff;
-  font-weight: 600;
-  font-family: Helvetica, Arial, sans-serif;
-  font-size: 14px;
-  transition: all 200ms ease;
-  cursor: pointer;
-  box-shadow: 0 4px 20px 0 rgba(61, 71, 82, 0.1), 0 0 0 0 rgba(0, 127, 255, 0);
-  border: none;
-
-  &:hover {
-    background-color: #0059b2;
-  }
-
-  &.active {
-    background-color: #004386;
-  }
-
-  &.focusVisible {
-    box-shadow: 0 4px 20px 0 rgba(61, 71, 82, 0.1), 0 0 0 5px rgba(0, 127, 255, 0.5);
-    outline: none;
-  }
-
-  &.disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    box-shadow: 0 0 0 0 rgba(0, 127, 255, 0);
-  }
-`;
-
-const CustomButton = React.forwardRef(function CustomButton(props, ref) {
-  const { children } = props;
-  const { active, disabled, focusVisible, getRootProps } = useButton({
-    ...props,
-    ref,
-    component: CustomButtonRoot,
-  });
-
-  const classes = {
-    active,
-    disabled,
-    focusVisible,
-  };
-
-  return (
-    <CustomButtonRoot {...getRootProps()} className={clsx(classes)}>
-      {children}
-    </CustomButtonRoot>
-  );
-});
-
-CustomButton.propTypes = {
-  children: PropTypes.node,
-};
 
 const EmployeeDeatils = (props) => {
   const [page, setPage] = useState(0);
@@ -171,7 +110,7 @@ const EmployeeDeatils = (props) => {
 
 
   const getCsvReport = function () {
-
+    
     const resData = rows.map(row => ({
       employeeNumber: row.employeeNumber,
       fullName: row.fullName,
