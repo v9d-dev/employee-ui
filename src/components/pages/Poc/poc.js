@@ -190,14 +190,14 @@ export default function POC(props) {
 			<paper>
 				<Container className={classes.root}>
 					{employeeDetail.roles !== 'EMPLOYEE' && (
-						<div style={{ display: 'flex' }}>
+						<Typography style={{ display: 'flex' }}>
 							<Filter filterName='Name' type='name' filterData={filterHandler} />
 							<Filter
 								filterName='TechStack'
 								type='techStack'
 								filterData={filterHandler}
 							/>
-						</div>
+						</Typography>
 					)}
 					<StyledTableContainer>
 						<div className='main_table'>

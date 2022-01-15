@@ -145,12 +145,12 @@ const EmployeeDeatils = (props) => {
             </Typography>
             <CustomButton onClick={getCsvReport}>Export</CustomButton>
           </Stack>
-          <div style={{ display: "flex" }}>
+          <Typography style={{ display: "flex" }}>
             <Filter filterName="Name" type="fullName" filterData={filterHandler} />
             <Filter filterName="OverAll Experience" type="overallExperience" filterData={filterHandler} />
             <Filter filterName="Primary Skill" type="primaryKeySkill" filterData={filterHandler} />
             <Filter filterName="Secondary Skill" type="secondaryKeySkill" filterData={filterHandler} />
-          </div>
+          </Typography>
           <StyledTableContainer sx={{ maxHeight: 440 }} >
             <div className="main_table">
               <Table>

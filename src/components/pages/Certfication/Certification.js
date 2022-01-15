@@ -36,7 +36,6 @@ export default function Certification(props) {
 
     const loadUsers = async () => {
         const url = employeeDetail.roles === 'EMPLOYEE' ? `certification/employee/${props.authCtx.employeeID}` : 'certification';
-
         const result = await axios.get(`http://localhost:4000/${url}`, {
             params: {
                 username: props.authCtx.employeeID,
@@ -65,6 +64,7 @@ export default function Certification(props) {
     const onChangeRowsPerPage = (event) => {
         setRowPerPage(event.target.value);
     }
+
     const history = useHistory();
     const navigateTo = () => history.push('/Certification/Add');
 
@@ -136,10 +136,10 @@ export default function Certification(props) {
             </Stack>
             <paper>
                 <Container className={classes.root}>
-                    {employeeDetail.roles !== 'EMPLOYEE' && <div style={{ display: "flex" }}>
+                    {employeeDetail.roles !== 'EMPLOYEE' && <Typography style={{ display: "flex" }}>
                         <Filter filterName="Name" type="name" filterData={filterHandler} />
                         <Filter filterName="TechStack" type="techStack" filterData={filterHandler} />
-                    </div>}
+                    </Typography>}
                     <StyledTableContainer>
                         <div className="main_table">
                             <Table>
