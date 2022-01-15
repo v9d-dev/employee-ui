@@ -388,13 +388,13 @@ const EmployeeDeatils = (props) => {
                         <Link
                           to={`/EmployeeList/view/${user.id}`}
                         >
-                          <PreviewIcon />
+                          <PreviewIcon color="action" />
                         </Link>
                         <Link
                           onClick={() => deleteUser(user.id)}
                           to="#"
                         >
-                          <DeleteIcon />
+                          <DeleteIcon color="action" />
                         </Link>
                       </StyledTableCell>
                     </TableRow>

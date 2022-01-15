@@ -291,20 +291,20 @@ export default function POC(props) {
                       </StyledTableCell >
                       <StyledTableCell>
                         <Link class="btn btn-primary mr-2" to={`/POC/view/${user.id}`}>
-                          <PreviewIcon />
+                          <PreviewIcon color="action" />
                         </Link>
                         <Link
                           class="btn btn-outline-primary mr-2"
                           to={`/POC/edit/${user.id}`}
                         >
-                          <EditIcon />
+                          <EditIcon color="action" />
                         </Link>
 
                         <Link
                           onClick={() => deleteUser(user.id)}
                           to="#"
                         >
-                          <DeleteIcon />
+                          <DeleteIcon color="action" />
                         </Link>
                       </StyledTableCell>
                     </TableRow>

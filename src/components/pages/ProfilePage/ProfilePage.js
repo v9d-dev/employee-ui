@@ -21,7 +21,7 @@ const ProfilePage = (props) => {
     const authCtx = useContext(AuthContext);
     const dispatch = useDispatch();
     const { isLoading, error, SendingRequest: fetchUser } = useHttps(); 
-    const { userId } = useParams();
+    const userId = useParams().id;
     const employeeID = userId || authCtx.employeeID;
    
     useEffect(async () => {
