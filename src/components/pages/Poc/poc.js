@@ -3,18 +3,7 @@ import { useHistory } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
 import axios from 'axios';
 import CustomButton from '../../common/customButton';
-import {
-	Container,
-	Typography,
-	TableContainer,
-	Table,
-	TableBody,
-	TableHead,
-	TableRow,
-	TableCell,
-	TablePagination,
-} from '@material-ui/core';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { Container, Typography, Table, TableBody, TableRow, TablePagination, } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -26,53 +15,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { updateName, updateTechStack } from '../../store/pocFilter';
 import { getApiUrl } from '../../common/helper';
 import FormDialog from '../../common/formDialog';
-
-const useStyles = makeStyles((theme) => ({
-	root: {
-		minWidth: '81vw',
-		minHeight: '100vh',
-		backgroundColor: theme.palette.grey[300],
-		paddingTop: '20px',
-		padding: '0px 21px 66px 287px',
-	},
-}));
-const StyledTableHead = withStyles({
-	root: {
-		border: '1px solid gray',
-		backgroundColor: '#6f59f6',
-	},
-})(TableHead);
-const StyledTableContainer = withStyles({
-	root: {
-		border: '1px solid gray',
-		'&::-webkit-scrollbar': {
-			display: 'none',
-		},
-	},
-})(TableContainer);
-
-const StyledTableCell = withStyles((theme) => ({
-	root: {
-		borderBottom: 'none',
-		borderRight: '1px solid gray',
-		svg: {
-			cursor: 'pointer',
-		},
-		'& > button': {
-			margin: 'auto',
-		},
-		'& > div': {
-			margin: 'auto',
-		},
-	},
-	head: {
-		backgroundColor: '#007fff',
-		color: theme.palette.common.white,
-	},
-	body: {
-		fontSize: 14,
-	},
-}))(TableCell);
+import { useStyles, StyledTableHead, StyledTableContainer, StyledTableCell } from "../../common/tableStyle";
 
 export default function POC(props) {
 	const [page, setPage] = useState(0);
@@ -237,7 +180,7 @@ export default function POC(props) {
 				onFileChange={onFileChange}
 			/>
 			<Stack spacing={2} direction='row'>
-				<Typography variant='h4' style={{ marginRight: '66rem', color: '#5B5d5F' }}>
+				<Typography variant='h4' style={{ marginRight: '60rem', color: '#5B5d5F' }}>
 					POC List Table
 				</Typography>
 				<CustomButton onClick={navigateTo}>ADD POC</CustomButton>

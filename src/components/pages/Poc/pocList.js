@@ -2,20 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
 import axios from 'axios';
-import ButtonUnstyled, { buttonUnstyledClasses } from '@mui/base/ButtonUnstyled';
-import { styled } from '@mui/system';
-import {
-	Container,
-	Typography,
-	TableContainer,
-	Table,
-	TableBody,
-	TableHead,
-	TableRow,
-	TableCell,
-	TablePagination,
-} from '@material-ui/core';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { Container, Typography, Table, TableBody, TableRow, TablePagination, } from '@material-ui/core';
 import SearchBar from 'material-ui-search-bar';
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
@@ -23,90 +10,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import '../../../../src/global.css';
 import PreviewIcon from '@mui/icons-material/Preview';
-
-const CustomButtonRoot = styled('button')`
-	background-color: #007fff;
-	padding: 15px 20px;
-	border-radius: 10px;
-	margin-bottom: 0px;
-	color: #fff;
-	font-weight: 600;
-	font-family: Helvetica, Arial, sans-serif;
-	font-size: 14px;
-	transition: all 200ms ease;
-	cursor: pointer;
-	box-shadow: 0 4px 20px 0 rgba(61, 71, 82, 0.1), 0 0 0 0 rgba(0, 127, 255, 0);
-	border: none;
-
-	&:hover {
-		background-color: #0059b2;
-	}
-
-	&.${buttonUnstyledClasses.active} {
-		background-color: #004386;
-	}
-
-	&.${buttonUnstyledClasses.focusVisible} {
-		box-shadow: 0 4px 20px 0 rgba(61, 71, 82, 0.1), 0 0 0 5px rgba(0, 127, 255, 0.5);
-		outline: none;
-	}
-
-	&.${buttonUnstyledClasses.disabled} {
-		opacity: 0.5;
-		cursor: not-allowed;
-		box-shadow: 0 0 0 0 rgba(0, 127, 255, 0);
-	}
-`;
-const useStyles = makeStyles((theme) => ({
-	root: {
-		minWidth: '81vw',
-		minHeight: '100vh',
-		backgroundColor: theme.palette.grey[300],
-		paddingTop: '20px',
-		padding: '0px 21px 66px 287px',
-	},
-}));
-const StyledTableHead = withStyles({
-	root: {
-		border: '1px solid gray',
-		backgroundColor: '#6f59f6',
-	},
-})(TableHead);
-const StyledTableContainer = withStyles({
-	root: {
-		border: '1px solid gray',
-		'&::-webkit-scrollbar': {
-			display: 'none',
-		},
-	},
-})(TableContainer);
-
-const StyledTableCell = withStyles((theme) => ({
-	root: {
-		borderBottom: 'none',
-		borderRight: '1px solid gray',
-		svg: {
-			cursor: 'pointer',
-		},
-		'& > button': {
-			margin: 'auto',
-		},
-		'& > div': {
-			margin: 'auto',
-		},
-	},
-	head: {
-		backgroundColor: '#007fff',
-		color: theme.palette.common.white,
-	},
-	body: {
-		fontSize: 14,
-	},
-}))(TableCell);
-
-function CustomButton(props) {
-	return <ButtonUnstyled {...props} component={CustomButtonRoot} />;
-}
+import CustomButton from "../../common/customButton";
+import { useStyles, StyledTableHead, StyledTableContainer, StyledTableCell } from "../../common/tableStyle";
 
 export default function POCList(props) {
 	const [page, setPage] = useState(0);
@@ -114,8 +19,6 @@ export default function POCList(props) {
 	const [rows, setRows] = useState([]);
 	const [searched, setSearched] = useState('');
 	const classes = useStyles();
-
-	console.log('rows ==========================', rows);
 
 	useEffect(() => {
 		axios

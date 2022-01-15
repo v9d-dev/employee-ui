@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, Typography, TableContainer, Table, TableBody, TableHead, TableRow, TableCell, TablePagination } from "@material-ui/core";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { Container, Typography, Table, TableBody, TableRow, TablePagination } from "@material-ui/core";
 import data from '../data/data.json';
 import Stack from '@mui/material/Stack';
 import Moment from 'react-moment';
@@ -14,53 +13,7 @@ import Filter from '../../Layout/FilterSearchBar/Filter';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateName, updateOverAllExp, updatePrimarySkill, updateSecondarySkill } from '../../store/employeeListFilter';
 import CustomButton from "../../common/customButton";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    minWidth: "81vw",
-    minHeight: "100vh",
-    backgroundColor: theme.palette.grey[300],
-    paddingTop: '5px',
-    padding: '0px 21px 66px 287px'
-  },
-}));
-const StyledTableHead = withStyles({
-  root: {
-    border: '1px solid gray',
-    background: '#6f59f6',
-  },
-})(TableHead);
-const StyledTableContainer = withStyles({
-  root: {
-    border: '1px solid gray',
-    '&::-webkit-scrollbar': {
-      display: 'none',
-    },
-  },
-})(TableContainer);
-
-const StyledTableCell = withStyles((theme) => ({
-  root: {
-    borderBottom: 'none',
-    borderRight: '1px solid gray',
-    svg: {
-      cursor: 'pointer',
-    },
-    '& > button': {
-      margin: 'auto',
-    },
-    '& > div': {
-      margin: 'auto',
-    },
-  },
-  head: {
-    backgroundColor: '#007fff',
-    color: theme.palette.common.white,
-  },
-  body: {
-    fontSize: 14,
-  },
-}))(TableCell);
+import { useStyles, StyledTableHead, StyledTableContainer, StyledTableCell } from "../../common/tableStyle";
 
 const EmployeeDeatils = (props) => {
   const [page, setPage] = useState(0);
@@ -107,10 +60,8 @@ const EmployeeDeatils = (props) => {
     setRowPerPage(event.target.value);
   }
 
-
-
   const getCsvReport = function () {
-    
+
     const resData = rows.map(row => ({
       employeeNumber: row.employeeNumber,
       fullName: row.fullName,

@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import Stack from '@mui/material/Stack';
 import axios from "axios";
-import { Container, Typography, TableContainer, Table, TableBody, TableHead, TableRow, TableCell, TablePagination } from "@material-ui/core";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { Container, Typography, Table, TableBody,TableRow,TablePagination } from "@material-ui/core";
 import "../../../../src/global.css";
 import { Link } from "react-router-dom";
 import Moment from 'react-moment';
@@ -14,53 +13,7 @@ import Filter from '../../Layout/FilterSearchBar/Filter';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateName, updateTechStack } from '../../store/certificationFilter';
 import CustomButton from "../../common/customButton";
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        minWidth: "81vw",
-        minHeight: "100vh",
-        backgroundColor: theme.palette.grey[300],
-        paddingTop: '20px',
-        padding: '0px 21px 66px 287px'
-    },
-}));
-const StyledTableHead = withStyles({
-    root: {
-        border: '1px solid gray',
-        backgroundColor: '#6f59f6',
-    },
-})(TableHead);
-const StyledTableContainer = withStyles({
-    root: {
-        border: '1px solid gray',
-        '&::-webkit-scrollbar': {
-            display: 'none',
-        },
-    },
-})(TableContainer);
-
-const StyledTableCell = withStyles((theme) => ({
-    root: {
-        borderBottom: 'none',
-        borderRight: '1px solid gray',
-        svg: {
-            cursor: 'pointer',
-        },
-        '& > button': {
-            margin: 'auto',
-        },
-        '& > div': {
-            margin: 'auto',
-        },
-    },
-    head: {
-        backgroundColor: '#007fff',
-        color: theme.palette.common.white,
-    },
-    body: {
-        fontSize: 14,
-    },
-}))(TableCell);
+import { useStyles, StyledTableHead, StyledTableContainer, StyledTableCell } from "../../common/tableStyle";
 
 export default function Certification(props) {
     const [page, setPage] = useState(0);
@@ -86,13 +39,13 @@ export default function Certification(props) {
 
         const result = await axios.get(`http://localhost:4000/${url}`, {
             params: {
-              username: props.authCtx.employeeID,
-              password: props.authCtx.token,
-              filters: {
-                ...filterData
-              }
+                username: props.authCtx.employeeID,
+                password: props.authCtx.token,
+                filters: {
+                    ...filterData
+                }
             }
-          });
+        });
         setRows(result.data);
     };
 
@@ -183,7 +136,7 @@ export default function Certification(props) {
             </Stack>
             <paper>
                 <Container className={classes.root}>
-                    {employeeDetail.roles !== 'EMPLOYEE' && <div style={{display:"flex"}}>
+                    {employeeDetail.roles !== 'EMPLOYEE' && <div style={{ display: "flex" }}>
                         <Filter filterName="Name" type="name" filterData={filterHandler} />
                         <Filter filterName="TechStack" type="techStack" filterData={filterHandler} />
                     </div>}
@@ -229,7 +182,7 @@ export default function Certification(props) {
                                                 {user.price}
                                             </StyledTableCell >
                                             <StyledTableCell >
-                                            <Moment format="DD/MM/YYYY">{user.complitionDate}</Moment>
+                                                <Moment format="DD/MM/YYYY">{user.complitionDate}</Moment>
                                             </StyledTableCell >
                                             <StyledTableCell >
                                                 <Moment format="DD/MM/YYYY">{user.expireDate}</Moment>
