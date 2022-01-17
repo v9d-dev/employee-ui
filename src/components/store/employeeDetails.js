@@ -24,6 +24,9 @@ export const employeeDetailSlice = createSlice({
     state.projectType = action.payload.projectType
     state.primaryKeySkill = action.payload.primaryKeySkill
     state.secondaryKeySkill = action.payload.secondaryKeySkill
+    state.poc = action.payload.poc
+    state.certification = action.payload.certification
+    state.roles = action.payload.roles
     }
   },
 })

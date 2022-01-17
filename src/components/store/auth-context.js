@@ -20,16 +20,24 @@ const retriveStoredAuth = () => {
     return storeemployeeID;
 }
 
+const retriveStoredRole = () => {
+    const storeemployeeID = localStorage.getItem('role');
+    return storeemployeeID;
+}
+
 export const AuthContextProvider = (props) => {
     const storeToken = retriveStoredToken();
     const storeemployeeID = retriveStoredAuth();
+    const storeRole = retriveStoredRole();
     const [token, setToken] = useState(storeToken);
     const [employeeID, setemployeeID] = useState(storeemployeeID);
-    const [role, setRole] = useState('');
+    const [role, setRole] = useState(storeRole);
 
     const logoutHandler = () => {
         setToken(null);
         localStorage.removeItem('token');
+        localStorage.removeItem('employeeID');
+        localStorage.removeItem('role');
     }
 
     const loginHandler = (token, employeeID, role) => {
@@ -38,6 +46,7 @@ export const AuthContextProvider = (props) => {
         setRole(role)
         localStorage.setItem('token', token);
         localStorage.setItem('employeeID', employeeID);
+        localStorage.setItem('role', role);
     }
 
     const contextValue = {

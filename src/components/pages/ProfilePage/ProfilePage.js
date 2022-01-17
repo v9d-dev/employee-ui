@@ -1,42 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
-import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import classes from './ProfilePage.module.css';
+import { Box, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableRow, CircularProgress, styled } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
-import Modal from '@mui/material/Modal';
-import TextField from '@mui/material/TextField';
 import EditProfilePage from './EditProfilePage';
-import { update, increment } from '../../store/employeeDetails';
-import axios from 'axios';
+import { update } from '../../store/employeeDetails';
 import { AuthContext } from '../../store/auth-context';
 import Image from '../../Layout/Image';
-import Grid from '@mui/material/Grid';
-import { styled } from '@mui/material/styles';
-import Paper from '@mui/material/Paper';
-
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import { fontWeight } from '@mui/system';
-
-const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: '50%',
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-};
+import { useParams } from 'react-router-dom';
+import useHttps from '../../hooks/use-https';
+import Moment from 'react-moment';
 
 const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
@@ -45,46 +16,39 @@ const Item = styled(Paper)(({ theme }) => ({
     color: theme.palette.text.secondary,
 }));
 
-
 const ProfilePage = (props) => {
-
+    const [isEdited, setEdited] = useState(false);
     const authCtx = useContext(AuthContext);
     const dispatch = useDispatch();
-
-
-    const fetchUsers = () => {
-        axios.get(`http://localhost:4000/employee/${authCtx.employeeID}`,
-            {
-                params: {
-                    username: props.authCtx.employeeID,
-                    password: props.authCtx.token
-                }
-            }).then(res => {
-                dispatch(update(res.data));
-            })
-    }
+    const { isLoading, error, SendingRequest: fetchUser } = useHttps(); 
+    const userId = useParams().id;
+    const employeeID = userId || authCtx.employeeID;
+   
+    useEffect(async () => {
+        const response = await fetchUser('get', `employee/${employeeID}`);
+        response.data.primaryKeySkill = response.data.primaryKeySkill.toString().replace(',', ', ');
+        response.data.secondaryKeySkill = response.data.secondaryKeySkill.toString().replace(',', ', ');
+        dispatch(update(response.data));
+        setEdited(false);
+    }, [fetchUser, isEdited]);
 
     const userDetails = useSelector((state) => state.employeeReducer);
-    const [user, setUser] = useState(userDetails);
 
-    useEffect(() => {
-        fetchUsers();
-    });
-
-    useEffect(() => {
-        setUser(userDetails);
-    })
+    const editHandler = (flag) => {
+        setEdited(flag);
+    }
 
     const {
         id, fullName, mailId, mobileNumber, employeeNumber, buHead, reportingManager, dateOfJoining, dateOfBirth,
         overallExperience, successiveExperience, currentDesignation, previousDesignation, earlierProject,
         currentProject, projectType, primaryKeySkill, secondaryKeySkill
-    } = user;
+    } = userDetails;
 
     return (
 
-        <Box sx={{ flexGrow: 1, width: "80%", float: "right", marginTop: "5%", marginRight: "2%" }}>
-            <EditProfilePage />
+        <Box sx={{ flexGrow: 1, width: "80%", float: "right", marginTop: "1%", marginRight: "2%" }}>
+            {!!isLoading && <div style ={{ display:"flex", justifyContent:"center", alignItems:"center", minHeight:"600px"}} ><CircularProgress /></div>}
+           {!isLoading && ([<EditProfilePage editHandler={editHandler} employeeID = {employeeID} />,
             <Grid container spacing={2}>
                 <Grid item xs={6}>
                     <Item>
@@ -137,11 +101,11 @@ const ProfilePage = (props) => {
                                     <TableRow
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
-                                        <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px", width:"25%" }}>
+                                        <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px", width: "25%" }}>
                                             <p style={{ fontWeight: "bold", fontSize: "16px" }}> Date of Joining</p>
                                         </TableCell>
                                         <TableCell component="th" scope="row">
-                                            {dateOfJoining}
+                                            <Moment  format="DD/MM/YYYY">{dateOfJoining}</Moment>
                                         </TableCell>
                                     </TableRow>
                                 </TableBody>
@@ -157,11 +121,11 @@ const ProfilePage = (props) => {
                                 <TableRow
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
-                                        <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px", width:"25%" }}>
-                                            <p style={{ fontWeight: "bold", fontSize: "16px" }}> date Of Birth</p>
+                                        <TableCell component="th" scope="row" sx={{ padding: "5px", paddingLeft: "25px", width: "25%" }}>
+                                            <p style={{ fontWeight: "bold", fontSize: "16px" }}> Date Of Birth</p>
                                         </TableCell>
-                                        <TableCell component="th" scope="row">
-                                            {dateOfBirth}
+                                        <TableCell component="th" scope="row">     
+                                            <Moment  format="DD/MM/YYYY">{dateOfBirth}</Moment>
                                         </TableCell>
                                     </TableRow>
 
@@ -213,8 +177,6 @@ const ProfilePage = (props) => {
                         </TableContainer>
                     </Item>
                 </Grid>
-
-
                 <Grid item xs={12}>
                     <Item>
                         <TableContainer component={Paper}>
@@ -304,8 +266,7 @@ const ProfilePage = (props) => {
 
                     </Item>
                 </Grid>
-            {/* </Grid> */}
-            </Grid>
+            </Grid>])}
         </Box>
     )
 }

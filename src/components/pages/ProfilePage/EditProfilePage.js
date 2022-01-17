@@ -9,6 +9,7 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import axios from 'axios';
 import { AuthContext } from '../../store/auth-context';
+import useHttps from '../../hooks/use-https';
 
 const style = {
     position: 'absolute',
@@ -24,11 +25,9 @@ const style = {
 
 const EditProfilePage = (props) => {
     const authCtx = useContext(AuthContext);
-
     const userDetails = useSelector((state) => state.employeeReducer);
-
-
     const [user, setUser] = useState(userDetails);
+    const { isLoading, error, SendingRequest: updateUser } = useHttps();
 
     useEffect(() => {
         setUser(userDetails);
@@ -57,23 +56,12 @@ const EditProfilePage = (props) => {
         e.preventDefault();
         updateHandler();
         handleClose();
+        props.editHandler(true);
     };
 
     const updateHandler = async () => {
-        try {
-            
-            await axios.patch(`http://localhost:4000/employee/${authCtx.employeeID}`, user, {
-                params: {
-                  username: authCtx.employeeID,
-                  password: authCtx.token
-                }
-              });
-        window.location.reload(true);
-    }catch (err) {
-        throw `Employee Update Api Is Not working ====${err}`
+        await updateUser('patch', `employee/${props.employeeID}`, user);
     }
-
-}
 
 return (
     <>

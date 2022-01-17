@@ -67,6 +67,7 @@ export default function EditPoc(props) {
         password: props.authCtx.token
       }
     });
+    result.data.techStack = user.techStack.toString().replace(',', ', ');
     setUser(result.data);
   };
 

@@ -60,8 +60,6 @@ const LoginPage = () => {
           })
         }
 
-
-  
         if (!!found && !!response.tokenId) {
           authCtx.login(response.tokenId, employeeID, role);
           history.push("/Home");

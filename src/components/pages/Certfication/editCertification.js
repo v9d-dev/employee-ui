@@ -55,8 +55,10 @@ export default function EditCertification(props) {
                 password: props.authCtx.token
               }
         });
+        result.data.techStack = user.techStack.toString().replace(',', ', ');
         setUser(result.data);
     };
+
 
 
     return (
