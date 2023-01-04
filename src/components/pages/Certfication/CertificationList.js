@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import Stack from '@mui/material/Stack';
 import axios from "axios";
-import { Container, Typography, Table, TableBody,TableRow,TablePagination } from "@material-ui/core";
+import { Container, Typography, Table, TableBody, TableRow, TablePagination } from "@material-ui/core";
 import "../../../../src/global.css";
 import { Link } from "react-router-dom";
-import Moment from 'react-moment';
 import EditIcon from '@mui/icons-material/Edit';
+import Moment from 'react-moment';
 import DeleteIcon from '@mui/icons-material/Delete';
 import PreviewIcon from '@mui/icons-material/Preview';
 import Filter from '../../Layout/FilterSearchBar/Filter';
@@ -15,7 +15,7 @@ import { updateName, updateTechStack } from '../../store/certificationFilter';
 import CustomButton from "../../common/customButton";
 import { useStyles, StyledTableHead, StyledTableContainer, StyledTableCell } from "../../common/tableStyle";
 
-export default function Certification(props) {
+export default function CertificationList(props) {
     const [page, setPage] = useState(0);
     const [rowPerPage, setRowPerPage] = useState(15);
     const [rows, setRows] = useState([]);
@@ -23,8 +23,31 @@ export default function Certification(props) {
     const classes = useStyles();
     const dispatch = useDispatch();
     const filterData = useSelector((state) => state.certificationFilterReducer);
-    const employeeDetail = useSelector((state) => state.employeeReducer);
 
+    useEffect(async () => {
+        const filtered = await axios.post('http://localhost:4000/certification/getdatabyfilter', {
+            "filter": filterData
+        }, {
+            params: {
+                username: props.authCtx.employeeID,
+                password: props.authCtx.token
+            }
+        })
+        setRows(filtered.data.result);
+    }, [filterData.name, filterData.techStack]);
+
+    useEffect(() => {
+        axios.get(`http://localhost:4000/certification`, {
+            params: {
+                username: props.authCtx.employeeID,
+                password: props.authCtx.token
+            }
+        })
+            .then(res => {
+                setRows(res.data)
+            })
+
+    }, []);
     const onChangePage = (event, newPage) => {
         setPage(newPage)
 
@@ -32,17 +55,13 @@ export default function Certification(props) {
 
     useEffect(() => {
         loadUsers();
-    }, [filterData, props.authCtx]);
+    }, []);
 
     const loadUsers = async () => {
-        const url = employeeDetail.roles === 'EMPLOYEE' ? `certification/employee/${props.authCtx.employeeID}` : 'certification';
-        const result = await axios.get(`http://localhost:4000/${url}`, {
+        const result = await axios.get("http://localhost:4000/certification", {
             params: {
                 username: props.authCtx.employeeID,
-                password: props.authCtx.token,
-                filters: {
-                    ...filterData
-                }
+                password: props.authCtx.token
             }
         });
         setRows(result.data);
@@ -61,10 +80,14 @@ export default function Certification(props) {
     };
 
 
+    // const cancelSearch = () => {
+    //     setSearched("");
+    //     requestSearch(searched);
+    // };
+
     const onChangeRowsPerPage = (event) => {
         setRowPerPage(event.target.value);
     }
-
     const history = useHistory();
     const navigateTo = () => history.push('/Certification/Add');
 
@@ -114,13 +137,23 @@ export default function Certification(props) {
         download(csvData);
     }
 
+    const transformIntoArray = (value) => {
+        if (value.indexOf(',') > -1) {
+            const val = value.split(',');
+            return val.map(el => el.trim())
+        } else {
+            return [value.trim()];
+        }
+    }
+
     const filterHandler = (type, filterValue) => {
-        if (type === 'name') {
+        if (type == 'name') {
             dispatch(updateName({ "name": filterValue }));
             setFlag(!flag);
         }
-        if (type === 'techStack') {
-            dispatch(updateTechStack({ 'techStack': filterValue }));
+        if (type == 'techStack') {
+            const val = transformIntoArray(filterValue)
+            dispatch(updateTechStack({ 'techStack': val }));
             setFlag(!flag);
         }
     }
@@ -136,10 +169,10 @@ export default function Certification(props) {
             </Stack>
             <paper>
                 <Container className={classes.root}>
-                    {employeeDetail.roles !== 'EMPLOYEE' && <Typography style={{ display: "flex" }}>
+                    <div style={{ display: "flex" }}>
                         <Filter filterName="Name" type="name" filterData={filterHandler} />
                         <Filter filterName="TechStack" type="techStack" filterData={filterHandler} />
-                    </Typography>}
+                    </div>
                     <StyledTableContainer>
                         <div className="main_table">
                             <Table>
@@ -176,13 +209,13 @@ export default function Certification(props) {
                                                 {user.name}
                                             </StyledTableCell >
                                             <StyledTableCell >
-                                                {user.techStack.toString().replace(',', ', ')}
+                                                {user.techStack}
                                             </StyledTableCell >
                                             <StyledTableCell >
                                                 {user.price}
                                             </StyledTableCell >
                                             <StyledTableCell >
-                                                <Moment format="DD/MM/YYYY">{user.complitionDate}</Moment>
+                                                <Moment format="DD/MM/YYYY"> {user.complitionDate}</Moment>
                                             </StyledTableCell >
                                             <StyledTableCell >
                                                 <Moment format="DD/MM/YYYY">{user.expireDate}</Moment>
@@ -192,18 +225,18 @@ export default function Certification(props) {
                                             </StyledTableCell >
                                             <StyledTableCell>
                                                 <Link class="btn btn-primary mr-2" to={`/certification/view/${user.id}`}>
-                                                    <PreviewIcon color="action" />
+                                                    <PreviewIcon />
                                                 </Link>
                                                 <Link
                                                     to={`/certification/edit/${user.id}`}
                                                 >
-                                                    <EditIcon color="action" />
+                                                    <EditIcon />
                                                 </Link>
                                                 <Link
                                                     onClick={() => deleteUser(user.id)}
                                                     to="#"
                                                 >
-                                                    <DeleteIcon color="action" />
+                                                    <DeleteIcon />
                                                 </Link>
                                             </StyledTableCell>
                                         </TableRow>

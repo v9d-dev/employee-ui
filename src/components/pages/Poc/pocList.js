@@ -2,64 +2,59 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
 import axios from 'axios';
-import CustomButton from '../../common/customButton';
 import { Container, Typography, Table, TableBody, TableRow, TablePagination, } from '@material-ui/core';
+import SearchBar from 'material-ui-search-bar';
 import { Link } from 'react-router-dom';
+import Moment from 'react-moment';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import '../../../../src/global.css';
 import PreviewIcon from '@mui/icons-material/Preview';
-import Filter from '../../Layout/FilterSearchBar/Filter';
-import Moment from 'react-moment';
-import { useSelector, useDispatch } from 'react-redux';
-import { updateName, updateTechStack } from '../../store/pocFilter';
-import { getApiUrl } from '../../common/helper';
-import FormDialog from '../../common/formDialog';
+import CustomButton from "../../common/customButton";
 import { useStyles, StyledTableHead, StyledTableContainer, StyledTableCell } from "../../common/tableStyle";
 
-export default function POC(props) {
+export default function POCList(props) {
 	const [page, setPage] = useState(0);
 	const [rowPerPage, setRowPerPage] = useState(15);
 	const [rows, setRows] = useState([]);
-	const [flag, setFlag] = useState(false);
-	const [openDialog, setOpenDialog] = useState(false);
-	const [csvFile, setCsvFile] = useState([]);
+	const [searched, setSearched] = useState('');
 	const classes = useStyles();
-	const dispatch = useDispatch();
-	const filterData = useSelector((state) => state.pocFilterReducer);
-	const employeeDetail = useSelector((state) => state.employeeReducer);
 
+	useEffect(() => {
+		axios
+			.get(`http://localhost:4000/poc`, {
+				params: {
+					username: props.authCtx.employeeID,
+					password: props.authCtx.token,
+				},
+			})
+			.then((res) => {
+				setRows(res.data);
+			});
+	}, []);
 	const onChangePage = (event, newPage) => {
 		setPage(newPage);
 	};
 
 	useEffect(() => {
 		loadUsers();
-	}, [filterData, props.authCtx]);
-
-	// useEffect(() => {
-	// 	if (csvFile.length > 0) {
-	// 		loadUsers();
-	// 	}
-	// }, [csvFile]);
+	}, []);
 
 	const loadUsers = async () => {
-		const url =
-			employeeDetail.roles === 'EMPLOYEE'
-				? `poc/employee/${props.authCtx.employeeID}`
-				: 'poc';
-
-		const result = await axios.get(`http://localhost:4000/${url}`, {
+		const result = await axios.get('http://localhost:4000/poc', {
 			params: {
 				username: props.authCtx.employeeID,
 				password: props.authCtx.token,
-				filters: {
-					...filterData,
-				},
 			},
 		});
-
 		setRows(result.data);
+	};
+
+	const requestSearch = (searchedVal) => {
+		const filteredRows = rows.filter((row) => {
+			return row.name.toLowerCase().includes(searchedVal.toLowerCase());
+		});
+		setRows(filteredRows);
 	};
 
 	const deleteUser = async (id) => {
@@ -73,45 +68,16 @@ export default function POC(props) {
 		// window.location.reload();
 	};
 
+	const cancelSearch = () => {
+		setSearched('');
+		requestSearch(searched);
+	};
+
 	const onChangeRowsPerPage = (event) => {
 		setRowPerPage(event.target.value);
 	};
 	const history = useHistory();
 	const navigateTo = () => history.push('/POC/Add');
-
-	const importCsvData = () => {
-		const apiUrl = getApiUrl();
-		let formData = new FormData();
-		formData.append('file', csvFile);
-		console.log({ apiUrl });
-		axios
-			.post(`http://localhost:4000/poc/importpoc`, formData, {
-				params: {
-					username: props.authCtx.employeeID,
-					password: props.authCtx.token,
-				},
-			})
-			.then((res) => {
-				loadUsers();
-				setCsvFile([]);
-				setOpenDialog(false);
-			})
-			.catch((err) => {
-				setOpenDialog(false);
-			});
-	};
-
-	const dialogHandler = (isOpen) => {
-		setOpenDialog(isOpen);
-		if (!isOpen) {
-			setCsvFile([]);
-		}
-	};
-
-	const onFileChange = (event) => {
-		//console.log({ eventData: event.target.files[0] });
-		setCsvFile(event.target.files[0]);
-	};
 
 	const getCsvReport = function () {
 		const resData = rows.map((row) => ({
@@ -122,7 +88,7 @@ export default function POC(props) {
 			finishDate: row.finishDate,
 			githubUrl: row.githubUrl,
 			demoUrl: row.demoUrl,
-			employeeId: row.employeeId,
+			employee_id: row.employee_id,
 		}));
 
 		const download = function (resData) {
@@ -158,47 +124,24 @@ export default function POC(props) {
 		download(csvData);
 	};
 
-	const filterHandler = (type, filterValue) => {
-		if (type === 'name') {
-			dispatch(updateName({ name: filterValue }));
-			setFlag(!flag);
-		}
-		if (type === 'techStack') {
-			dispatch(updateTechStack({ techStack: filterValue }));
-			setFlag(!flag);
-		}
-	};
-
 	return (
 		<>
-			<FormDialog
-				dialogHandler={dialogHandler}
-				openDialog={openDialog}
-				heading='Import POC data'
-				dialogInfo='Select CSV file to import data'
-				handleOnImport={importCsvData}
-				onFileChange={onFileChange}
-			/>
 			<Stack spacing={2} direction='row'>
-				<Typography variant='h4' style={{ marginRight: '60rem', color: '#5B5d5F' }}>
+				<Typography variant='h4' style={{ marginRight: '66rem', color: '#5B5d5F' }}>
 					POC List Table
 				</Typography>
 				<CustomButton onClick={navigateTo}>ADD POC</CustomButton>
-				<CustomButton onClick={() => dialogHandler(true)}>IMPORT</CustomButton>
 				<CustomButton onClick={getCsvReport}>EXPORT</CustomButton>
 			</Stack>
 			<paper>
 				<Container className={classes.root}>
-					{employeeDetail.roles !== 'EMPLOYEE' && (
-						<Typography style={{ display: 'flex' }}>
-							<Filter filterName='Name' type='name' filterData={filterHandler} />
-							<Filter
-								filterName='TechStack'
-								type='techStack'
-								filterData={filterHandler}
-							/>
-						</Typography>
-					)}
+					<div className='searchBarPoc'>
+						<SearchBar
+							value={searched}
+							onChange={(searchVal) => requestSearch(searchVal)}
+							onCancelSearch={() => cancelSearch()}
+						/>
+					</div>
 					<StyledTableContainer>
 						<div className='main_table'>
 							<Table>
@@ -210,8 +153,8 @@ export default function POC(props) {
 										<StyledTableCell>Start Date</StyledTableCell>
 										<StyledTableCell>Finsih Date</StyledTableCell>
 										<StyledTableCell>Github URL</StyledTableCell>
-										<StyledTableCell>Demo URL</StyledTableCell>
-										{/* <StyledTableCell>Employee ID</StyledTableCell> */}
+										<StyledTableCell>DEMO URL</StyledTableCell>
+										<StyledTableCell>Employee ID</StyledTableCell>
 										<StyledTableCell>Actions</StyledTableCell>
 									</TableRow>
 								</StyledTableHead>
@@ -221,9 +164,7 @@ export default function POC(props) {
 										.map((user) => (
 											<TableRow key={rows.name}>
 												<StyledTableCell>{user.name}</StyledTableCell>
-												<StyledTableCell>
-													{user.techStack.toString().replace(',', ', ')}
-												</StyledTableCell>
+												<StyledTableCell>{user.techStack}</StyledTableCell>
 												<StyledTableCell>
 													{user.description}
 												</StyledTableCell>
@@ -239,28 +180,28 @@ export default function POC(props) {
 												</StyledTableCell>
 												<StyledTableCell>{user.githubUrl}</StyledTableCell>
 												<StyledTableCell>{user.demoUrl}</StyledTableCell>
-												{/* <StyledTableCell>
+												<StyledTableCell>
 													{user.employee_id}
-												</StyledTableCell> */}
+												</StyledTableCell>
 												<StyledTableCell>
 													<Link
 														class='btn btn-primary mr-2'
 														to={`/POC/view/${user.id}`}
 													>
-														<PreviewIcon color='action' />
+														<PreviewIcon />
 													</Link>
 													<Link
 														class='btn btn-outline-primary mr-2'
 														to={`/POC/edit/${user.id}`}
 													>
-														<EditIcon color='action' />
+														<EditIcon />
 													</Link>
 
 													<Link
 														onClick={() => deleteUser(user.id)}
 														to='#'
 													>
-														<DeleteIcon color='action' />
+														<DeleteIcon />
 													</Link>
 												</StyledTableCell>
 											</TableRow>

@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useContext } from "react";
 import SidebarItems from "./SidebarItems";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import '../../../src/global.css';
 import { AuthContext } from '../store/auth-context';
 
 function Sidebar() {
     const authCtx = useContext(AuthContext);
+    let location = useLocation();
     // const location = props.history.location;
     // const lastActiveIndexString = localStorage.getItem("lastActiveIndex");
     // const lastActiveIndex = Number(lastActiveIndexString);
@@ -33,11 +34,12 @@ function Sidebar() {
             <ul className="SideBarList">
                 {
                     SidebarItems({ role: authCtx.role }).map((item, key) => {
+                        const active = location.pathname.match(item.route)? true: false
                         return (
                             <Link to={item.route}>
                                 <li index={key}
                                     className="row"
-                                    id={window.location.pathname === item.route ? "active" : ""}
+                                    id={ !!active ? "active" : ""}
                                 >
                                     <div className="icon">{item.icon}</div>
                                     <div id="title">{item.name}</div>
